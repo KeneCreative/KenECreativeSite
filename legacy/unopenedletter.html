@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KenE Creative | Unopened Letter</title>
+    
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Unified Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Playfair Display', 'serif'],
+                        hero: ['Bodoni Moda', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        paper: {
+                            DEFAULT: '#F5F4F0', // Base Cream
+                            dark: '#EBE9E1',    // Warm Gray-Beige
+                        },
+                        ink: {
+                            DEFAULT: '#1A1A18', // Near-Black
+                            muted: '#5A5A58',
+                            light: '#C2C0B8',
+                        },
+                        accent: {
+                            DEFAULT: '#5C4033', // Aged Ink / Sepia Accent
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Unified CSS -->
+    <style>
+        /* Base Reset - CRITICAL FOR WIX SCROLL FIX */
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevents horizontal scroll */
+            font-family: 'Inter', sans-serif; 
+            background-color: #EBE9E1; /* Matches bottom section to hide the Wix gap */
+            color: #1A1A18;
+        }
+
+        /* Enforce Bodoni Moda all-caps specifically on section titles */
+        h2 {
+            font-family: 'Bodoni Moda', serif;
+            
+        }
+
+        /* Playfair Display acts as the workhorse serif for everything else */
+        h1, h3, h4, h5, h6, .serif { 
+            font-family: 'Playfair Display', serif; 
+        }
+        
+        .mono { 
+            font-family: 'JetBrains Mono', monospace; 
+        }
+
+        /* --- Shared Animations --- */
+        .animate-fade-up {
+            opacity: 0;
+            transform: translateY(25px);
+            animation: fadeUpEntry 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .delay-100 { animation-delay: 150ms; }
+        .delay-200 { animation-delay: 300ms; }
+        .delay-300 { animation-delay: 450ms; }
+
+        @keyframes fadeUpEntry {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Section 2: Tabs --- */
+        .tab-btn {
+            border: 1px solid rgba(26, 26, 24, 0.15);
+        }
+        .tab-btn.active {
+            background-color: #5C4033;
+            color: #F5F4F0;
+            border-color: #5C4033;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(92, 64, 51, 0.3);
+        }
+        #tab-content {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        /* --- Section 3: Album Slider --- */
+        .album-transition {
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #album-image {
+            object-fit: contain;
+        }
+
+        /* --- Section 5: Cinematic Theater --- */
+        #video-theater-section {
+            transition: background-color 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #video-theater-section h2, 
+        #video-theater-section p, 
+        #video-theater-section span {
+            transition: color 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #video-theater-section.theater-active {
+            background-color: #0b0b0a !important;
+        }
+        #video-theater-section.theater-active h2 {
+            color: #F5F4F0 !important;
+        }
+        #video-theater-section.theater-active p {
+            color: rgba(245, 244, 240, 0.7) !important;
+        }
+        #video-theater-section.theater-active .video-card {
+            box-shadow: 0 25px 50px -12px rgba(92, 64, 51, 0.35);
+            border-color: rgba(92, 64, 51, 0.4);
+        }
+
+        @keyframes cinematicCardReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.92);
+                filter: blur(8px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0px);
+            }
+        }
+        .animate-cinematic-reveal {
+            opacity: 0;
+            animation: cinematicCardReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .card-delay-1 { animation-delay: 150ms; }
+        .card-delay-2 { animation-delay: 300ms; }
+        .card-delay-3 { animation-delay: 450ms; }
+        .card-delay-4 { animation-delay: 600ms; }
+
+        /* --- Section 6: Charts & Sliders --- */
+        .chart-box {
+            position: relative;
+            width: 100%;
+            height: 280px;
+        }
+        @media (min-width: 768px) {
+            .chart-box { height: 380px; }
+        }
+        .metric-card {
+            background-color: #F5F4F0;
+            border: 1px solid rgba(26, 26, 24, 0.12);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .metric-card:hover {
+            transform: translateY(-4px);
+            border-color: #5C4033;
+            box-shadow: 0 10px 15px -3px rgba(92, 64, 51, 0.15);
+        }
+        
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="range"]:focus {
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+            background: #C2C0B8;
+            height: 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(26, 26, 24, 0.15);
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #5C4033;
+            border: 2px solid #F5F4F0;
+            margin-top: -6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            background: #1A1A18;
+        }
+        input[type="range"]::-moz-range-track {
+            background: #C2C0B8;
+            height: 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(26, 26, 24, 0.15);
+        }
+        input[type="range"]::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #5C4033;
+            border: 2px solid #F5F4F0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+        }
+
+        .narrative-transition {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        @media print {
+            body { background-color: #ffffff !important; padding: 0 !important; }
+            .no-print { display: none !important; }
+        }
+    </style>
+
+    <!-- ===== KenE site chrome: shared header + footer ===== -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
+    <style id="kene-chrome-styles">
+      :root{
+        --kh-paper: #000000;
+        --kh-ink: #FFFFFF;
+        --kh-ink-soft: rgba(255, 255, 255, 0.16);
+        --kh-ink-dim: rgba(255, 255, 255, 0.55);
+        --kh-brass: #F2B44B;
+        --kh-crimson: #E05643;
+        --kh-header-h: 72px;
+        --kh-header-h-mobile: 62px;
+        --kh-staff-offset: 340px;
+        --kh-staff-lines-offset: 150px;
+        --kh-scale-desktop: 0.7;
+        --kh-scale-large: 1.0;
+        --kh-scale-tablet: 0.40;
+        --kh-scale-mobile: 0.375;
+      }
+      .sr-only{ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+      #scrollSentinel{ height: 1px; width: 100%; }
+
+      /* ---- Header ---- */
+      .staff-header{ position: sticky; top: 0; z-index: 100; background: #000000; color: var(--kh-ink); box-shadow: 0 1px 0 var(--kh-ink-soft); transition: box-shadow .3s ease; font-family: 'Inter', sans-serif; }
+      .staff-header.scrolled{ box-shadow: 0 1px 0 var(--kh-ink-soft), 0 12px 24px -16px rgba(0,0,0,0.8); }
+      .header-inner{ max-width: 1400px; margin: 0; height: var(--kh-header-h); padding: 0 clamp(16px, 3vw, 32px); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+      .brand{ display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--kh-ink); flex: 0 0 auto; }
+      .brand-mark{ height: 46px; width: auto; filter: invert(1); display: block; }
+      .brand-caption{ font-family: 'Bodoni Moda', serif; font-weight: 600; font-optical-sizing: auto; font-size: 16px; letter-spacing: 0.14em; color: var(--kh-ink); white-space: nowrap; margin-top: 2px; }
+      .staff-nav{ display: flex; align-items: center; gap: clamp(18px, 2.4vw, 34px); flex: 0 0 auto; }
+      .hlink{ position: relative; display: inline-flex; align-items: center; text-decoration: none; color: var(--kh-ink); padding: 6px 2px; outline: none; }
+      .hlink-label{ font-size: 15.5px; font-weight: 800; letter-spacing: 0.01em; white-space: nowrap; border-bottom: 1px solid transparent; transition: border-color .2s ease, color .2s ease; }
+      .hlink[data-current="true"] .hlink-label{ color: var(--kh-brass); border-color: var(--kh-brass); }
+      .hlink:hover .hlink-label, .hlink:focus-visible .hlink-label{ color: var(--kh-brass); border-color: var(--kh-brass); }
+      .hlink:focus-visible{ box-shadow: 0 0 0 2px var(--kh-brass); border-radius: 4px; }
+      .hnote{ position: absolute; top: -2px; left: 50%; transform: translate(-50%, 0) scale(0.7); font-size: 14px; color: var(--kh-brass); opacity: 0; pointer-events: none; transition: opacity .4s ease, transform .4s cubic-bezier(.34,1.56,.64,1); }
+      .hlink:hover .hnote, .hlink:focus-visible .hnote{ opacity: 1; transform: translate(-50%, -14px) scale(1); }
+      .hlink-mail{ display: flex; align-items: center; gap: 7px; }
+      .hlink-mail svg{ width: 16px; height: 16px; flex: 0 0 auto; }
+      .hlink-mail path, .hlink-mail rect{ transition: stroke .2s ease; }
+      .hlink-mail:hover path, .hlink-mail:hover rect, .hlink-mail:focus-visible path, .hlink-mail:focus-visible rect{ stroke: var(--kh-brass); }
+      .menu-toggle{ display: none; flex-direction: column; justify-content: center; align-items: center; gap: 5px; width: 40px; height: 40px; background: transparent; border: 1px solid var(--kh-ink-soft); border-radius: 999px; cursor: pointer; flex: 0 0 auto; }
+      .menu-line{ width: 16px; height: 1.5px; background: var(--kh-ink); transition: transform .3s ease, opacity .3s ease; }
+      .menu-toggle[aria-expanded="true"] .menu-line:nth-child(1){ transform: translateY(6.5px) rotate(45deg); }
+      .menu-toggle[aria-expanded="true"] .menu-line:nth-child(2){ opacity: 0; }
+      .menu-toggle[aria-expanded="true"] .menu-line:nth-child(3){ transform: translateY(-6.5px) rotate(-45deg); }
+      @media (prefers-reduced-motion: reduce){ .hnote, .menu-line, .staff-nav, .staff-header, .note, .stem, .notehead, .accidental, .label{ transition: none !important; } }
+      @media (max-width: 760px){
+        .header-inner{ height: var(--kh-header-h-mobile); }
+        .brand-mark{ height: 36px; }
+        .brand-caption{ font-size: 11px; letter-spacing: 0.1em; }
+        .menu-toggle{ display: flex; }
+        .staff-nav{
+          position: fixed; top: var(--kh-header-h-mobile); left: 0; right: 0;
+          flex-direction: column; align-items: stretch; gap: 0;
+          background: #000000; border-top: 1px solid var(--kh-ink-soft);
+          max-height: calc(100vh - var(--kh-header-h-mobile)); overflow-y: auto;
+          transform: translateY(-8px); opacity: 0; pointer-events: none; visibility: hidden;
+          transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='120'%3E%3Cline x1='0' y1='10' x2='10' y2='10' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='32' x2='10' y2='32' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='54' x2='10' y2='54' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='76' x2='10' y2='76' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='98' x2='10' y2='98' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3C/svg%3E");
+          background-repeat: repeat-x; background-position: top left; background-size: 10px 120px;
+        }
+        .staff-nav.open{ opacity: 1; transform: translateY(0); pointer-events: auto; visibility: visible; transition: opacity .25s ease, transform .25s ease; }
+        .hlink{ padding: 16px 20px; border-bottom: 1px solid var(--kh-ink-soft); justify-content: flex-start; }
+        .hlink-label{ font-size: 17px; }
+        .hnote{ display: none; }
+      }
+
+      /* ---- Footer ---- */
+      .staff-footer{ background: var(--kh-paper); color: var(--kh-ink); border-top: 1px solid var(--kh-ink-soft); padding: 20px clamp(8px, 2vw, 20px) 0; zoom: var(--kh-scale-desktop); font-family: 'Inter', sans-serif; }
+      .footer-top{ display:flex; flex-wrap: nowrap; align-items: center; justify-content: flex-end; max-width: 100%; margin: 0 auto; padding-bottom: 4px; }
+      .tempo-mark{ font-family: 'Caveat', cursive; font-size: 22px; color: var(--kh-crimson); transform: rotate(-3deg); margin: 0; position: relative; top: 0px; }
+      .staff-track{ position: relative; max-width: 100%; margin: 16px auto 0; padding-top: 0px; overflow: visible; }
+      .staff-lines{ position: absolute; top: 0; left: var(--kh-staff-lines-offset); width: calc(100% - var(--kh-staff-lines-offset)); height: 130px; pointer-events: none; }
+      .staff-lines line{ stroke: var(--kh-ink); stroke-width: 1; vector-effect: non-scaling-stroke; }
+      nav.notes{ position: relative; display: flex; align-items: flex-start; flex-wrap: nowrap; overflow-x: visible; row-gap: 28px; padding: 0 0 68px var(--kh-staff-offset); margin: 0; justify-content: space-between; }
+      .logo-wrap{ position: absolute; top: -53px; left: -20px; right: auto; z-index: 20; width: auto; height: auto; display: flex; flex-direction: column; align-items: flex-start; pointer-events: none; }
+      .staff-logo{ display: block; height: 230px; width: auto; object-fit: contain; filter: invert(1); }
+      .logo-caption{ font-family: 'Bodoni Moda', serif; font-size: 85px; font-weight: 600; font-optical-sizing: auto; line-height: 0.85; color: var(--kh-ink); letter-spacing: -0.01em; margin: 18px 0 0 10px; white-space: nowrap; }
+      .note{ display:flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--kh-ink); padding: 0 14px; outline: none; opacity: 0; transform: translateY(14px) scale(1.7); transform-origin: bottom center; transition: opacity .5s ease, transform .5s cubic-bezier(.34,1.56,.64,1); transition-delay: calc(var(--i) * 60ms); }
+      .staff-track.in-view .note{ opacity: 1; transform: none; }
+      .notehead-wrap{ position: relative; width: 26px; height: 130px; }
+      .stem{ position:absolute; bottom: var(--lift); left: calc(50% + 7px); width: 2px; height: 36px; background: var(--kh-ink); transition: background .2s ease; }
+      .notehead{ position:absolute; bottom: calc(var(--lift) - 7px); left: 52%; width: 19px; height: 13px; border-radius: 55%; background: var(--kh-ink); transform: translateX(-50%) rotate(-30deg); transition: transform .25s cubic-bezier(.34,1.56,.64,1), background .2s ease; }
+      .accidental{ position:absolute; left: calc(50% - 16px); bottom: calc(var(--lift) - 6px); font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: var(--kh-ink); transition: color .2s ease; }
+      .label{ margin-top: 0px; font-size: 16.5px; font-weight: 800; letter-spacing: 0.02em; white-space: nowrap; border-bottom: 1px solid transparent; transition: border-color .2s ease, color .2s ease; }
+      .label.placeholder-label{ color: rgba(255,255,255,0.4); border-bottom: 1px dashed rgba(255,255,255,0.3); font-style: italic; }
+      .note:hover .notehead, .note:focus-visible .notehead{ background: var(--kh-brass); transform: translateX(-50%) rotate(-20deg) scale(1.18) translateY(-3px); }
+      .note:hover .stem, .note:focus-visible .stem{ background: var(--kh-brass); }
+      .note:hover .accidental, .note:focus-visible .accidental{ color: var(--kh-brass); }
+      .note:hover .label, .note:focus-visible .label{ color: var(--kh-brass); border-color: var(--kh-brass); font-style: normal; }
+      .note:focus-visible{ box-shadow: 0 0 0 2px var(--kh-brass); border-radius: 4px; }
+      .barline{ align-self: stretch; width: 1px; background: var(--kh-ink); margin: 0 6px 28px; min-height: 130px; }
+      .barline.final{ width: 5px; background: linear-gradient(to right, var(--kh-ink) 0 1px, transparent 1px 3px, var(--kh-ink) 3px 5px); background-color: transparent; }
+      .footer-bottom{ width: 100%; padding: 30px clamp(8px, 2vw, 20px) 0px; border-top: 1px solid var(--kh-ink-soft); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; }
+      .copyright{ grid-column: 2; font-size: 14px; color: rgba(255,255,255,0.55); text-align: center; white-space: nowrap; }
+      .sound-toggle{ grid-column: 3; justify-self: end; display:flex; align-items:center; gap: 8px; background: transparent; border: 1px solid var(--kh-ink-soft); color: var(--kh-ink); font-family: 'Inter', sans-serif; font-size: 12.5px; padding: 7px 12px; border-radius: 999px; cursor: pointer; transition: border-color .2s ease, color .2s ease; }
+      .sound-toggle:hover, .sound-toggle:focus-visible{ border-color: var(--kh-brass); color: var(--kh-brass); }
+      .sound-toggle .dot{ width: 6px; height: 6px; border-radius: 50%; background: var(--kh-crimson); transition: background .2s ease; }
+      .sound-toggle[aria-pressed="false"] .dot{ background: var(--kh-ink-soft); }
+      @media (prefers-reduced-motion: reduce){ .note{ transition: none; transition-delay: 0s; opacity: 1; transform: none; } }
+      @media (min-width: 1920px){ .staff-footer{ zoom: var(--kh-scale-large); } }
+            @media (max-width: 900px){
+        .footer-bottom{ border-top: 1px solid var(--kh-ink-soft); margin-top: 20px; padding-top: 5px; }
+        .staff-footer{ zoom: var(--kh-scale-mobile); }
+        .staff-lines{ display: none; }
+        .staff-track{ display: flex; flex-direction: column; gap: 15px; overflow: visible; }
+        .logo-wrap{ position: static; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin-left: 45px; margin-right: 12px; margin-bottom: 0; height: auto; width: auto; flex: 0 0 auto; }
+        .staff-logo{ height: 100px; width: auto; }
+        .logo-caption{ font-size: 38px; margin: 0; line-height: 0.85; }
+        .note{ height: 150px; padding: 0 6px; }
+        .notehead-wrap{ height: 130px; }
+        .barline{ height: 150px; margin-bottom: 0; }
+        nav.notes{
+          display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: flex-start;
+          padding: 0 !important; margin: 0; gap: 12px 14px;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='150'%3E%3Cline x1='0' y1='10' x2='10' y2='10' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='32' x2='10' y2='32' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='54' x2='10' y2='54' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='76' x2='10' y2='76' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='98' x2='10' y2='98' stroke='white' stroke-width='1'/%3E%3C/svg%3E");
+          background-repeat: repeat; background-size: 10px 150px;
+        }
+      }
+    </style>
+</head>
+<body class="antialiased text-ink">
+
+    <div id="scrollSentinel" aria-hidden="true"></div>
+    <header class="staff-header" id="staffHeader">
+      <div class="header-inner">
+        <a class="brand" href="https://www.kenecreative.com/" target="_parent" aria-label="KenE Creative, home">
+          <img class="brand-mark" src="https://static.wixstatic.com/media/705587_1dc95d7baf614605a69a707fde79aca7~mv2.png" alt="KenE Creative">
+        <span class="brand-caption" aria-hidden="true">CREATIVE</span>
+        </a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="staffNav">
+          <span class="menu-line"></span><span class="menu-line"></span><span class="menu-line"></span>
+          <span class="sr-only">Menu</span>
+        </button>
+        <nav class="staff-nav" id="staffNav" aria-label="Primary">
+          <a class="hlink" data-page="home" href="https://www.kenecreative.com/" target="_parent">
+            <span class="hnote" aria-hidden="true">&#9835;</span>
+            <span class="hlink-label">Home</span>
+          </a>
+          <a class="hlink" data-page="works" href="https://www.kenecreative.com/works" target="_parent">
+            <span class="hnote" aria-hidden="true">&#9834;</span>
+            <span class="hlink-label">Works</span>
+          </a>
+          <a class="hlink" data-page="about" href="https://www.kenecreative.com/about" target="_parent">
+            <span class="hnote" aria-hidden="true">&#9833;</span>
+            <span class="hlink-label">About</span>
+          </a>
+          <a class="hlink hlink-mail" href="mailto:kenneth@kenecreative.com" aria-label="Email Kenneth">
+            <svg viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="1" y="1" width="18" height="14" rx="1.5" stroke="currentColor" stroke-width="1.4"></rect>
+              <path d="M1.5 2L10 9L18.5 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <span class="hlink-label">Say hello</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ==========================================
+         SECTION 1: HERO
+    =========================================== -->
+    <div class="bg-paper w-full">
+        <section class="w-full max-w-[1500px] mx-auto px-6 md:px-12 lg:px-20 py-24 lg:py-32 grid lg:grid-cols-12 gap-12 lg:gap-24 items-center">
+            <!-- Image slot -->
+            <div class="lg:col-span-5 animate-fade-up">
+                <div class="w-full aspect-square bg-paper-dark rounded-2xl overflow-hidden shadow-2xl">
+                    <img src="https://static.wixstatic.com/media/705587_629b8a820be24c0c84a05fd8965518f0~mv2.jpg" alt="Nicholas Jimenez" class="w-full h-full object-cover">
+                </div>
+            </div>
+            
+            <!-- Text content, Spotify link, and Audio Preview -->
+            <div class="lg:col-span-7 animate-fade-up delay-100">
+                <h2 class="text-5xl mb-8 text-ink serif">Nicholas Jimenez</h2>
+                
+                <p class="text-ink-muted italic mb-10 uppercase tracking-widest text-xs font-bold flex items-center">
+                    <span class="w-8 h-px bg-ink/30 mr-4"></span>
+                    Pianist — Composer — Educator
+                </p>
+                
+                <p class="text-ink text-lg leading-relaxed mb-8">
+                    Nicholas Jimenez, M.M. is a renowned American concert pianist, educator, and composer based in Austin, Texas. Known for blending virtuosity and innovative musicality, Nicholas has performed across four continents and won prizes in numerous prestigious piano competitions. As former roommates, we decided to collaborate on a music video to promote his new piece. For this campaign, we wanted to attach a distinct feeling to his song, so we focused on the universal ache of <strong>Longing.</strong>
+                </p>
+
+                <!-- Buttons Row -->
+                <div class="flex flex-wrap items-center gap-4 mb-8 animate-fade-up delay-200">
+                    
+                    <!-- Spotify Button -->
+                    <a href="https://open.spotify.com/track/5ABta3kmIdMHiaC3pwc4v4?si=43b55a59ba5b4c40" target="_blank" class="inline-flex items-center space-x-3 bg-accent text-white h-[50px] px-7 rounded-full hover:bg-accent/90 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5">
+                        <svg viewBox="0 0 24 24" class="w-5 h-5 text-[#1DB954] fill-current flex-shrink-0">
+                            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.84.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15.001 10.62 18.66 12.9c.42.18.6.72.3 1.14zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.6.18-1.2.72-1.38 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.42-1.02.599-1.559.3z"/>
+                        </svg>
+                        <span class="text-sm font-semibold tracking-wide whitespace-nowrap">Listen on Spotify</span>
+                    </a>
+
+                    <!-- Audio Preview Widget -->
+                    <div class="inline-flex items-center space-x-3 bg-paper-dark h-[50px] px-5 rounded-full shadow-sm">
+                        <button id="audio-toggle-btn" onclick="toggleAudioPreview()" class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center hover:bg-accent/90 transition-transform active:scale-95 shadow-sm flex-shrink-0" aria-label="Play sample">
+                            <svg id="play-icon" class="w-4 h-4 fill-current translate-x-0.5" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            <svg id="pause-icon" class="w-4 h-4 fill-current hidden" viewBox="0 0 24 24">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                            </svg>
+                        </button>
+                        <div class="flex flex-col text-left justify-center">
+                            <span class="text-xs font-bold text-ink tracking-wide leading-tight">"Unopened Letter"</span>
+                            <span id="audio-status" class="text-[10px] text-ink-muted mono uppercase tracking-widest leading-tight mt-0.5">Audio Sample (0:00)</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Hidden HTML5 Audio -->
+    <audio id="preview-audio" preload="none">
+        <source src="https://static.wixstatic.com/mp3/705587_ed9c6bdba82b4af7beb6b00b9a10e171.mp3" type="audio/mp4">
+        Your browser does not support the audio element.
+    </audio>
+
+
+    <!-- ==========================================
+         SECTION 2: THE CORE STRATEGY 
+    =========================================== -->
+    <section class="bg-paper-dark py-28 md:py-36 px-4 sm:px-6 md:px-12 lg:px-20">
+        <div class="max-w-6xl mx-auto">
+            
+            <div class="text-center mb-16 animate-fade-up">
+                <span class="mono text-accent text-xs tracking-[0.3em] uppercase block mb-3">Methodology</span>
+                <h2 class="text-4xl md:text-6xl serif text-ink">The Core Strategy</h2>
+            </div>
+            
+            <!-- Tab Buttons Container -->
+            <div class="flex flex-wrap justify-center mb-12 gap-3 sm:gap-4 animate-fade-up delay-100">
+                <button onclick="showTab('challenge')" id="btn-challenge" class="tab-btn px-8 sm:px-10 py-3.5 sm:py-4 uppercase tracking-widest text-xs font-bold active transition-all duration-300 rounded-full bg-transparent text-ink-muted hover:text-ink hover:bg-paper">Challenge</button>
+                <button onclick="showTab('insight')" id="btn-insight" class="tab-btn px-8 sm:px-10 py-3.5 sm:py-4 uppercase tracking-widest text-xs font-bold transition-all duration-300 rounded-full bg-transparent text-ink-muted hover:text-ink hover:bg-paper">Insight</button>
+                <button onclick="showTab('strategy')" id="btn-strategy" class="tab-btn px-8 sm:px-10 py-3.5 sm:py-4 uppercase tracking-widest text-xs font-bold transition-all duration-300 rounded-full bg-transparent text-ink-muted hover:text-ink hover:bg-paper">Strategy</button>
+            </div>
+
+            <!-- Content Card -->
+            <div id="tab-content" class="bg-paper p-6 sm:p-10 md:p-16 rounded-[2rem] sm:rounded-[2.5rem] shadow-xl min-h-[360px] flex items-center border border-ink/10 animate-fade-up delay-200">
+                <!-- Dynamic Content via JS -->
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 3: THE ALBUM COVER
+    =========================================== -->
+    <section class="bg-paper py-28 md:py-36 px-6 md:px-12 lg:px-20">
+
+        <div class="max-w-6xl mx-auto">
+
+            <!-- SECTION HEADER -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 animate-fade-up">
+
+                <div>
+                    <span class="mono text-accent text-xs tracking-[0.3em] uppercase block mb-3">
+                        Visual Direction
+                    </span>
+                    <h2 class="text-4xl md:text-6xl serif text-ink">
+                        The Album Cover
+                    </h2>
+                </div>
+
+                <!-- Slide Indicators -->
+                <div class="flex items-center gap-3 mt-6 md:mt-0">
+                    <button
+                        onclick="switchSlide(0)"
+                        id="indicator-0"
+                        class="indicator-btn w-12 h-2 rounded-full bg-accent transition-all duration-300"
+                        aria-label="Slide 1">
+                    </button>
+                    <button
+                        onclick="switchSlide(1)"
+                        id="indicator-1"
+                        class="indicator-btn w-6 h-2 rounded-full bg-ink/20 hover:bg-ink/40 transition-all duration-300"
+                        aria-label="Slide 2">
+                    </button>
+                    <button
+                        onclick="switchSlide(2)"
+                        id="indicator-2"
+                        class="indicator-btn w-6 h-2 rounded-full bg-ink/20 hover:bg-ink/40 transition-all duration-300"
+                        aria-label="Slide 3">
+                    </button>
+                </div>
+            </div>
+
+            <!-- MAIN CONTENT -->
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center animate-fade-up delay-100">
+
+                <!-- IMAGE -->
+                <div class="lg:col-span-5 relative max-w-[400px] mx-auto lg:max-w-none w-full">
+                    <!-- Offset background card -->
+                    <div class="absolute -inset-3 bg-paper-dark rounded-[2rem] border border-ink/10 -z-10 transform -rotate-1"></div>
+                    <!-- Image container -->
+                    <div class="rounded-2xl overflow-hidden shadow-2xl border border-ink/15 bg-paper-dark relative flex items-center justify-center">
+                        <img
+                            id="album-image"
+                            src="https://static.wixstatic.com/media/705587_f40f33e5ed2249cbb55a073c8b873570~mv2.png"
+                            alt="Album Art Evolution"
+                            class="w-full h-auto album-transition"
+                        >
+                    </div>
+                </div>
+
+                <!-- TEXT CONTENT -->
+                <div class="lg:col-span-7 flex flex-col justify-between min-h-[320px]">
+                    <div>
+                        <!-- Slide Number -->
+                        <div class="flex items-center gap-3 mb-6">
+                            <span id="slide-number" class="mono text-accent text-sm tracking-widest uppercase">
+                                01 / 03
+                            </span>
+                            <div class="h-px bg-ink/20 flex-grow"></div>
+                        </div>
+
+                        <!-- Slide Title -->
+                        <h3 id="slide-title" class="text-3xl md:text-4xl serif text-ink mb-6 album-transition">
+                            The Initial Concept
+                        </h3>
+
+                        <!-- Slide Description -->
+                        <p id="slide-text" class="text-ink-muted text-lg leading-relaxed mb-10 album-transition">
+                            Nick’s initial cover art for "Unopened Letter" was an impressionistic painting of a letter resting on a piano. While it did capture a beautifully nostalgic mood, I felt that it lacked memorability.
+                        </p>
+                    </div>
+
+                    <!-- NAVIGATION -->
+                    <div class="flex items-center gap-4 pt-4 border-t border-ink/10">
+                        <!-- Previous -->
+                        <button onclick="prevSlide()" class="p-4 rounded-full border border-ink/20 hover:bg-ink hover:text-paper hover:border-ink transition-all duration-300 flex items-center justify-center" aria-label="Previous slide">
+                            <svg class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </button>
+
+                        <!-- Next -->
+                        <button onclick="nextSlide()" class="p-4 rounded-full border border-ink/20 hover:bg-ink hover:text-paper hover:border-ink transition-all duration-300 flex items-center justify-center" aria-label="Next slide">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </button>
+
+                        <span class="text-xs mono uppercase tracking-widest text-ink-muted ml-auto">
+                            Click to Explore Phases
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 4: FINAL AD COPY 
+    =========================================== -->
+    <section class="bg-paper-dark py-28 md:py-36 px-6 md:px-12 lg:px-20 text-center">
+        <div class="max-w-4xl mx-auto">
+            <div class="animate-fade-up">
+                <span class="mono text-accent text-xs tracking-[0.3em] uppercase block mb-3">Copywriting & Testing</span>
+                <h2 class="text-4xl md:text-6xl serif text-ink mb-16">Final Ad Copy</h2>
+            </div>
+            
+            <div class="mb-12 p-12 md:p-16 bg-paper shadow-2xl rounded-3xl border-t-8 border-accent border border-ink/10 transform hover:-translate-y-2 transition-transform duration-500 animate-fade-up delay-100">
+                <h3 class="text-3xl md:text-5xl italic serif leading-tight text-ink">
+                    "A NEW PIANO SOUND FOR THOSE DAYS THAT FEEL LIKE MEMORIES"
+                </h3>
+            </div>
+            
+            <p class="text-ink-muted leading-relaxed text-lg max-w-3xl mx-auto animate-fade-up delay-200">
+                The main focus of our messaging was to position the track as a cinematic soundtrack for the listener's internal life. To find the right hook, we A/B tested "A New Piano Sound" against "The Definitive Soundtrack." We chose to move forward with "A New Piano Sound" due to its performance compared to the alternative. Our ultimate hope is that this hook encourages listeners to tie their own memories to the song so they will always return to it.
+            </p>
+        </div>
+    </section>
+
+
+    <!-- ==========================================
+         SECTION 5: VIDEO THEATER
+    =========================================== -->
+    <section id="video-theater-section" class="bg-paper py-24 md:py-36 px-4 sm:px-6 md:px-12 lg:px-20">
+        <div class="max-w-7xl mx-auto text-center">
+            
+            <!-- Section Header -->
+            <span class="mono text-accent text-xs tracking-[0.3em] uppercase block mb-3 animate-cinematic-reveal">Video Campaign</span>
+            <h2 class="text-4xl md:text-6xl serif text-ink mb-6 animate-cinematic-reveal card-delay-1">A Story Preserved in Time</h2>
+            <p class="text-ink-muted text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-16 animate-cinematic-reveal card-delay-2">
+                The video campaign focused on the bittersweet feeling of longing for moments that have passed. We aimed to create a visual parallel to the memories the music evokes.
+            </p>
+
+            <!-- Video Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                
+                <!-- Card 1 -->
+                <div class="flex flex-col items-center animate-cinematic-reveal card-delay-1">
+                    <span class="mono text-xs uppercase tracking-[0.25em] text-accent mb-4 px-3 py-1 rounded-full border border-accent/30 bg-paper-dark shadow-sm">Final Selection 1</span>
+                    <div class="video-card w-full aspect-[9/16] rounded-3xl overflow-hidden shadow-xl border border-ink/15 bg-ink relative group transition-all duration-500 hover:-translate-y-2">
+                        <video src="https://video.wixstatic.com/video/705587_fe7d9a9d20984cff857218cbd12bc3b2/1080p/mp4/file.mp4" autoplay muted loop playsinline class="w-full h-full object-cover"></video>
+                        <button onclick="toggleTheaterAudio(this)" class="sound-btn absolute bottom-4 right-4 z-10 w-11 h-11 rounded-full bg-paper/90 text-ink border border-ink/20 flex items-center justify-center backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-accent hover:text-paper hover:border-accent shadow-lg" aria-label="Toggle Sound">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M3.63 3.63a.996.996 0 000 1.41L7.29 8.7 7 9H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h3l3.29 3.29c.63.63 1.71.18 1.71-.71v-4.17l4.18 4.18c-.37.27-.78.49-1.2 6.53 1.42-.42 2.72-1.12 3.86-2.03l1.39 1.39c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L4.04 3.63c-.39-.39-1.02-.39-1.41 0zM19 12c0 .82-.15 1.61-.41 2.34l1.53 1.53c.56-1.17.88-2.48.88-3.87 0-3.83-2.4-7.11-5.78-8.4-.59-.23-1.22.12-1.22.75 0 .45.3.84.73 1.01C16.81 6.55 19 9.02 19 12zm-7-2.67l-2.18 2.18L10 12.18V10h2v-.67z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flex flex-col items-center animate-cinematic-reveal card-delay-2">
+                    <span class="mono text-xs uppercase tracking-[0.25em] text-accent mb-4 px-3 py-1 rounded-full border border-accent/30 bg-paper-dark shadow-sm">Final Selection 2</span>
+                    <div class="video-card w-full aspect-[9/16] rounded-3xl overflow-hidden shadow-xl border border-ink/15 bg-ink relative group transition-all duration-500 hover:-translate-y-2">
+                        <video src="https://video.wixstatic.com/video/705587_b4295ee6915e44a2bf3fc01350cdb5e4/1080p/mp4/file.mp4" autoplay muted loop playsinline class="w-full h-full object-cover"></video>
+                        <button onclick="toggleTheaterAudio(this)" class="sound-btn absolute bottom-4 right-4 z-10 w-11 h-11 rounded-full bg-paper/90 text-ink border border-ink/20 flex items-center justify-center backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-accent hover:text-paper hover:border-accent shadow-lg" aria-label="Toggle Sound">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M3.63 3.63a.996.996 0 000 1.41L7.29 8.7 7 9H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h3l3.29 3.29c.63.63 1.71.18 1.71-.71v-4.17l4.18 4.18c-.37.27-.78.49-1.2 6.53 1.42-.42 2.72-1.12 3.86-2.03l1.39 1.39c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L4.04 3.63c-.39-.39-1.02-.39-1.41 0zM19 12c0 .82-.15 1.61-.41 2.34l1.53 1.53c.56-1.17.88-2.48.88-3.87 0-3.83-2.4-7.11-5.78-8.4-.59-.23-1.22.12-1.22.75 0 .45.3.84.73 1.01C16.81 6.55 19 9.02 19 12zm-7-2.67l-2.18 2.18L10 12.18V10h2v-.67z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flex flex-col items-center animate-cinematic-reveal card-delay-3">
+                    <span class="mono text-xs uppercase tracking-[0.25em] text-ink-muted mb-4 px-3 py-1 rounded-full border border-ink/20 bg-paper-dark shadow-sm">Alternative Cut 1</span>
+                    <div class="video-card w-full aspect-[9/16] rounded-3xl overflow-hidden shadow-xl border border-ink/15 bg-ink relative group transition-all duration-500 hover:-translate-y-2">
+                        <video src="https://video.wixstatic.com/video/705587_d2d521dbc63a4c4d899c7f24d549c60e/1080p/mp4/file.mp4" autoplay muted loop playsinline class="w-full h-full object-cover"></video>
+                        <button onclick="toggleTheaterAudio(this)" class="sound-btn absolute bottom-4 right-4 z-10 w-11 h-11 rounded-full bg-paper/90 text-ink border border-ink/20 flex items-center justify-center backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-accent hover:text-paper hover:border-accent shadow-lg" aria-label="Toggle Sound">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M3.63 3.63a.996.996 0 000 1.41L7.29 8.7 7 9H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h3l3.29 3.29c.63.63 1.71.18 1.71-.71v-4.17l4.18 4.18c-.37.27-.78.49-1.2 6.53 1.42-.42 2.72-1.12 3.86-2.03l1.39 1.39c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L4.04 3.63c-.39-.39-1.02-.39-1.41 0zM19 12c0 .82-.15 1.61-.41 2.34l1.53 1.53c.56-1.17.88-2.48.88-3.87 0-3.83-2.4-7.11-5.78-8.4-.59-.23-1.22.12-1.22.75 0 .45.3.84.73 1.01C16.81 6.55 19 9.02 19 12zm-7-2.67l-2.18 2.18L10 12.18V10h2v-.67z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="flex flex-col items-center animate-cinematic-reveal card-delay-4">
+                    <span class="mono text-xs uppercase tracking-[0.25em] text-ink-muted mb-4 px-3 py-1 rounded-full border border-ink/20 bg-paper-dark shadow-sm">Alternative Cut 2</span>
+                    <div class="video-card w-full aspect-[9/16] rounded-3xl overflow-hidden shadow-xl border border-ink/15 bg-ink relative group transition-all duration-500 hover:-translate-y-2">
+                        <video src="https://video.wixstatic.com/video/705587_1cdf7a832e20439cb0da92bfdf03f51a/1080p/mp4/file.mp4" autoplay muted loop playsinline class="w-full h-full object-cover"></video>
+                        <button onclick="toggleTheaterAudio(this)" class="sound-btn absolute bottom-4 right-4 z-10 w-11 h-11 rounded-full bg-paper/90 text-ink border border-ink/20 flex items-center justify-center backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-accent hover:text-paper hover:border-accent shadow-lg" aria-label="Toggle Sound">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M3.63 3.63a.996.996 0 000 1.41L7.29 8.7 7 9H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h3l3.29 3.29c.63.63 1.71.18 1.71-.71v-4.17l4.18 4.18c-.37.27-.78.49-1.2 6.53 1.42-.42 2.72-1.12 3.86-2.03l1.39 1.39c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L4.04 3.63c-.39-.39-1.02-.39-1.41 0zM19 12c0 .82-.15 1.61-.41 2.34l1.53 1.53c.56-1.17.88-2.48.88-3.87 0-3.83-2.4-7.11-5.78-8.4-.59-.23-1.22.12-1.22.75 0 .45.3.84.73 1.01C16.81 6.55 19 9.02 19 12zm-7-2.67l-2.18 2.18L10 12.18V10h2v-.67z"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 6: SONGSTATS EXPLORER
+    =========================================== -->
+    <section class="bg-paper-dark py-28 md:py-36 px-4 sm:px-6 md:px-12 lg:px-20">
+        <div class="max-w-6xl mx-auto">
+            
+            <div class="text-center max-w-2xl mx-auto mb-16 animate-fade-up">
+                <span class="mono text-accent text-xs tracking-[0.3em] uppercase block mb-3">Data Verified by Songstats</span>
+                <h2 class="text-4xl md:text-6xl serif text-ink mb-6">The Results</h2>
+                <p class="text-ink-muted italic serif text-lg">
+                    Scrub through the timeline below to examine how early playlist adoptions catalyzed exponential audience reach.
+                </p>
+            </div>
+
+            <div class="bg-paper text-ink rounded-[2rem] md:rounded-[2.5rem] p-5 sm:p-8 md:p-12 lg:p-16 shadow-xl border border-ink/15 overflow-hidden animate-fade-up delay-100">
+                
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <h3 class="text-3xl md:text-4xl font-bold mb-3 serif text-ink">"Unopened Letter" Performance</h3>
+                    <p class="text-ink-muted text-sm mono">Tracking playlist counts and listener reach from March to August 2026.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 animate-fade-up delay-200">
+                    <div class="metric-card p-6 rounded-2xl text-center">
+                        <span class="mono text-[10px] uppercase tracking-widest text-ink-muted block mb-2 font-bold">"Unopened Letter"</span>
+                        <div class="text-2xl md:text-3xl font-bold text-ink" id="stat-unopened-streams">0</div>
+                        <span class="text-[10px] text-ink-muted mt-1 block font-medium mono">Single Streams</span>
+                    </div>
+                    <div class="metric-card p-6 rounded-2xl text-center">
+                        <span class="mono text-[10px] uppercase tracking-widest text-ink-muted block mb-2 font-bold">Playlist Reach</span>
+                        <div class="text-2xl md:text-3xl font-bold text-ink" id="stat-total-reach">0</div>
+                        <span class="text-[10px] text-ink-muted mt-1 block font-medium mono">Active Audience</span>
+                    </div>
+                    <div class="metric-card p-6 rounded-2xl text-center">
+                        <span class="mono text-[10px] uppercase tracking-widest text-ink-muted block mb-2 font-bold">Active Playlists</span>
+                        <div class="text-2xl md:text-3xl font-bold text-ink" id="stat-total-playlists">0</div>
+                        <span class="text-[10px] text-ink-muted mt-1 block font-medium mono">Verified Nodes</span>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-10 animate-fade-up delay-300">
+                    
+                    <div class="lg:col-span-8 w-full min-w-0">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 text-xs font-semibold text-ink-muted gap-4">
+                            <span class="mono tracking-widest uppercase text-[10px]">Interactive Timeline Graph</span>
+                            <div class="flex flex-wrap items-center gap-x-6 gap-y-2 mono text-[11px]">
+                                <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-[#5C4033] inline-block mr-2 shadow-sm"></span> Playlists Count</span>
+                                <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-[#1A1A18] inline-block mr-2 shadow-sm"></span> Playlist Reach</span>
+                            </div>
+                        </div>
+
+                        <div class="chart-box bg-paper-dark p-3 sm:p-4 rounded-2xl border border-ink/15 shadow-inner">
+                            <canvas id="songstatsChart"></canvas>
+                        </div>
+
+                        <div class="mt-8 max-w-xl mx-auto px-2 sm:px-4 no-print">
+                            <div class="flex justify-between text-[10px] font-bold uppercase tracking-widest text-ink-muted mb-3 mono">
+                                <span>16 Mar</span>
+                                <span class="text-accent font-bold tracking-widest text-center px-2" id="current-date-display">Launch Window</span>
+                                <span>3 Aug</span>
+                            </div>
+                            <input type="range" id="timeline-slider" min="0" max="10" value="2">
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-4 flex flex-col justify-center w-full">
+                        <div class="space-y-6 bg-paper-dark p-6 sm:p-8 rounded-2xl border border-ink/15 shadow-sm">
+                            <div id="narrative-box" class="narrative-transition">
+                                <span class="mono text-[10px] uppercase tracking-widest font-bold text-accent mb-2 block">Campaign Phase</span>
+                                <h4 id="phase-title" class="text-2xl serif text-ink leading-tight">The Start</h4>
+                                <p id="phase-description" class="text-ink-muted text-sm mt-3 leading-relaxed">
+                                    Before a single ad ran, Nicholas pitched the song directly to playlist curators. The most impactful placement came because a curator genuinely liked it.
+                                </p>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4 pt-4 border-t border-ink/15">
+                                <div>
+                                    <span class="block text-2xl font-bold text-accent mono" id="stat-playlists-sidebar">21</span>
+                                    <span class="text-[10px] uppercase tracking-widest text-ink-muted font-bold mono">Playlists</span>
+                                </div>
+                                <div>
+                                    <span class="block text-2xl font-bold text-ink mono" id="stat-reach-sidebar">158k</span>
+                                    <span class="text-[10px] uppercase tracking-widest text-ink-muted font-bold mono">Reach</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 no-print">
+                                <a href="https://7055870b-5598-42c2-a8e3-c1b12d91e57d.usrfiles.com/ugd/705587_056745ab1b6142dea21cc77ea3e837b2.pdf" download class="w-full flex items-center justify-center space-x-2 bg-paper hover:bg-paper-dark text-ink border border-ink/20 hover:border-accent p-4 rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm transition-all duration-200 mono">
+                                    <svg class="w-4 h-4 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    <span>Download PDF Report</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-5 bg-paper-dark rounded-2xl border border-ink/15 text-sm text-ink-muted flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left no-print">
+                    <span><strong class="text-ink font-medium">Interactive Scrubber:</strong> Drag the timeline slider above to inspect exact milestone reports.</span>
+                    <span class="text-[10px] uppercase tracking-widest text-accent font-bold flex items-center mono whitespace-nowrap">
+                        <span class="w-1.5 h-1.5 rounded-full bg-accent mr-2"></span>
+                        Verified Data
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         UNIFIED JAVASCRIPT
+    =========================================== -->
+    <script>
+        // --- 1. Audio Preview (Section 1) ---
+        const audio = document.getElementById('preview-audio');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        const audioStatus = document.getElementById('audio-status');
+
+        function toggleAudioPreview() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                    audioStatus.textContent = "Playing Sample...";
+                }).catch(e => {
+                    console.log("Playback prevented or error:", e);
+                });
+            } else {
+                audio.pause();
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+                audioStatus.textContent = "Audio Sample (Paused)";
+            }
+        }
+
+        audio.addEventListener('ended', () => {
+            playIcon.classList.remove('hidden');
+            pauseIcon.classList.add('hidden');
+            audioStatus.textContent = "Audio Sample (0:00)";
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if (!audio.paused) {
+                const currentSeconds = Math.floor(audio.currentTime);
+                const minutes = Math.floor(currentSeconds / 60);
+                const seconds = currentSeconds % 60;
+                const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+                audioStatus.textContent = `Playing (${minutes}:${formattedSeconds})`;
+            }
+        });
+
+
+        // --- 2. Strategy Tabs (Section 2) ---
+        const tabs = {
+            challenge: {
+                title: "Directing the Feeling",
+                text: `In a streaming ecosystem flooded with millions of instrumental tracks, contemporary piano music faces a distinct obstacle: shifting from passive background noise into intentional listening. Generating casual impressions is good, but the goal was to make listeners intentionally choose "Unopened Letter" to set a mood and anchor their own personal memories, rather than just being a track that gets subsumed in a playlist.`
+            },
+            insight: {
+                title: "Swallowed by the Noise",
+                text: `While there is a massive demand for instrumental music, especially for studying, working, or unwinding, classical pieces often have long titles that are difficult to remember. Additionally, with contemporary composers, it is easy for tracks to sound "samey" and blend together. Listeners need a reason to remember both the name of the song and the artist. Because instrumental music has no lyrics to tell you what to feel, it isn't always straightforward to relate to. By creating a video, we could give listeners an easier way to connect with the piece and intentionally add the song to one of their own playlists.`
+            },
+            strategy: {
+                title: "Giving a Moment a Melody",
+                text: `To bridge the gap between social media scrollers and active stream conversion, we executed a strategy centered on a series of short vertical paid Instagram Story ads. The visual aesthetic was designed to hook audiences by making each clip feel less like an ad and more like a lingering memory, capturing a sense of longing for the good moments you cherish most when looking back. We paired the videos with targeted copy positioned directly above Spotify links. Additionally, we placed the song across targeted instrumental and classical playlists to sustain streaming momentum and produced premium performance footage of Nicholas at the piano, framing him as a distinct and refined artist.`
+            }
+        };
+
+        function showTab(key) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + key).classList.add('active');
+            
+            const content = tabs[key];
+            const container = document.getElementById('tab-content');
+            
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(10px)';
+            
+            setTimeout(() => {
+                container.innerHTML = `
+                    <div class="w-full">
+                        <h4 class="text-3xl md:text-5xl mb-6 serif text-ink">${content.title}</h4>
+                        <p class="text-ink-muted text-base sm:text-lg md:text-xl leading-relaxed max-w-4xl">${content.text}</p>
+                    </div>
+                `;
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 250);
+        }
+
+        // --- 3. Album Slider (Section 3) ---
+        const slides = [
+            {
+                number: "01 / 03",
+                title: "The Initial Concept",
+                text: "Nick’s initial cover art for \"Unopened Letter\" was an impressionistic painting of a letter resting on a piano. While it did capture a beautifully nostalgic mood, I felt that it lacked memorability.",
+                image: "https://static.wixstatic.com/media/705587_f40f33e5ed2249cbb55a073c8b873570~mv2.png"
+            },
+            {
+                number: "02 / 03",
+                title: "The Minimalist Approach",
+                text: "I conceptualized a minimal design that would double as the digital album art and a promotional CD. The clear jewel case would act as the envelope, featuring only a tangible wax stamp and two lines for the flap. Inside, a paper insert would hold a Spotify code and a tracklist of his broader catalog, with the ultimate goal of the CD becoming a permanent fixture in people's cars.",
+                image: "https://static.wixstatic.com/media/705587_7ff8529145a5444b91d2dc9d23bf9744~mv2.png"
+            },
+            {
+                number: "03 / 03",
+                title: "The Final Cover",
+                text: "Ultimately, he decided to go with a slightly less minimal, more realistic approach for the final digital cover, primarily because we didn't execute the promotional CD. Instead, he chose a full paper envelope set in warm lighting, which fit much better with the visual style of his other album covers.",
+                image: "https://static.wixstatic.com/media/705587_a88d604a79144123ace3a5dd81a5fbaf~mv2.jpg"
+            }
+        ];
+
+        let currentSlide = 0;
+
+        function switchSlide(index) {
+            currentSlide = index;
+            const slide = slides[currentSlide];
+
+            const img = document.getElementById('album-image');
+            const title = document.getElementById('slide-title');
+            const text = document.getElementById('slide-text');
+            const num = document.getElementById('slide-number');
+
+            /* Fade out & slight shift */
+            img.style.opacity = '0';
+            img.style.transform = 'scale(0.97)';
+            title.style.opacity = '0';
+            text.style.opacity = '0';
+
+            setTimeout(() => {
+                /* Change content */
+                img.src = slide.image;
+                title.textContent = slide.title;
+                text.textContent = slide.text;
+                num.textContent = slide.number;
+
+                /* Fade back in */
+                img.style.opacity = '1';
+                img.style.transform = 'scale(1)';
+                title.style.opacity = '1';
+                text.style.opacity = '1';
+            }, 250);
+
+            /* Update indicators */
+            for (let i = 0; i < slides.length; i++) {
+                const btn = document.getElementById(`indicator-${i}`);
+                if (i === currentSlide) {
+                    btn.className = "indicator-btn w-12 h-2 rounded-full bg-accent transition-all duration-300";
+                } else {
+                    btn.className = "indicator-btn w-6 h-2 rounded-full bg-ink/20 hover:bg-ink/40 transition-all duration-300";
+                }
+            }
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            switchSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            switchSlide(currentSlide);
+        }
+
+        // --- 4. Video Theater (Section 5) ---
+        function toggleTheaterAudio(btn) {
+            const card = btn.closest('.video-card');
+            const video = card.querySelector('video');
+            
+            document.querySelectorAll('video').forEach(v => {
+                if (v !== video) v.muted = true;
+            });
+            document.querySelectorAll('.sound-btn').forEach(b => {
+                if (b !== btn) {
+                    b.innerHTML = '<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M3.63 3.63a.996.996 0 000 1.41L7.29 8.7 7 9H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h3l3.29 3.29c.63.63 1.71.18 1.71-.71v-4.17l4.18 4.18c-.37.27-.78.49-1.2 6.53 1.42-.42 2.72-1.12 3.86-2.03l1.39 1.39c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L4.04 3.63c-.39-.39-1.02-.39-1.41 0zM19 12c0 .82-.15 1.61-.41 2.34l1.53 1.53c.56-1.17.88-2.48.88-3.87 0-3.83-2.4-7.11-5.78-8.4-.59-.23-1.22.12-1.22.75 0 .45.3.84.73 1.01C16.81 6.55 19 9.02 19 12zm-7-2.67l-2.18 2.18L10 12.18V10h2v-.67z"/></svg>';
+                }
+            });
+
+            if (video.muted) {
+                video.muted = false;
+                btn.innerHTML = '<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>';
+            } else {
+                video.muted = true;
+                btn.innerHTML = '<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M3.63 3.63a.996.996 0 000 1.41L7.29 8.7 7 9H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h3l3.29 3.29c.63.63 1.71.18 1.71-.71v-4.17l4.18 4.18c-.37.27-.78.49-1.2 6.53 1.42-.42 2.72-1.12 3.86-2.03l1.39 1.39c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L4.04 3.63c-.39-.39-1.02-.39-1.41 0zM19 12c0 .82-.15 1.61-.41 2.34l1.53 1.53c.56-1.17.88-2.48.88-3.87 0-3.83-2.4-7.11-5.78-8.4-.59-.23-1.22.12-1.22.75 0 .45.3.84.73 1.01C16.81 6.55 19 9.02 19 12zm-7-2.67l-2.18 2.18L10 12.18V10h2v-.67z"/></svg>';
+            }
+        }
+
+
+        // --- 5. Chart & Observers (Section 6 & Init) ---
+        const timelineData = [
+            { date: "16 Mar", playlists: 5, reach: 42000, phase: "The Start", desc: "Before a single ad ran, Nicholas pitched the song directly to playlist curators. The most impactful placement came because a curator genuinely liked it." },
+            { date: "30 Mar", playlists: 6, reach: 43000, phase: "Activating", desc: "The ads went live alongside Nicholas's own reels, built to give viewers the same longing the song gave us." },
+            { date: "13 Apr", playlists: 21, reach: 158000, phase: "Breakout", desc: "Spotify surfaced it in Discover Weekly and Release Radar, and playlists started adding it on their own, jumping from 6 to 21 in two weeks." },
+            { date: "27 Apr", playlists: 19, reach: 150000, phase: "Held Onto", desc: "High save-rates meant people weren't just glancing at it once and moving on." },
+            { date: "11 May", playlists: 17, reach: 142000, phase: "Settling In", desc: "Reach leveled off around people who enjoyed the sound enough to want to hear it again." },
+            { date: "25 May", playlists: 13, reach: 115000, phase: "What Stayed", desc: "A few playlists dropped it, but reach fell less than playlist count did, meaning the ones that stayed were carrying more weight." },
+            { date: "8 Jun", playlists: 11, reach: 95000, phase: "The Plateau", desc: "Eleven playlists held through June with no new push needed to keep it there." },
+            { date: "22 Jun", playlists: 11, reach: 95000, phase: "On Its Own", desc: "Same eleven playlists, same reach. Daily listeners were keeping it up, not new placements." },
+            { date: "6 Jul", playlists: 11, reach: 94000, phase: "Quick Lull", desc: "Reach dipped slightly, but the playlist count didn't move. It held through the slow months." },
+            { date: "20 Jul", playlists: 10, reach: 88000, phase: "Held Its Ground", desc: "Steady daily listeners kept it going, even as one playlist dropped off." },
+            { date: "3 Aug", playlists: 12, reach: 73500, phase: "Where It Sits Now", desc: "12 playlists, 73.5K reach, a slight uptick from July." }
+        ];
+
+        function animateCounter(id, target, suffix = '', isFloat = false) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const duration = 2500; 
+            const startTime = performance.now();
+
+            function update(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easedProgress = 1 - Math.pow(1 - progress, 4); 
+                
+                const current = easedProgress * target;
+                el.innerText = (isFloat ? current.toFixed(0) : Math.floor(current)).toLocaleString() + suffix;
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        let songstatsChart;
+        
+        function initChart() {
+            const ctx = document.getElementById('songstatsChart').getContext('2d');
+            songstatsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: timelineData.map(d => d.date),
+                    datasets: [
+                        {
+                            label: 'Playlists Count',
+                            data: timelineData.map(d => d.playlists),
+                            borderColor: '#5C4033',
+                            backgroundColor: 'rgba(92, 64, 51, 0.12)',
+                            yAxisID: 'y',
+                            tension: 0.4, 
+                            fill: true,
+                            borderWidth: 3,
+                            pointRadius: 4,
+                            pointHoverRadius: 8,
+                            pointBackgroundColor: '#5C4033',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2
+                        },
+                        {
+                            label: 'Playlist Reach',
+                            data: timelineData.map(d => d.reach),
+                            borderColor: '#1A1A18',
+                            backgroundColor: 'transparent',
+                            yAxisID: 'y1',
+                            tension: 0.4, 
+                            borderWidth: 2,
+                            borderDash: [5, 5], 
+                            pointRadius: 3,
+                            pointHoverRadius: 7,
+                            pointBackgroundColor: '#1A1A18',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#F5F4F0',
+                            titleColor: '#1A1A18',
+                            bodyColor: '#5A5A58',
+                            titleFont: { family: 'Inter', size: 14, weight: 'bold' },
+                            bodyFont: { family: 'Inter', size: 13, weight: '500' },
+                            padding: 16,
+                            cornerRadius: 8,
+                            borderColor: '#EBE9E1',
+                            borderWidth: 1,
+                            boxPadding: 6,
+                            callbacks: {
+                                title: ctx => `Timeline: ${ctx[0].label} 2026`,
+                                label: ctx => {
+                                    let label = ctx.dataset.label || '';
+                                    if (label) label += ': ';
+                                    if (ctx.parsed.y !== null) {
+                                        if(ctx.datasetIndex === 1) {
+                                            label += ctx.parsed.y.toLocaleString() + ' Listeners';
+                                        } else {
+                                            label += ctx.parsed.y + ' Playlists';
+                                        }
+                                    }
+                                    return label;
+                                },
+                                labelColor: function(context) {
+                                    return {
+                                        borderColor: context.datasetIndex === 0 ? '#5C4033' : '#1A1A18',
+                                        backgroundColor: context.datasetIndex === 0 ? '#5C4033' : '#1A1A18',
+                                    };
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'Inter', size: 11 }, color: '#5A5A58', maxRotation: 45, minRotation: 0 }
+                        },
+                        y: {
+                            type: 'linear', display: true, position: 'left', min: 0, max: 25,
+                            grid: { color: 'rgba(26, 26, 24, 0.04)' },
+                            ticks: { font: { family: 'Inter', size: 11 }, color: '#5C4033', callback: v => v + ' pl' }
+                        },
+                        y1: {
+                            type: 'linear', display: true, position: 'right', min: 0, max: 180000,
+                            grid: { drawOnChartArea: false },
+                            ticks: { font: { family: 'Inter', size: 11 }, color: '#1A1A18', callback: v => (v/1000) + 'k' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateTimeline(index) {
+            const data = timelineData[index];
+            const narrativeBox = document.getElementById('narrative-box');
+            
+            narrativeBox.style.opacity = '0';
+            narrativeBox.style.transform = 'translateY(6px)';
+
+            setTimeout(() => {
+                document.getElementById('current-date-display').innerText = data.date + " 2026";
+                document.getElementById('phase-title').innerText = data.phase;
+                document.getElementById('phase-description').innerText = data.desc;
+                document.getElementById('stat-playlists-sidebar').innerText = data.playlists;
+                document.getElementById('stat-reach-sidebar').innerText = (data.reach / 1000).toFixed(1).replace('.0','') + 'k';
+                
+                narrativeBox.style.opacity = '1';
+                narrativeBox.style.transform = 'translateY(0)';
+            }, 150);
+
+            if(songstatsChart) {
+                songstatsChart.data.datasets[0].pointRadius = timelineData.map((_, i) => i == index ? 8 : 4);
+                songstatsChart.data.datasets[0].pointBackgroundColor = timelineData.map((_, i) => i == index ? '#ffffff' : '#5C4033');
+                songstatsChart.data.datasets[0].pointBorderColor = timelineData.map((_, i) => i == index ? '#5C4033' : '#ffffff');
+                
+                songstatsChart.data.datasets[1].pointRadius = timelineData.map((_, i) => i == index ? 7 : 3);
+                songstatsChart.data.datasets[1].pointBackgroundColor = timelineData.map((_, i) => i == index ? '#ffffff' : '#1A1A18');
+                songstatsChart.data.datasets[1].pointBorderColor = timelineData.map((_, i) => i == index ? '#1A1A18' : '#ffffff');
+                
+                songstatsChart.update('none');
+            }
+        }
+
+        // --- 6. Window Onload Initialization ---
+        window.onload = function() {
+            // Init Tabs
+            showTab('challenge');
+            
+            // Init Chart
+            initChart();
+            updateTimeline(2); 
+            
+            // Setup Slider Event
+            const slider = document.getElementById('timeline-slider');
+            slider.max = timelineData.length - 1;
+            slider.addEventListener('input', (e) => {
+                updateTimeline(parseInt(e.target.value));
+            });
+
+            // Start Counters
+            animateCounter('stat-unopened-streams', 23300);
+            animateCounter('stat-total-reach', 180000);
+            animateCounter('stat-total-playlists', 24);
+
+            // Init Theater Observer
+            const section = document.getElementById("video-theater-section");
+            const observerOptions = { root: null, threshold: 0.65 };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        section.classList.add("theater-active");
+                    } else {
+                        section.classList.remove("theater-active");
+                    }
+                });
+            }, observerOptions);
+            observer.observe(section);
+        };
+    </script>
+
+    <!-- ===== KenE site chrome: footer ===== -->
+    <footer class="staff-footer">
+      <div class="footer-top">
+        <p class="tempo-mark" aria-hidden="true">Ode to Joy, arr. KenE</p>
+      </div>
+
+      <div class="staff-track" id="staffTrack">
+        <nav class="notes" aria-label="Footer navigation">
+          <svg class="staff-lines" viewBox="0 0 1000 130" preserveAspectRatio="none" aria-hidden="true">
+            <line x1="0" y1="10" x2="1000" y2="10"></line>
+            <line x1="0" y1="32" x2="1000" y2="32"></line>
+            <line x1="0" y1="54" x2="1000" y2="54"></line>
+            <line x1="0" y1="76" x2="1000" y2="76"></line>
+            <line x1="0" y1="98" x2="1000" y2="98"></line>
+          </svg>
+
+          <div class="logo-wrap" aria-hidden="true">
+            <img src="https://static.wixstatic.com/media/705587_1dc95d7baf614605a69a707fde79aca7~mv2.png" alt="Ken E Creative Logo" class="staff-logo">
+            <span class="logo-caption">CREATIVE</span>
+          </div>
+
+          <a class="note" href="https://www.kenecreative.com/" target="_parent" style="--lift:43px; --i:0" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Home</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/works" target="_parent" style="--lift:43px; --i:1" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Works</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/about" target="_parent" style="--lift:54px; --i:2" data-freq="392.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">About</span>
+          </a>
+          <a class="note" href="https://instagram.com" style="--lift:65px; --i:3" target="_blank" rel="noopener" data-freq="440.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Instagram</span>
+          </a>
+
+          <span class="barline" aria-hidden="true"></span>
+
+          <a class="note" href="https://www.linkedin.com/in/kenneth-espinoza-79941a227" style="--lift:65px; --i:4" target="_blank" rel="noopener" data-freq="440.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">LinkedIn</span>
+          </a>
+          <a class="note" href="https://youtube.com" style="--lift:54px; --i:5" target="_blank" rel="noopener" data-freq="392.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Youtube</span>
+          </a>
+          <a class="note" href="https://tiktok.com" style="--lift:43px; --i:6" target="_blank" rel="noopener" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">TikTok</span>
+          </a>
+          <a class="note" href="mailto:kenneth@kenecreative.com" style="--lift:32px; --i:7" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Email</span>
+          </a>
+
+          <span class="barline" aria-hidden="true"></span>
+
+          <a class="note" href="https://www.kenecreative.com/works/unopenedletter" target="_parent" style="--lift:21px; --i:8" data-freq="293.66">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Unopened Letter</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/works/americanartistproject" target="_parent" style="--lift:21px; --i:9" data-freq="293.66">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">AAP</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/works/redcross" target="_parent" style="--lift:32px; --i:10" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Redcross</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/dutchbros" target="_parent" style="--lift:43px; --i:11" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Dutch Bros.</span>
+          </a>
+
+          <span class="barline" aria-hidden="true"></span>
+
+          <a class="note" href="https://www.kenecreative.com/musicdashboard" target="_parent" style="--lift:43px; --i:12" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Music Archive</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/dndtracker" target="_parent" style="--lift:32px; --i:13" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">DnD Tracker</span>
+          </a>
+          <a class="note" href="" target="_parent" style="--lift:32px; --i:14" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Visualizer</span>
+          </a>
+
+          <span class="barline final" aria-hidden="true"></span>
+        </nav>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">&copy; 2026 by KenE Creative. All rights reserved.</p>
+        <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="soundLabel">Sound on</span>
+        </button>
+      </div>
+    </footer>
+
+    <script>
+    (function(){
+      var header = document.getElementById('staffHeader');
+      var sentinel = document.getElementById('scrollSentinel');
+      var toggle = document.getElementById('menuToggle');
+      var nav = document.getElementById('staffNav');
+
+      if ('IntersectionObserver' in window && header && sentinel) {
+        var io = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){ header.classList.toggle('scrolled', !entry.isIntersecting); });
+        }, { threshold: 0 });
+        io.observe(sentinel);
+      }
+
+      if (toggle && nav) {
+        toggle.addEventListener('click', function(){
+          var open = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!open));
+          nav.classList.toggle('open', !open);
+        });
+        nav.querySelectorAll('.hlink').forEach(function(link){
+          link.addEventListener('click', function(){
+            toggle.setAttribute('aria-expanded', 'false');
+            nav.classList.remove('open');
+          });
+        });
+      }
+
+      function detectActivePage(){
+        if (window.KENE_ACTIVE_PAGE) return window.KENE_ACTIVE_PAGE;
+        try {
+          var ref = document.referrer || '';
+          if (/\/works\/?(\?|#|$)/i.test(ref)) return 'works';
+          if (/\/about\/?(\?|#|$)/i.test(ref)) return 'about';
+          if (/kenecreative\.com\/?(\?|#|$)/i.test(ref)) return 'home';
+        } catch (e) {}
+        return null;
+      }
+      var active = detectActivePage();
+      if (active) {
+        var current = document.querySelector('.hlink[data-page="' + active + '"]');
+        if (current) current.setAttribute('data-current', 'true');
+      }
+
+      var track = document.getElementById('staffTrack');
+      var notes = Array.prototype.slice.call(document.querySelectorAll('.note'));
+
+      if (track) {
+        var footerObserver = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if (entry.isIntersecting) { track.classList.add('in-view'); footerObserver.disconnect(); }
+          });
+        }, { threshold: 0.35 });
+        footerObserver.observe(track);
+      }
+
+      var soundOn = true;
+      var audioCtx = null;
+      var soundToggle = document.getElementById('soundToggle');
+      var soundLabel = document.getElementById('soundLabel');
+
+      function initAudio() {
+        if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+        if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+      }
+
+      ['click', 'touchstart', 'scroll'].forEach(function(evt) {
+        window.addEventListener(evt, function unlock() {
+          initAudio();
+          window.removeEventListener(evt, unlock);
+        }, { once: true });
+      });
+
+      if (soundToggle) {
+        soundToggle.addEventListener('click', function(){
+          soundOn = !soundOn;
+          soundToggle.setAttribute('aria-pressed', String(soundOn));
+          soundLabel.textContent = soundOn ? 'Sound on' : 'Sound off';
+          initAudio();
+        });
+      }
+
+      function playTone(freq){
+        if (!soundOn) return;
+        initAudio();
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.35);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.36);
+      }
+
+      notes.forEach(function(n){
+        var freq = parseFloat(n.getAttribute('data-freq'));
+        if (!freq) return;
+        n.addEventListener('pointerenter', function(){ playTone(freq); });
+        n.addEventListener('focus', function(){ playTone(freq); });
+      });
+    })();
+    </script>
+</body>
+</html>

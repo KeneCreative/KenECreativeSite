@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KenE Creative — Footer Concept (Dark Mode)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Caveat:wght@500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: transparent; 
+    --ink: #FFFFFF; 
+    --ink-soft: rgba(255, 255, 255, 0.16); 
+    --brass: #F2B44B; 
+    --crimson: #E05643; 
+    --staff-offset: 340px;       
+    --staff-lines-offset: 150px; 
+    
+    /* --- CONTROL YOUR SIZING HERE --- */
+    --scale-desktop: 0.7;
+    --scale-large: 1.0;
+    --scale-tablet: 0.40;  
+    --scale-mobile: 0.375;  
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    background: #000000; 
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden; 
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+  }
+
+  ::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    background: transparent;
+  }
+
+  /* ============ FOOTER ============ */
+  .staff-footer{
+    background: var(--paper);
+    color: var(--ink);
+    border-top: 1px solid var(--ink-soft);
+    padding: 20px clamp(8px, 2vw, 20px) 0;
+    zoom: var(--scale-desktop);
+  }
+
+  .footer-top{
+    display:flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    max-width: 100%;
+    margin: 0 auto;
+    padding-bottom: 4px; 
+  }
+
+  .tempo-mark{
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--crimson);
+    transform: rotate(-3deg);
+    margin: 0;
+    position: relative;
+    top: 0px;
+  }
+
+  /* ============ STAFF / NOTES ============ */
+  .staff-track {
+    position: relative;
+    max-width: 100%;
+    margin: 16px auto 0;
+    padding-top: 0px;
+    overflow: visible;
+  }
+
+  .staff-lines{
+    position: absolute;
+    top: 0;
+    left: var(--staff-lines-offset);
+    width: calc(100% - var(--staff-lines-offset));
+    height: 130px;
+    pointer-events: none;
+  }
+  .staff-lines line{
+    stroke: var(--ink); 
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  nav.notes{
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: visible;
+    row-gap: 28px;
+    /* Extra bottom padding gives the absolutely-positioned logo lockup (which
+       does not otherwise contribute to this element's height) enough room to
+       finish inside the footer instead of its lower edge poking past the
+       footer's own black background. */
+    padding: 0 0 68px var(--staff-offset);
+    margin: 0;
+    justify-content: space-between;
+  }
+
+  .logo-wrap {
+    position: absolute;
+    top: -53px;
+    left: -20px;
+    right: auto;
+    z-index: 20;
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    pointer-events: none;
+  }
+ 
+ .staff-logo {
+    display: block;
+    height: 230px;
+    width: auto;
+    object-fit: contain;
+    filter: invert(1); 
+  }
+
+  .logo-caption{
+    font-family: 'Bodoni Moda', serif;
+    font-size: 85px;
+    font-weight: 600;
+    font-optical-sizing: auto; 
+    line-height: 0.85;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin: 18px 0 0 10px;
+    white-space: nowrap;
+  }
+
+  .note{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--ink);
+    padding: 0 14px;
+    outline: none;
+    opacity: 0;
+    transform: translateY(14px) scale(1.7);
+    transform-origin: bottom center;
+    transition: opacity .5s ease, transform .5s cubic-bezier(.34,1.56,.64,1);
+    transition-delay: calc(var(--i) * 60ms);
+  }
+  .staff-track.in-view .note{
+    opacity: 1;
+    transform: none;
+  }
+
+  .notehead-wrap{
+    position: relative;
+    width: 26px;
+    height: 130px;
+  }
+  .stem{
+    position:absolute;
+    bottom: var(--lift);
+    left: calc(50% + 7px);
+    width: 2px;
+    height: 36px;
+    background: var(--ink);
+    transition: background .2s ease;
+  }
+  .notehead{
+    position:absolute;
+    bottom: calc(var(--lift) - 7px);
+    left: 52%;
+    width: 19px;
+    height: 13px;
+    border-radius: 55%;
+    background: var(--ink);
+    transform: translateX(-50%) rotate(-30deg);
+    transition: transform .25s cubic-bezier(.34,1.56,.64,1), background .2s ease;
+  }
+  .accidental{
+    position:absolute;
+    left: calc(50% - 16px);
+    bottom: calc(var(--lift) - 6px);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    transition: color .2s ease;
+  }
+
+  .label{
+    margin-top: 0px;
+    font-size: 16.5px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .label.placeholder-label{
+    color: rgba(255,255,255,0.4); 
+    border-bottom: 1px dashed rgba(255,255,255,0.3); 
+    font-style: italic;
+  }
+
+  .note:hover .notehead,
+  .note:focus-visible .notehead{
+    background: var(--brass);
+    transform: translateX(-50%) rotate(-20deg) scale(1.18) translateY(-3px);
+  }
+  .note:hover .stem,
+  .note:focus-visible .stem{
+    background: var(--brass);
+  }
+  .note:hover .accidental,
+  .note:focus-visible .accidental{
+    color: var(--brass);
+  }
+  .note:hover .label,
+  .note:focus-visible .label{
+    color: var(--brass);
+    border-color: var(--brass);
+    font-style: normal;
+  }
+  .note:focus-visible{
+    box-shadow: 0 0 0 2px var(--brass);
+    border-radius: 4px;
+  }
+
+  .barline{
+    align-self: stretch;
+    width: 1px;
+    background: var(--ink); 
+    margin: 0 6px 28px;
+    min-height: 130px;
+  }
+  .barline.final{
+    width: 5px;
+    background:
+      linear-gradient(to right, var(--ink) 0 1px, transparent 1px 3px, var(--ink) 3px 5px);
+    background-color: transparent;
+  }
+
+  /* ============ BOTTOM ROW (FULL WIDTH GRID) ============ */
+  .footer-bottom{
+    width: 100%;
+    padding: 30px clamp(8px, 2vw, 20px) 0px;
+    border-top: 1px solid var(--ink-soft);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+  }
+  .copyright{
+    grid-column: 2;
+    font-size: 14px;
+    color: rgba(255,255,255,0.55); 
+    text-align: center;
+    white-space: nowrap;
+  }
+  .sound-toggle{
+    grid-column: 3;
+    justify-self: end;
+    display:flex;
+    align-items:center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid var(--ink-soft);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 12.5px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .sound-toggle:hover,
+  .sound-toggle:focus-visible{
+    border-color: var(--brass);
+    color: var(--brass);
+  }
+  .sound-toggle .dot{
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--crimson);
+    transition: background .2s ease;
+  }
+  .sound-toggle[aria-pressed="false"] .dot{
+    background: var(--ink-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .note{
+      transition: none;
+      transition-delay: 0s;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ============ RESPONSIVE BREAKPOINTS ============ */
+  @media (min-width: 1920px) {
+    .staff-footer { zoom: var(--scale-large); }
+  }
+
+  /* MOBILE + TABLET
+     The note row is a single non-wrapping line above this breakpoint, sized
+     by its own (wide) content rather than the viewport - zoom alone can't
+     reconcile the two beyond one exact width, which is what was leaving a
+     dead strip on the right (and clipping the sound toggle into it) across
+     the whole 641-900px range. The wrapped layout below sizes to the
+     viewport correctly at any width, so it now covers that range too. */
+  @media (max-width: 900px){
+    .footer-bottom { 
+      border-top: 1px solid var(--ink-soft);
+      margin-top: 20px; 
+      padding-top: 5px; 
+    }
+    .staff-footer{ zoom: var(--scale-mobile); }
+    .staff-lines{ display: none; }
+
+    .staff-track{
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      overflow: visible;
+    }
+
+    .logo-wrap{
+      position: static;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+      margin-left: 45px;
+      margin-right: 12px;
+      margin-bottom: 0;
+      height: auto;
+      width: auto;
+      flex: 0 0 auto;
+    }
+    .staff-logo{ height: 100px; width: auto; }
+    .logo-caption{ font-size: 38px; margin: 0; line-height: 0.85; }
+
+    .note{ 
+      height: 150px; 
+      padding: 0 6px;
+    }
+    .notehead-wrap{ height: 130px; }
+    .barline{ height: 150px; margin-bottom: 0; }
+
+    nav.notes{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      /* flex-start (not space-between): a wrapped last row with only a couple
+         of notes should sit together at the left, not get stretched apart
+         across the full width where it reads as broken/sparse. */
+      justify-content: flex-start;
+      padding: 0 !important;
+      margin: 0;
+      gap: 12px 14px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='150'%3E%3Cline x1='0' y1='10' x2='10' y2='10' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='32' x2='10' y2='32' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='54' x2='10' y2='54' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='76' x2='10' y2='76' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='98' x2='10' y2='98' stroke='white' stroke-width='1'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 10px 150px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<footer class="staff-footer">
+  <div class="footer-top">
+    <p class="tempo-mark" aria-hidden="true">Ode to Joy, arr. KenE</p>
+  </div>
+
+  <div class="staff-track" id="staffTrack">
+    <nav class="notes" aria-label="Footer navigation">
+      <svg class="staff-lines" viewBox="0 0 1000 130" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="0" y1="10" x2="1000" y2="10"></line>
+        <line x1="0" y1="32" x2="1000" y2="32"></line>
+        <line x1="0" y1="54" x2="1000" y2="54"></line>
+        <line x1="0" y1="76" x2="1000" y2="76"></line>
+        <line x1="0" y1="98" x2="1000" y2="98"></line>
+      </svg>
+
+      <div class="logo-wrap" aria-hidden="true">
+        <img src="https://static.wixstatic.com/media/705587_1dc95d7baf614605a69a707fde79aca7~mv2.png" alt="Ken E Creative Logo" class="staff-logo">
+        <span class="logo-caption">CREATIVE</span>
+      </div>
+
+      <a class="note" href="https://www.kenecreative.com/" target="_parent" style="--lift:43px; --i:0" data-freq="369.99">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="accidental">♯</span>
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">Home</span>
+      </a>
+      <a class="note" href="https://www.kenecreative.com/works" target="_parent" style="--lift:43px; --i:1" data-freq="369.99">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">Works</span>
+      </a>
+      <a class="note" href="https://www.kenecreative.com/about" target="_parent" style="--lift:54px; --i:2" data-freq="392.00">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">About</span>
+      </a>
+      <a class="note" href="https://instagram.com" style="--lift:65px; --i:3" target="_blank" rel="noopener" data-freq="440.00">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">Instagram</span>
+      </a>
+
+      <span class="barline" aria-hidden="true"></span>
+
+      <a class="note" href="https://www.linkedin.com/in/kenneth-espinoza-79941a227" style="--lift:65px; --i:4" target="_blank" rel="noopener" data-freq="440.00">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">LinkedIn</span>
+      </a>
+      <a class="note" href="https://youtube.com" style="--lift:54px; --i:5" target="_blank" rel="noopener" data-freq="392.00">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">Youtube</span>
+      </a>
+      <a class="note" href="https://tiktok.com" style="--lift:43px; --i:6" target="_blank" rel="noopener" data-freq="369.99">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="accidental">♯</span>
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">TikTok</span>
+      </a>
+      <a class="note" href="mailto:kenneth@kenecreative.com" style="--lift:32px; --i:7" data-freq="329.63">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">Email</span>
+      </a>
+
+      <span class="barline" aria-hidden="true"></span>
+
+      <a class="note" href="https://www.kenecreative.com/works/unopenedletter" target="_parent" style="--lift:21px; --i:8" data-freq="293.66">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">Unopened Letter</span>
+      </a>
+      <a class="note" href="https://www.kenecreative.com/works/americanartistproject" target="_parent" style="--lift:21px; --i:9" data-freq="293.66">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">AAP</span>
+      </a>
+      <a class="note" href="https://www.kenecreative.com/works/redcross" target="_parent" style="--lift:32px; --i:10" data-freq="329.63">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">Redcross</span>
+      </a>
+      <a class="note" href="https://www.kenecreative.com/dutchbros" target="_parent" style="--lift:43px; --i:11" data-freq="369.99">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="accidental">♯</span>
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">Dutch Bros.</span>
+      </a>
+
+      <span class="barline" aria-hidden="true"></span>
+
+      <a class="note" href="https://www.kenecreative.com/musicdashboard" target="_parent" style="--lift:43px; --i:12" data-freq="369.99">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="accidental">♯</span>
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">Music Archive</span>
+      </a>
+      <a class="note" href="https://www.kenecreative.com/dndtracker" target="_parent" style="--lift:32px; --i:13" data-freq="329.63">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">DnD Tracker</span>
+      </a>
+      <a class="note" href="" target="_parent" style="--lift:32px; --i:14" data-freq="329.63">
+        <span class="notehead-wrap" aria-hidden="true">
+          <span class="stem"></span>
+          <span class="notehead"></span>
+        </span>
+        <span class="label">Visualizer</span>
+      </a>
+
+      <span class="barline final" aria-hidden="true"></span>
+    </nav>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="copyright">&copy; 2026 by KenE Creative. All rights reserved.</p>
+    <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true">
+      <span class="dot" aria-hidden="true"></span>
+      <span id="soundLabel">Sound on</span>
+    </button>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var track = document.getElementById('staffTrack');
+  var notes = Array.prototype.slice.call(document.querySelectorAll('.note'));
+
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        track.classList.add('in-view');
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.35 });
+  observer.observe(track);
+
+  var soundOn = true;
+  var audioCtx = null;
+  var toggle = document.getElementById('soundToggle');
+  var label = document.getElementById('soundLabel');
+
+  function initAudio() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+  }
+
+  ['click', 'touchstart', 'scroll'].forEach(function(evt) {
+    window.addEventListener(evt, function unlock() {
+      initAudio();
+      window.removeEventListener(evt, unlock);
+    }, { once: true });
+  });
+
+  toggle.addEventListener('click', function(){
+    soundOn = !soundOn;
+    toggle.setAttribute('aria-pressed', String(soundOn));
+    label.textContent = soundOn ? 'Sound on' : 'Sound off';
+    initAudio();
+  });
+
+  function playTone(freq){
+    if (!soundOn) return;
+    initAudio();
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.35);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.36);
+  }
+
+  notes.forEach(function(n){
+    var freq = parseFloat(n.getAttribute('data-freq'));
+    if (!freq) return;
+    n.addEventListener('pointerenter', function(){ playTone(freq); });
+    n.addEventListener('focus', function(){ playTone(freq); });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dutch Bros: Brand Positioning & Strategy | Kene Creative</title>
+    
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Unified Font Stack -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'coffee-cream': '#F9F6F0',      // Steamed milk / filter paper
+                        'coffee-parchment': '#EFECE5',  // Oat milk / warm base
+                        'coffee-bean': '#332218',       // Deep espresso (primary text)
+                        'coffee-roast': '#705442',      // Medium roast (muted text)
+                        'coffee-border': '#D2C4B4',     // Latte foam (borders)
+                        'coffee-accent': '#D47739',     // Caramel / Crema (vibrant accent)
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                        hero: ['"Bodoni Moda"', 'serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Nuclear Mobile Scroll Fix for Wix Iframes */
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            height: auto !important;
+            min-height: 100vh !important;
+            overflow: visible !important; 
+            overflow-x: hidden !important;
+            background-color: #F9F6F0 !important; /* coffee-cream */
+            color: #332218 !important; /* coffee-bean */
+            font-family: 'Inter', sans-serif !important;
+            -webkit-font-smoothing: antialiased;
+            -webkit-overflow-scrolling: touch !important;
+        }
+
+        .reveal-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .manuscript-border {
+            border: 1px solid #D2C4B4;
+            box-shadow: 4px 4px 0px rgba(51, 34, 24, 0.06);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+        }
+
+        .manuscript-border:hover {
+            transform: translateY(-3px);
+            box-shadow: 6px 6px 0px rgba(51, 34, 24, 0.12);
+            border-color: #332218;
+        }
+
+        .static-manuscript {
+            border: 1px solid #D2C4B4;
+            box-shadow: 4px 4px 0px rgba(51, 34, 24, 0.05);
+        }
+
+        .letter-envelope {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 4px 4px 0px rgba(212, 119, 57, 0.15); }
+            50% { box-shadow: 4px 4px 14px rgba(212, 119, 57, 0.35); }
+        }
+
+        .pulse-envelope {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+
+        /* Staggered child reveals */
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-section.is-visible .stagger-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-section.is-visible .stagger-item:nth-child(1) { transition-delay: 0.1s; }
+        .reveal-section.is-visible .stagger-item:nth-child(2) { transition-delay: 0.2s; }
+        .reveal-section.is-visible .stagger-item:nth-child(3) { transition-delay: 0.3s; }
+    </style>
+
+    <!-- ===== KenE site chrome: shared header + footer ===== -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
+    <style id="kene-chrome-styles">
+      :root{
+        --kh-paper: #000000;
+        --kh-ink: #FFFFFF;
+        --kh-ink-soft: rgba(255, 255, 255, 0.16);
+        --kh-ink-dim: rgba(255, 255, 255, 0.55);
+        --kh-brass: #F2B44B;
+        --kh-crimson: #E05643;
+        --kh-header-h: 72px;
+        --kh-header-h-mobile: 62px;
+        --kh-staff-offset: 340px;
+        --kh-staff-lines-offset: 150px;
+        --kh-scale-desktop: 0.7;
+        --kh-scale-large: 1.0;
+        --kh-scale-tablet: 0.40;
+        --kh-scale-mobile: 0.375;
+      }
+      .sr-only{ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+      #scrollSentinel{ height: 1px; width: 100%; }
+
+      /* ---- Header ---- */
+      .staff-header{ position: sticky; top: 0; z-index: 100; background: #000000; color: var(--kh-ink); box-shadow: 0 1px 0 var(--kh-ink-soft); transition: box-shadow .3s ease; font-family: 'Inter', sans-serif; }
+      .staff-header.scrolled{ box-shadow: 0 1px 0 var(--kh-ink-soft), 0 12px 24px -16px rgba(0,0,0,0.8); }
+      .header-inner{ max-width: 1400px; margin: 0; height: var(--kh-header-h); padding: 0 clamp(16px, 3vw, 32px); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+      .brand{ display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--kh-ink); flex: 0 0 auto; }
+      .brand-mark{ height: 46px; width: auto; filter: invert(1); display: block; }
+      .brand-caption{ font-family: 'Bodoni Moda', serif; font-weight: 600; font-optical-sizing: auto; font-size: 16px; letter-spacing: 0.14em; color: var(--kh-ink); white-space: nowrap; margin-top: 2px; }
+      .staff-nav{ display: flex; align-items: center; gap: clamp(18px, 2.4vw, 34px); flex: 0 0 auto; }
+      .hlink{ position: relative; display: inline-flex; align-items: center; text-decoration: none; color: var(--kh-ink); padding: 6px 2px; outline: none; }
+      .hlink-label{ font-size: 15.5px; font-weight: 800; letter-spacing: 0.01em; white-space: nowrap; border-bottom: 1px solid transparent; transition: border-color .2s ease, color .2s ease; }
+      .hlink[data-current="true"] .hlink-label{ color: var(--kh-brass); border-color: var(--kh-brass); }
+      .hlink:hover .hlink-label, .hlink:focus-visible .hlink-label{ color: var(--kh-brass); border-color: var(--kh-brass); }
+      .hlink:focus-visible{ box-shadow: 0 0 0 2px var(--kh-brass); border-radius: 4px; }
+      .hnote{ position: absolute; top: -2px; left: 50%; transform: translate(-50%, 0) scale(0.7); font-size: 14px; color: var(--kh-brass); opacity: 0; pointer-events: none; transition: opacity .4s ease, transform .4s cubic-bezier(.34,1.56,.64,1); }
+      .hlink:hover .hnote, .hlink:focus-visible .hnote{ opacity: 1; transform: translate(-50%, -14px) scale(1); }
+      .hlink-mail{ display: flex; align-items: center; gap: 7px; }
+      .hlink-mail svg{ width: 16px; height: 16px; flex: 0 0 auto; }
+      .hlink-mail path, .hlink-mail rect{ transition: stroke .2s ease; }
+      .hlink-mail:hover path, .hlink-mail:hover rect, .hlink-mail:focus-visible path, .hlink-mail:focus-visible rect{ stroke: var(--kh-brass); }
+      .menu-toggle{ display: none; flex-direction: column; justify-content: center; align-items: center; gap: 5px; width: 40px; height: 40px; background: transparent; border: 1px solid var(--kh-ink-soft); border-radius: 999px; cursor: pointer; flex: 0 0 auto; }
+      .menu-line{ width: 16px; height: 1.5px; background: var(--kh-ink); transition: transform .3s ease, opacity .3s ease; }
+      .menu-toggle[aria-expanded="true"] .menu-line:nth-child(1){ transform: translateY(6.5px) rotate(45deg); }
+      .menu-toggle[aria-expanded="true"] .menu-line:nth-child(2){ opacity: 0; }
+      .menu-toggle[aria-expanded="true"] .menu-line:nth-child(3){ transform: translateY(-6.5px) rotate(-45deg); }
+      @media (prefers-reduced-motion: reduce){ .hnote, .menu-line, .staff-nav, .staff-header, .note, .stem, .notehead, .accidental, .label{ transition: none !important; } }
+      @media (max-width: 760px){
+        .header-inner{ height: var(--kh-header-h-mobile); }
+        .brand-mark{ height: 36px; }
+        .brand-caption{ font-size: 11px; letter-spacing: 0.1em; }
+        .menu-toggle{ display: flex; }
+        .staff-nav{
+          position: fixed; top: var(--kh-header-h-mobile); left: 0; right: 0;
+          flex-direction: column; align-items: stretch; gap: 0;
+          background: #000000; border-top: 1px solid var(--kh-ink-soft);
+          max-height: calc(100vh - var(--kh-header-h-mobile)); overflow-y: auto;
+          transform: translateY(-8px); opacity: 0; pointer-events: none; visibility: hidden;
+          transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='120'%3E%3Cline x1='0' y1='10' x2='10' y2='10' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='32' x2='10' y2='32' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='54' x2='10' y2='54' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='76' x2='10' y2='76' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='98' x2='10' y2='98' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3C/svg%3E");
+          background-repeat: repeat-x; background-position: top left; background-size: 10px 120px;
+        }
+        .staff-nav.open{ opacity: 1; transform: translateY(0); pointer-events: auto; visibility: visible; transition: opacity .25s ease, transform .25s ease; }
+        .hlink{ padding: 16px 20px; border-bottom: 1px solid var(--kh-ink-soft); justify-content: flex-start; }
+        .hlink-label{ font-size: 17px; }
+        .hnote{ display: none; }
+      }
+
+      /* ---- Footer ---- */
+      .staff-footer{ background: var(--kh-paper); color: var(--kh-ink); border-top: 1px solid var(--kh-ink-soft); padding: 20px clamp(8px, 2vw, 20px) 0; zoom: var(--kh-scale-desktop); font-family: 'Inter', sans-serif; }
+      .footer-top{ display:flex; flex-wrap: nowrap; align-items: center; justify-content: flex-end; max-width: 100%; margin: 0 auto; padding-bottom: 4px; }
+      .tempo-mark{ font-family: 'Caveat', cursive; font-size: 22px; color: var(--kh-crimson); transform: rotate(-3deg); margin: 0; position: relative; top: 0px; }
+      .staff-track{ position: relative; max-width: 100%; margin: 16px auto 0; padding-top: 0px; overflow: visible; }
+      .staff-lines{ position: absolute; top: 0; left: var(--kh-staff-lines-offset); width: calc(100% - var(--kh-staff-lines-offset)); height: 130px; pointer-events: none; }
+      .staff-lines line{ stroke: var(--kh-ink); stroke-width: 1; vector-effect: non-scaling-stroke; }
+      nav.notes{ position: relative; display: flex; align-items: flex-start; flex-wrap: nowrap; overflow-x: visible; row-gap: 28px; padding: 0 0 68px var(--kh-staff-offset); margin: 0; justify-content: space-between; }
+      .logo-wrap{ position: absolute; top: -53px; left: -20px; right: auto; z-index: 20; width: auto; height: auto; display: flex; flex-direction: column; align-items: flex-start; pointer-events: none; }
+      .staff-logo{ display: block; height: 230px; width: auto; object-fit: contain; filter: invert(1); }
+      .logo-caption{ font-family: 'Bodoni Moda', serif; font-size: 85px; font-weight: 600; font-optical-sizing: auto; line-height: 0.85; color: var(--kh-ink); letter-spacing: -0.01em; margin: 18px 0 0 10px; white-space: nowrap; }
+      .note{ display:flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--kh-ink); padding: 0 14px; outline: none; opacity: 0; transform: translateY(14px) scale(1.7); transform-origin: bottom center; transition: opacity .5s ease, transform .5s cubic-bezier(.34,1.56,.64,1); transition-delay: calc(var(--i) * 60ms); }
+      .staff-track.in-view .note{ opacity: 1; transform: none; }
+      .notehead-wrap{ position: relative; width: 26px; height: 130px; }
+      .stem{ position:absolute; bottom: var(--lift); left: calc(50% + 7px); width: 2px; height: 36px; background: var(--kh-ink); transition: background .2s ease; }
+      .notehead{ position:absolute; bottom: calc(var(--lift) - 7px); left: 52%; width: 19px; height: 13px; border-radius: 55%; background: var(--kh-ink); transform: translateX(-50%) rotate(-30deg); transition: transform .25s cubic-bezier(.34,1.56,.64,1), background .2s ease; }
+      .accidental{ position:absolute; left: calc(50% - 16px); bottom: calc(var(--lift) - 6px); font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: var(--kh-ink); transition: color .2s ease; }
+      .label{ margin-top: 0px; font-size: 16.5px; font-weight: 800; letter-spacing: 0.02em; white-space: nowrap; border-bottom: 1px solid transparent; transition: border-color .2s ease, color .2s ease; }
+      .label.placeholder-label{ color: rgba(255,255,255,0.4); border-bottom: 1px dashed rgba(255,255,255,0.3); font-style: italic; }
+      .note:hover .notehead, .note:focus-visible .notehead{ background: var(--kh-brass); transform: translateX(-50%) rotate(-20deg) scale(1.18) translateY(-3px); }
+      .note:hover .stem, .note:focus-visible .stem{ background: var(--kh-brass); }
+      .note:hover .accidental, .note:focus-visible .accidental{ color: var(--kh-brass); }
+      .note:hover .label, .note:focus-visible .label{ color: var(--kh-brass); border-color: var(--kh-brass); font-style: normal; }
+      .note:focus-visible{ box-shadow: 0 0 0 2px var(--kh-brass); border-radius: 4px; }
+      .barline{ align-self: stretch; width: 1px; background: var(--kh-ink); margin: 0 6px 28px; min-height: 130px; }
+      .barline.final{ width: 5px; background: linear-gradient(to right, var(--kh-ink) 0 1px, transparent 1px 3px, var(--kh-ink) 3px 5px); background-color: transparent; }
+      .footer-bottom{ width: 100%; padding: 30px clamp(8px, 2vw, 20px) 0px; border-top: 1px solid var(--kh-ink-soft); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; }
+      .copyright{ grid-column: 2; font-size: 14px; color: rgba(255,255,255,0.55); text-align: center; white-space: nowrap; }
+      .sound-toggle{ grid-column: 3; justify-self: end; display:flex; align-items:center; gap: 8px; background: transparent; border: 1px solid var(--kh-ink-soft); color: var(--kh-ink); font-family: 'Inter', sans-serif; font-size: 12.5px; padding: 7px 12px; border-radius: 999px; cursor: pointer; transition: border-color .2s ease, color .2s ease; }
+      .sound-toggle:hover, .sound-toggle:focus-visible{ border-color: var(--kh-brass); color: var(--kh-brass); }
+      .sound-toggle .dot{ width: 6px; height: 6px; border-radius: 50%; background: var(--kh-crimson); transition: background .2s ease; }
+      .sound-toggle[aria-pressed="false"] .dot{ background: var(--kh-ink-soft); }
+      @media (prefers-reduced-motion: reduce){ .note{ transition: none; transition-delay: 0s; opacity: 1; transform: none; } }
+      @media (min-width: 1920px){ .staff-footer{ zoom: var(--kh-scale-large); } }
+            @media (max-width: 900px){
+        .footer-bottom{ border-top: 1px solid var(--kh-ink-soft); margin-top: 20px; padding-top: 5px; }
+        .staff-footer{ zoom: var(--kh-scale-mobile); }
+        .staff-lines{ display: none; }
+        .staff-track{ display: flex; flex-direction: column; gap: 15px; overflow: visible; }
+        .logo-wrap{ position: static; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin-left: 45px; margin-right: 12px; margin-bottom: 0; height: auto; width: auto; flex: 0 0 auto; }
+        .staff-logo{ height: 100px; width: auto; }
+        .logo-caption{ font-size: 38px; margin: 0; line-height: 0.85; }
+        .note{ height: 150px; padding: 0 6px; }
+        .notehead-wrap{ height: 130px; }
+        .barline{ height: 150px; margin-bottom: 0; }
+        nav.notes{
+          display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: flex-start;
+          padding: 0 !important; margin: 0; gap: 12px 14px;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='150'%3E%3Cline x1='0' y1='10' x2='10' y2='10' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='32' x2='10' y2='32' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='54' x2='10' y2='54' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='76' x2='10' y2='76' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='98' x2='10' y2='98' stroke='white' stroke-width='1'/%3E%3C/svg%3E");
+          background-repeat: repeat; background-size: 10px 150px;
+        }
+      }
+    </style>
+</head>
+<body class="bg-coffee-cream text-coffee-bean antialiased selection:bg-coffee-accent selection:text-white">
+
+    <div id="scrollSentinel" aria-hidden="true"></div>
+    <header class="staff-header" id="staffHeader">
+      <div class="header-inner">
+        <a class="brand" href="https://www.kenecreative.com/" target="_parent" aria-label="KenE Creative, home">
+          <img class="brand-mark" src="https://static.wixstatic.com/media/705587_1dc95d7baf614605a69a707fde79aca7~mv2.png" alt="KenE Creative">
+        <span class="brand-caption" aria-hidden="true">CREATIVE</span>
+        </a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="staffNav">
+          <span class="menu-line"></span><span class="menu-line"></span><span class="menu-line"></span>
+          <span class="sr-only">Menu</span>
+        </button>
+        <nav class="staff-nav" id="staffNav" aria-label="Primary">
+          <a class="hlink" data-page="home" href="https://www.kenecreative.com/" target="_parent">
+            <span class="hnote" aria-hidden="true">&#9835;</span>
+            <span class="hlink-label">Home</span>
+          </a>
+          <a class="hlink" data-page="works" href="https://www.kenecreative.com/works" target="_parent">
+            <span class="hnote" aria-hidden="true">&#9834;</span>
+            <span class="hlink-label">Works</span>
+          </a>
+          <a class="hlink" data-page="about" href="https://www.kenecreative.com/about" target="_parent">
+            <span class="hnote" aria-hidden="true">&#9833;</span>
+            <span class="hlink-label">About</span>
+          </a>
+          <a class="hlink hlink-mail" href="mailto:kenneth@kenecreative.com" aria-label="Email Kenneth">
+            <svg viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="1" y="1" width="18" height="14" rx="1.5" stroke="currentColor" stroke-width="1.4"></rect>
+              <path d="M1.5 2L10 9L18.5 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <span class="hlink-label">Say hello</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section id="overview" class="reveal-section border-b border-coffee-border bg-coffee-parchment/50">
+        <div class="max-w-4xl mx-auto px-6 pt-24 md:pt-32 pb-20">
+            <span class="font-mono text-xs uppercase tracking-widest text-coffee-accent block mb-6">Batch 01: Overview</span>
+
+            <h1 class="font-hero italic text-6xl md:text-8xl font-normal tracking-tight text-coffee-bean mb-6">
+                Dutch Bros.
+            </h1>
+
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-8 font-mono text-xs uppercase tracking-widest text-coffee-roast">
+                <span>Strategy</span>
+                <span class="text-coffee-border">•</span>
+                <span>Research</span>
+                <span class="text-coffee-border">•</span>
+                <span>Concept Development</span>
+                <span class="text-coffee-border">•</span>
+                <span>Copywriting</span>
+                <span class="text-coffee-border">•</span>
+                <span>Speculative Client Proposal</span>
+            </div>
+
+            <p class="font-hero italic font-medium text-xl md:text-2xl text-coffee-roast max-w-2xl leading-relaxed">
+                A speculative brand positioning project exploring how Dutch Bros can expand its appeal without losing its core identity.
+            </p>
+            <p class="text-coffee-roast leading-relaxed max-w-2xl mt-4">
+                The work focuses on reframing value, quality, and culture to resonate with both loyal customers and more discerning coffee drinkers.
+            </p>
+        </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-6 pt-10 reveal-section">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center manuscript-border bg-coffee-parchment p-8 rounded-sm">
+            <div class="md:col-span-2 space-y-4">
+                <h3 class="font-mono text-xs uppercase tracking-widest text-coffee-accent">Roast Abstract</h3>
+                <p class="text-coffee-roast leading-relaxed">
+                    Reframing value, quality, and culture to resonate with everyday loyalists and discerning coffee purists. Utilizing tactical storytelling to bridge high-volume speed with artisanal heritage.
+                </p>
+            </div>
+            <div class="border-t md:border-t-0 md:border-l border-coffee-border pt-6 md:pt-0 md:pl-8 space-y-3 font-mono text-xs">
+                <div><span class="text-coffee-roast">Client:</span> Speculative Client Proposal</div>
+                <div><span class="text-coffee-roast">Status:</span> Sealed & Indexed</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Field Notes: verbatim consumer testimony -->
+    <section class="max-w-4xl mx-auto px-6 py-8 reveal-section">
+        <div class="manuscript-border bg-white rounded-sm overflow-hidden">
+            <div class="bg-coffee-bean px-6 py-3 flex justify-between items-center font-mono text-[11px] text-coffee-cream uppercase tracking-widest">
+                <span>Field Notes: Verbatim Testimony</span>
+                <span class="text-coffee-border">REF: DB-8842-X</span>
+            </div>
+            <div class="divide-y divide-coffee-border/60">
+                <div class="p-6 md:p-8 stagger-item">
+                    <p class="font-hero italic font-normal text-lg md:text-xl text-coffee-bean leading-relaxed">
+                        "My perception is it [Dutch Bros] may not be as high-quality coffee and so people may add syrups and stuff to it."
+                    </p>
+                    <span class="block mt-3 font-mono text-xs text-coffee-accent uppercase tracking-wider">- Joe Hudson, 2% Milk Latte</span>
+                </div>
+                <div class="p-6 md:p-8 stagger-item">
+                    <p class="font-hero italic font-normal text-lg md:text-xl text-coffee-bean leading-relaxed">
+                        "I feel bad about syrups sometimes because it just, I don't know, that feels suspicious to me. So I try to keep it as low as possible sometimes."
+                    </p>
+                    <span class="block mt-3 font-mono text-xs text-coffee-accent uppercase tracking-wider">- Jasmarie Hernandez, Coffee with Milk and Brown Sugar</span>
+                </div>
+            </div>
+            <div class="bg-coffee-parchment/80 px-6 py-2.5 border-t border-coffee-border text-right font-mono text-[11px] text-coffee-roast">
+                COFFEE PURIST INTERVIEWS // FIELD RESEARCH
+            </div>
+        </div>
+    </section>
+
+    <section id="brew-one" class="max-w-4xl mx-auto px-6 py-16 border-t border-coffee-border reveal-section">
+        <div class="max-w-2xl mb-12">
+            <span class="font-mono text-xs uppercase tracking-widest text-coffee-accent block mb-2">Batch 02: The Competitive Reality</span>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-coffee-bean mb-4">The Competitive Reality</h2>
+            <p class="text-coffee-roast leading-relaxed">
+                The QSR coffee category is dominated by a single player. Starbucks controls over a quarter of the market and has become the benchmark for perceived quality in the space. With massive scale and cultural ubiquity, it defines what "good coffee" looks like for mainstream consumers. But that dominance comes at a cost.
+            </p>
+        </div>
+
+        <div class="manuscript-border bg-white rounded-sm overflow-hidden my-10">
+            <div class="bg-coffee-parchment px-6 py-3 border-b border-coffee-border flex justify-between items-center font-mono text-xs text-coffee-roast uppercase tracking-wider">
+                <span>[ Tasting Log: Category Field Metrics ]</span>
+                <span class="text-coffee-accent">Status: Verified</span>
+            </div>
+
+            <!-- Market share -->
+            <div class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                <div class="md:col-span-1 flex justify-center">
+                    <!-- Updated chart colors to caramel and taupe -->
+                    <div class="relative w-40 h-40 rounded-full transition-transform duration-500 hover:scale-105" style="background: conic-gradient(#D47739 0% 28.7%, #D2C4B4 28.7% 31.35%, #EFECE5 31.35% 100%);">
+                        <div class="absolute inset-3 bg-white rounded-full flex flex-col items-center justify-center shadow-inner">
+                            <span class="font-mono text-2xl font-bold text-coffee-accent">28.7%</span>
+                            <span class="font-mono text-[10px] uppercase tracking-widest text-coffee-roast">Starbucks</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-2">
+                    <span class="font-mono text-xs text-coffee-accent block uppercase mb-1">Market Dominance</span>
+                    <p class="font-serif font-bold text-coffee-bean text-lg mb-2">Industry Market Share by Company, 2023</p>
+                    <p class="text-sm text-coffee-roast leading-relaxed">
+                        Starbucks' revenue accounted for 28.7% of the Coffee & Snack Shops category in 2023, more than ten times Krispy Kreme (2.65%), the next-largest branded competitor, with every other company splitting the remaining 68.6%.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Price ladder -->
+            <div class="border-t border-coffee-border p-6 md:p-8 bg-coffee-parchment/30">
+                <span class="font-mono text-xs text-coffee-accent block uppercase mb-1">Price Ladder</span>
+                <p class="font-serif font-bold text-coffee-bean text-lg mb-6">What a Cup Costs Across the Category</p>
+                <div class="flex items-end justify-center gap-6 md:gap-10 flex-wrap">
+                    <div class="flex flex-col items-center transition-transform duration-300 hover:-translate-y-2">
+                        <span class="font-mono text-sm font-bold text-coffee-bean mb-2">$3.49</span>
+                        <svg width="46" height="58" viewBox="0 0 46 58" class="text-coffee-roast">
+                            <path d="M6 10 L40 10 L35 54 L11 54 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                            <ellipse cx="23" cy="10" rx="17" ry="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                        <span class="font-mono text-[10px] uppercase tracking-widest text-coffee-roast mt-2">7-Eleven</span>
+                    </div>
+                    <div class="flex flex-col items-center transition-transform duration-300 hover:-translate-y-2">
+                        <span class="font-mono text-sm font-bold text-coffee-bean mb-2">$3.50</span>
+                        <svg width="46" height="62" viewBox="0 0 46 62" class="text-coffee-roast">
+                            <path d="M6 10 L40 10 L35 58 L11 58 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                            <ellipse cx="23" cy="10" rx="17" ry="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                        <span class="font-mono text-[10px] uppercase tracking-widest text-coffee-roast mt-2">Dutch Bros</span>
+                    </div>
+                    <div class="flex flex-col items-center transition-transform duration-300 hover:-translate-y-2">
+                        <span class="font-mono text-sm font-bold text-coffee-bean mb-2">$4.69</span>
+                        <svg width="52" height="72" viewBox="0 0 52 72" class="text-coffee-roast">
+                            <path d="M8 14 L44 14 L38 68 L14 68 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                            <ellipse cx="26" cy="14" rx="18" ry="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M12 14 Q26 24 40 14" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                        <span class="font-mono text-[10px] uppercase tracking-widest text-coffee-roast mt-2">Dunkin</span>
+                    </div>
+                    <div class="flex flex-col items-center px-4 py-3 border border-coffee-accent rounded-sm bg-coffee-accent/5 transition-transform duration-300 hover:-translate-y-2 shadow-sm">
+                        <span class="font-mono text-sm font-bold text-coffee-accent mb-2">$5.25</span>
+                        <svg width="58" height="72" viewBox="0 0 58 72" class="text-coffee-accent">
+                            <rect x="10" y="16" width="34" height="48" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                            <ellipse cx="27" cy="16" rx="17" ry="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M44 28 Q54 30 54 42 Q54 54 44 54" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                        <span class="font-mono text-[10px] uppercase tracking-widest text-coffee-accent mt-2">Starbucks</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-coffee-parchment/80 px-6 py-2.5 border-t border-coffee-border text-right font-mono text-[11px] text-coffee-roast">
+                Source: <a href="https://store.mintel.com/report/us-foodservice-coffee-and-tea-market-report-2023" class="underline hover:text-coffee-accent transition-colors" target="_blank" rel="noopener">Foodservice Coffee and Tea – US, 2023, Mintel</a>
+            </div>
+        </div>
+
+        <blockquote class="border-l-2 border-coffee-accent pl-6 py-2 my-8 font-hero italic font-medium text-xl text-coffee-bean transition-colors duration-300 hover:border-coffee-bean">
+            "Starbucks dominates perceived quality, but its pricing creates distance between what people want and what they can justify daily. That gap creates opportunity for brands that can deliver credibility without premium pricing."
+        </blockquote>
+    </section>
+
+    <section id="brew-two" class="max-w-4xl mx-auto px-6 py-16 border-t border-coffee-border reveal-section">
+        <div class="max-w-2xl mb-12">
+            <span class="font-mono text-xs uppercase tracking-widest text-coffee-accent block mb-2">Batch 03: Audience Profile</span>
+            <h2 class="font-serif text-3xl font-bold text-coffee-bean mb-3">Who Are Coffee Purists?</h2>
+            <p class="text-coffee-roast leading-relaxed">
+                Coffee Purists value craft, ritual, consistency. Their coffee is personal "me time," not a novelty. While they live structured, fast-paced lives, they secretly crave surprise, as long as it doesn't compromise quality.
+            </p>
+        </div>
+
+        <div class="mt-10 border border-coffee-accent bg-coffee-accent/5 p-6 md:p-8 rounded-sm relative transition-all duration-300 hover:shadow-md">
+            <span class="absolute -top-3 left-6 bg-coffee-accent text-white font-mono text-[10px] px-2 py-0.5 uppercase tracking-widest">Roaster's Note</span>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                <div class="md:col-span-2">
+                    <h4 class="font-bold text-coffee-accent uppercase font-mono text-xs mb-1 tracking-wider">Key Insight</h4>
+                    <p class="text-coffee-bean font-medium">Good coffee doesn't have to be serious to be taken seriously.</p>
+                    <p class="text-coffee-roast text-sm mt-2">This has built Dutch Bros a cult-like following of female Gen-Z coffee drinkers.</p>
+                </div>
+                <div class="flex justify-center">
+                    <div class="relative w-28 h-28 rounded-full" style="background: conic-gradient(#D47739 0% 56%, #D2C4B4 56% 100%);">
+                        <div class="absolute inset-2.5 bg-coffee-cream rounded-full flex flex-col items-center justify-center">
+                            <span class="font-mono text-lg font-bold text-coffee-accent">56%</span>
+                            <span class="font-mono text-[9px] uppercase tracking-widest text-coffee-roast text-center leading-tight">Ages<br>0-25</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="font-mono text-[10px] uppercase tracking-widest text-coffee-roast text-right mt-4">Customer Age Breakdown</p>
+        </div>
+    </section>
+
+    <section id="brew-positioning" class="max-w-4xl mx-auto px-6 py-16 border-t border-coffee-border reveal-section">
+        <div class="max-w-2xl mb-12">
+            <span class="font-mono text-xs uppercase tracking-widest text-coffee-accent block mb-2">Batch 04: Positioning Framework</span>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-coffee-bean mb-4">Reading the Category on Four Axes</h2>
+            <p class="text-coffee-roast leading-relaxed">
+                Company, consumer, category, and culture each point toward the same opening: Dutch Bros already has permission to be taken seriously, it just has to claim it.
+            </p>
+        </div>
+
+        <div class="manuscript-border bg-white rounded-sm overflow-hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <!-- Company -->
+                <div class="p-6 md:p-8 border-b md:border-b-0 md:border-r border-coffee-border hover:bg-coffee-parchment/30 transition-colors">
+                    <span class="font-mono text-[10px] uppercase tracking-widest text-coffee-accent">Company</span>
+                    <h3 class="font-serif text-xl font-bold text-coffee-bean mt-1 mb-3">Happy employees create happy experiences.</h3>
+                    <ul class="space-y-2 text-sm text-coffee-roast">
+                        <li class="flex items-start gap-2"><span class="text-coffee-accent">•</span><span>The number one reason people leave their job is because they do not feel valued.</span></li>
+                        <li class="flex items-start gap-2"><span class="text-coffee-accent">•</span><span>Dutch Bros tells its investors that failing to keep quality employees will negatively affect its growth and business as a whole.</span></li>
+                        <li class="flex items-start gap-2"><span class="text-coffee-accent">•</span><span>Employees who feel appreciated are more likely to be self motivated and enjoy their job.</span></li>
+                    </ul>
+                </div>
+                <!-- Consumer -->
+                <div class="p-6 md:p-8 border-b border-coffee-border hover:bg-coffee-parchment/30 transition-colors">
+                    <span class="font-mono text-[10px] uppercase tracking-widest text-coffee-accent">Consumer</span>
+                    <h3 class="font-serif text-xl font-bold text-coffee-bean mt-1 mb-3">Coffee Purists look for ways to have small bursts of joy in their everyday lives.</h3>
+                    <ul class="space-y-2 text-sm text-coffee-roast">
+                        <li class="flex items-start gap-2"><span class="text-coffee-accent">•</span><span>38% of Gen Z consumers would be motivated to order coffee/tea from foodservice establishments if they offered unique, fun drinks on the menu.</span></li>
+                        <li class="flex items-start gap-2"><span class="text-coffee-accent">•</span><span>Consumers seek brands to act as significant supporters in championing the causes they care about.</span></li>
+                    </ul>
+                </div>
+                <!-- Category -->
+                <div class="p-6 md:p-8 border-b md:border-b-0 md:border-r border-coffee-border hover:bg-coffee-parchment/30 transition-colors">
+                    <span class="font-mono text-[10px] uppercase tracking-widest text-coffee-accent">Category</span>
+                    <h3 class="font-serif text-xl font-bold text-coffee-bean mt-1 mb-3">Coffee shops are in an arms race to offer unique and fun drinks, but Dutch Bros has been doing it all along.</h3>
+                    <ul class="space-y-2 text-sm text-coffee-roast">
+                        <li class="flex items-start gap-2"><span class="text-coffee-accent">•</span><span>Drinks with unique flavors, textures, and ingredients are increasing in popularity.</span></li>
+                        <li class="flex items-start gap-2"><span class="text-coffee-accent">•</span><span>30% of customers are motivated to order from a coffee shop because of unique drink offerings.</span></li>
+                        <li class="flex items-start gap-2"><span class="text-coffee-accent">•</span><span>Dutch Bros has been serving fun flavored coffee drinks since 1992.</span></li>
+                    </ul>
+                </div>
+                <!-- Cultural -->
+                <div class="p-6 md:p-8 hover:bg-coffee-parchment/30 transition-colors">
+                    <span class="font-mono text-[10px] uppercase tracking-widest text-coffee-accent">Cultural</span>
+                    <h3 class="font-serif text-xl font-bold text-coffee-bean mt-1 mb-3">When life feels routine and basic, personalization and fun are the true currency.</h3>
+                    <ul class="space-y-2 text-sm text-coffee-roast">
+                        <li class="flex items-start gap-2"><span class="text-coffee-accent">•</span><span>Coffee shops that prioritize a positive environment for their staff create a more authentic and personalized experience for their customers.</span></li>
+                        <li class="flex items-start gap-2"><span class="text-coffee-accent">•</span><span>Consumers feel more connected to brands that value transparency and ethical practices.</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-coffee-bean px-6 py-2.5 border-t border-coffee-border text-center font-mono text-[11px] text-coffee-cream uppercase tracking-widest">
+                Dutch Bros — 4Cs Positioning Framework
+            </div>
+        </div>
+    </section>
+
+    <section id="brew-three" class="max-w-4xl mx-auto px-6 py-16 border-t border-coffee-border reveal-section">
+        <div class="max-w-2xl mb-12">
+            <span class="font-mono text-xs uppercase tracking-widest text-coffee-accent block mb-2">Batch 05: Repositioning</span>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-coffee-bean mb-4">Repositioning Dutch Bros</h2>
+            <p class="text-coffee-roast leading-relaxed">
+                Coffee Purists value craft, ritual, consistency. Their coffee is personal "me time," not a novelty. While they live structured, fast-paced lives, they secretly crave surprise, as long as it doesn't compromise quality.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-10">
+            <div class="manuscript-border bg-white p-8">
+                <div class="flex items-center justify-between border-b border-coffee-border pb-4 mb-6">
+                    <h3 class="font-serif text-xl font-bold text-coffee-bean">Before</h3>
+                    <span class="font-mono text-xs text-coffee-roast">[Current Paradigm]</span>
+                </div>
+                <ul class="space-y-3 text-sm text-coffee-roast">
+                    <li class="flex items-start space-x-2 transition-transform duration-200 hover:translate-x-1">
+                        <span class="text-coffee-accent font-bold">✕</span>
+                        <span>Syrups hide low-quality coffee.</span>
+                    </li>
+                    <li class="flex items-start space-x-2 transition-transform duration-200 hover:translate-x-1">
+                        <span class="text-coffee-accent font-bold">✕</span>
+                        <span>Buys artisanal coffee at local shops.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="manuscript-border bg-coffee-parchment p-8 border-l-4 border-l-coffee-accent">
+                <div class="flex items-center justify-between border-b border-coffee-border pb-4 mb-6">
+                    <h3 class="font-serif text-xl font-bold text-coffee-bean">After</h3>
+                    <span class="font-mono text-xs text-coffee-accent">[Proposed Shift]</span>
+                </div>
+                <ul class="space-y-3 text-sm text-coffee-bean">
+                    <li class="flex items-start space-x-2 transition-transform duration-200 hover:translate-x-1">
+                        <span class="text-coffee-accent font-bold">✓</span>
+                        <span>Fun flavors elevate already high-quality coffee.</span>
+                    </li>
+                    <li class="flex items-start space-x-2 transition-transform duration-200 hover:translate-x-1">
+                        <span class="text-coffee-accent font-bold">✓</span>
+                        <span>Add Dutch Bros to their coffee rotation.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <p class="text-coffee-roast leading-relaxed">
+            We repositioned Dutch Bros to appeal to Coffee Purists without losing its playful brand. The new message emphasized that Dutch Bros uses fun flavors to elevate its core high-quality coffee, not mask it.
+        </p>
+    </section>
+
+    <section id="brew-four" class="max-w-4xl mx-auto px-6 py-16 border-t border-coffee-border reveal-section">
+        <div class="max-w-2xl mb-12">
+            <span class="font-mono text-xs uppercase tracking-widest text-coffee-accent block mb-2">Batch 06: Creative Strategy</span>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-coffee-bean mb-4">Creative Strategy</h2>
+            <p class="text-coffee-roast leading-relaxed">
+                To bring the repositioning to life, the strategy focused on moments where Coffee Purists are most skeptical: ordering, customization, and perceived quality cues. Rather than distancing Dutch Bros from its playful identity, the execution reframed fun as intentional and craft-driven.
+            </p>
+            <p class="text-coffee-roast leading-relaxed mt-4">
+                Messaging highlighted the idea that flavors are not distractions, but deliberate enhancements layered onto a quality coffee base. Transparency, ingredient clarity, and confident tone replaced defensive explanations about sweetness or customization.
+            </p>
+        </div>
+
+        <div class="manuscript-border bg-white p-8 mb-12 rounded-sm">
+            <div class="flex items-center justify-between border-b border-coffee-border pb-4 mb-6">
+                <div>
+                    <span class="font-mono text-xs text-coffee-accent uppercase tracking-widest">Execution One</span>
+                    <h3 class="font-hero italic text-2xl font-medium text-coffee-bean mt-1">A Bean's Life</h3>
+                </div>
+                <span class="font-mono text-xs bg-coffee-parchment px-3 py-1 text-coffee-roast">No. 01</span>
+            </div>
+
+            <p class="text-coffee-roast leading-relaxed mb-4">
+                This execution reframed Dutch Bros' coffee process through a narrative lens, tracing the journey of a single coffee bean from origin to cup. By visualizing sourcing, roasting, and preparation, the work made craft visible without adopting the seriousness or austerity typical of specialty coffee brands.
+            </p>
+            <p class="text-coffee-roast leading-relaxed mb-6">
+                The goal was not to mimic traditional coffee culture, but to show that Dutch Bros already participates in it, just in its own voice.
+            </p>
+
+            <div class="static-manuscript bg-coffee-parchment p-6 rounded-sm">
+                <h4 class="font-mono text-xs uppercase tracking-widest text-coffee-bean font-bold mb-3">Key Message Framework</h4>
+                <ul class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-coffee-roast">
+                    <li class="flex items-start space-x-2">
+                        <span class="text-coffee-accent font-bold">•</span>
+                        <span>Craft without pretension</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                        <span class="text-coffee-accent font-bold">•</span>
+                        <span>Fun with intention</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                        <span class="text-coffee-accent font-bold">•</span>
+                        <span>Quality you can trust, personality you can enjoy</span>
+                    </li>
+                </ul>
+                <p class="text-xs text-coffee-roast mt-4 pt-3 border-t border-coffee-border/60">These pillars guided all executions, ensuring that playfulness never undermined credibility.</p>
+            </div>
+        </div>
+
+        <div class="manuscript-border bg-white p-8 rounded-sm">
+            <div class="flex items-center justify-between border-b border-coffee-border pb-4 mb-6">
+                <div>
+                    <span class="font-mono text-xs text-coffee-accent uppercase tracking-widest">Execution Two</span>
+                    <h3 class="font-hero italic text-2xl font-medium text-coffee-bean mt-1">Surprise, It's a Dutch Bros</h3>
+                </div>
+                <span class="font-mono text-xs bg-coffee-parchment px-3 py-1 text-coffee-roast">No. 02</span>
+            </div>
+
+            <p class="text-coffee-roast leading-relaxed mb-4">
+                This execution challenged assumptions about what high quality coffee looks and feels like by placing Dutch Bros inside a context Coffee Purists already trust. The spot opens in what appears to be a restrained artisanal coffee shop, using familiar cues associated with traditional specialty coffee culture.
+            </p>
+            <p class="text-coffee-roast leading-relaxed mb-4">
+                By grounding the opening in seriousness and ritual, the execution establishes credibility before introducing playfulness. The reveal that the space is actually a Dutch Bros reframes the brand as an unexpected participant in craft coffee rather than an outsider to it.
+            </p>
+            <p class="text-coffee-roast leading-relaxed mb-6">
+                Rather than distancing Dutch Bros from its playful identity, this execution positions fun as intentional and earned. The moment of surprise allows the brand to meet Coffee Purists on their own terms and then expand their definition of what quality coffee can feel like.
+            </p>
+
+            <div class="static-manuscript bg-coffee-parchment p-6 rounded-sm">
+                <h4 class="font-mono text-xs uppercase tracking-widest text-coffee-bean font-bold mb-3">Key Message Framework</h4>
+                <ul class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-coffee-roast">
+                    <li class="flex items-start space-x-2">
+                        <span class="text-coffee-accent font-bold">•</span>
+                        <span>Quality can come from unexpected places</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                        <span class="text-coffee-accent font-bold">•</span>
+                        <span>Playfulness does not negate expertise</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                        <span class="text-coffee-accent font-bold">•</span>
+                        <span>Surprise can be a signal of confidence</span>
+                    </li>
+                </ul>
+                <p class="text-xs text-coffee-roast mt-4 pt-3 border-t border-coffee-border/60">These ideas guided the execution, using contrast and reveal to shift perceptions without confrontation.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="brew-five" class="max-w-4xl mx-auto px-6 py-16 border-t border-coffee-border reveal-section mb-16">
+        <div class="max-w-2xl mb-12">
+            <span class="font-mono text-xs uppercase tracking-widest text-coffee-accent block mb-2">Batch 07: Closing Insight</span>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-coffee-bean mb-4">The Sealed Verdict</h2>
+            <p class="text-coffee-roast leading-relaxed">
+                The closing field note on where Dutch Bros stands today, and what it still has to prove. Click the envelope below to break the wax seal and read it.
+            </p>
+        </div>
+
+        <div class="max-w-xl mx-auto my-8">
+            <div id="envelopeContainer" class="letter-envelope manuscript-border pulse-envelope bg-coffee-parchment p-8 relative cursor-pointer group rounded-sm hover:scale-[1.02]">
+                <div class="text-center py-6">
+                    <span class="font-mono text-xs text-coffee-roast uppercase tracking-widest block mb-2">Final Field Note</span>
+                    <h3 class="font-hero italic text-2xl font-medium text-coffee-bean mb-2">Not So Serious, On Purpose</h3>
+                    <p class="text-xs font-mono text-coffee-accent group-hover:underline">[ Click to break seal & unfold document ]</p>
+                </div>
+            </div>
+
+            <div id="letterContent" class="hidden manuscript-border bg-white p-8 rounded-sm mt-4 transition-all opacity-0 translate-y-4 duration-500">
+                <div class="flex justify-between items-center border-b border-coffee-border pb-4 mb-4">
+                    <span class="font-mono text-xs text-coffee-accent font-bold">CLOSING FIELD NOTE</span>
+                    <button id="recloseBtn" class="font-mono text-xs text-coffee-roast hover:text-coffee-bean underline transition-colors">[ Seal Envelope ]</button>
+                </div>
+                <h4 class="font-serif text-xl font-bold text-coffee-bean mb-3">Not So Serious, On Purpose</h4>
+                <p class="text-sm text-coffee-roast leading-relaxed mb-3">
+                    Dutch Bros is currently positioned as the "Not So Serious Coffee Shop" that caters to both the adventurous fruity caffeine and coffee drinkers.
+                </p>
+                <p class="text-sm text-coffee-roast leading-relaxed mb-4">
+                    While Coffee Purists take their coffee seriously, they still want surprising bursts of joy in their everyday lives. They just need to know that they are still getting high quality coffee.
+                </p>
+                <div class="border-t border-coffee-border pt-4 flex justify-between items-center text-xs font-mono text-coffee-roast">
+                    <span>KENE CREATIVE / STRATEGY & POSITIONING</span>
+                    <span>ARCHIVE ID: DB-994</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -40px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal-section').forEach(section => {
+                observer.observe(section);
+            });
+
+            const envelope = document.getElementById('envelopeContainer');
+            const letterContent = document.getElementById('letterContent');
+            const recloseBtn = document.getElementById('recloseBtn');
+
+            envelope.addEventListener('click', () => {
+                envelope.classList.add('hidden');
+                letterContent.classList.remove('hidden');
+                setTimeout(() => {
+                    letterContent.classList.remove('opacity-0', 'translate-y-4');
+                }, 50);
+            });
+
+            recloseBtn.addEventListener('click', () => {
+                letterContent.classList.add('opacity-0', 'translate-y-4');
+                setTimeout(() => {
+                    letterContent.classList.add('hidden');
+                    envelope.classList.remove('hidden');
+                }, 300);
+            });
+        });
+    </script>
+
+    <!-- ===== KenE site chrome: footer ===== -->
+    <footer class="staff-footer">
+      <div class="footer-top">
+        <p class="tempo-mark" aria-hidden="true">Ode to Joy, arr. KenE</p>
+      </div>
+
+      <div class="staff-track" id="staffTrack">
+        <nav class="notes" aria-label="Footer navigation">
+          <svg class="staff-lines" viewBox="0 0 1000 130" preserveAspectRatio="none" aria-hidden="true">
+            <line x1="0" y1="10" x2="1000" y2="10"></line>
+            <line x1="0" y1="32" x2="1000" y2="32"></line>
+            <line x1="0" y1="54" x2="1000" y2="54"></line>
+            <line x1="0" y1="76" x2="1000" y2="76"></line>
+            <line x1="0" y1="98" x2="1000" y2="98"></line>
+          </svg>
+
+          <div class="logo-wrap" aria-hidden="true">
+            <img src="https://static.wixstatic.com/media/705587_1dc95d7baf614605a69a707fde79aca7~mv2.png" alt="Ken E Creative Logo" class="staff-logo">
+            <span class="logo-caption">CREATIVE</span>
+          </div>
+
+          <a class="note" href="https://www.kenecreative.com/" target="_parent" style="--lift:43px; --i:0" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Home</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/works" target="_parent" style="--lift:43px; --i:1" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Works</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/about" target="_parent" style="--lift:54px; --i:2" data-freq="392.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">About</span>
+          </a>
+          <a class="note" href="https://instagram.com" style="--lift:65px; --i:3" target="_blank" rel="noopener" data-freq="440.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Instagram</span>
+          </a>
+
+          <span class="barline" aria-hidden="true"></span>
+
+          <a class="note" href="https://www.linkedin.com/in/kenneth-espinoza-79941a227" style="--lift:65px; --i:4" target="_blank" rel="noopener" data-freq="440.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">LinkedIn</span>
+          </a>
+          <a class="note" href="https://youtube.com" style="--lift:54px; --i:5" target="_blank" rel="noopener" data-freq="392.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Youtube</span>
+          </a>
+          <a class="note" href="https://tiktok.com" style="--lift:43px; --i:6" target="_blank" rel="noopener" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">TikTok</span>
+          </a>
+          <a class="note" href="mailto:kenneth@kenecreative.com" style="--lift:32px; --i:7" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Email</span>
+          </a>
+
+          <span class="barline" aria-hidden="true"></span>
+
+          <a class="note" href="https://www.kenecreative.com/works/unopenedletter" target="_parent" style="--lift:21px; --i:8" data-freq="293.66">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Unopened Letter</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/works/americanartistproject" target="_parent" style="--lift:21px; --i:9" data-freq="293.66">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">AAP</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/works/redcross" target="_parent" style="--lift:32px; --i:10" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Redcross</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/dutchbros" target="_parent" style="--lift:43px; --i:11" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Dutch Bros.</span>
+          </a>
+
+          <span class="barline" aria-hidden="true"></span>
+
+          <a class="note" href="https://www.kenecreative.com/musicdashboard" target="_parent" style="--lift:43px; --i:12" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Music Archive</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/dndtracker" target="_parent" style="--lift:32px; --i:13" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">DnD Tracker</span>
+          </a>
+          <a class="note" href="" target="_parent" style="--lift:32px; --i:14" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Visualizer</span>
+          </a>
+
+          <span class="barline final" aria-hidden="true"></span>
+        </nav>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">&copy; 2026 by KenE Creative. All rights reserved.</p>
+        <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="soundLabel">Sound on</span>
+        </button>
+      </div>
+    </footer>
+
+    <script>
+    (function(){
+      var header = document.getElementById('staffHeader');
+      var sentinel = document.getElementById('scrollSentinel');
+      var toggle = document.getElementById('menuToggle');
+      var nav = document.getElementById('staffNav');
+
+      if ('IntersectionObserver' in window && header && sentinel) {
+        var io = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){ header.classList.toggle('scrolled', !entry.isIntersecting); });
+        }, { threshold: 0 });
+        io.observe(sentinel);
+      }
+
+      if (toggle && nav) {
+        toggle.addEventListener('click', function(){
+          var open = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!open));
+          nav.classList.toggle('open', !open);
+        });
+        nav.querySelectorAll('.hlink').forEach(function(link){
+          link.addEventListener('click', function(){
+            toggle.setAttribute('aria-expanded', 'false');
+            nav.classList.remove('open');
+          });
+        });
+      }
+
+      function detectActivePage(){
+        if (window.KENE_ACTIVE_PAGE) return window.KENE_ACTIVE_PAGE;
+        try {
+          var ref = document.referrer || '';
+          if (/\/works\/?(\?|#|$)/i.test(ref)) return 'works';
+          if (/\/about\/?(\?|#|$)/i.test(ref)) return 'about';
+          if (/kenecreative\.com\/?(\?|#|$)/i.test(ref)) return 'home';
+        } catch (e) {}
+        return null;
+      }
+      var active = detectActivePage();
+      if (active) {
+        var current = document.querySelector('.hlink[data-page="' + active + '"]');
+        if (current) current.setAttribute('data-current', 'true');
+      }
+
+      var track = document.getElementById('staffTrack');
+      var notes = Array.prototype.slice.call(document.querySelectorAll('.note'));
+
+      if (track) {
+        var footerObserver = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if (entry.isIntersecting) { track.classList.add('in-view'); footerObserver.disconnect(); }
+          });
+        }, { threshold: 0.35 });
+        footerObserver.observe(track);
+      }
+
+      var soundOn = true;
+      var audioCtx = null;
+      var soundToggle = document.getElementById('soundToggle');
+      var soundLabel = document.getElementById('soundLabel');
+
+      function initAudio() {
+        if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+        if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+      }
+
+      ['click', 'touchstart', 'scroll'].forEach(function(evt) {
+        window.addEventListener(evt, function unlock() {
+          initAudio();
+          window.removeEventListener(evt, unlock);
+        }, { once: true });
+      });
+
+      if (soundToggle) {
+        soundToggle.addEventListener('click', function(){
+          soundOn = !soundOn;
+          soundToggle.setAttribute('aria-pressed', String(soundOn));
+          soundLabel.textContent = soundOn ? 'Sound on' : 'Sound off';
+          initAudio();
+        });
+      }
+
+      function playTone(freq){
+        if (!soundOn) return;
+        initAudio();
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.35);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.36);
+      }
+
+      notes.forEach(function(n){
+        var freq = parseFloat(n.getAttribute('data-freq'));
+        if (!freq) return;
+        n.addEventListener('pointerenter', function(){ playTone(freq); });
+        n.addEventListener('focus', function(){ playTone(freq); });
+      });
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Works | KenE Creative</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Bodoni Moda for hero, Playfair Display for headers, Inter for readability, JetBrains Mono for annotations -->
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Playfair Display', 'serif'],
+                        hero: ['Bodoni Moda', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        paper: {
+                            DEFAULT: '#F5F4F0', // Ivory/Aged paper
+                            dark: '#EBE9E1',
+                        },
+                        ink: {
+                            DEFAULT: '#1A1A18', // Stark black/charcoal
+                            muted: '#5A5A58',
+                            light: '#C2C0B8',
+                        },
+                        accent: {
+                            DEFAULT: '#5C4033', // Ink for connective/primary highlights
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F5F4F0;
+            color: #1A1A18;
+            /* Subtle paper texture overlay */
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+        }
+
+        /* Hide scrollbar across all browsers */
+        html, body {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        ::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        /* 5-Line Musical Staff Divider */
+        .staff-divider {
+            height: 33px; /* 5 lines spaced 8px apart (4 gaps * 8px = 32px + 1px line) */
+            background-size: 100% 8px;
+            background-image: linear-gradient(to bottom, currentColor 1px, transparent 1px);
+            opacity: 0.15;
+            width: 100%;
+        }
+
+        /* Large Clef Watermark */
+        .clef-watermark {
+            position: absolute;
+            font-size: clamp(24rem, 30vw, 45rem);
+            color: #4E2A3D; /* Deep plum easter egg */
+            opacity: 0.04;
+            top: -10%;
+            left: -5%;
+            pointer-events: none;
+            font-family: 'Playfair Display', serif;
+            z-index: 0;
+            user-select: none;
+            transform: rotate(-10deg);
+        }
+
+        /* Fade Up Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .work-img-container {
+            overflow: hidden;
+            border: 1px solid #1A1A18;
+            position: relative;
+            cursor: crosshair;
+        }
+        .work-img-container img {
+            transition: transform 0.8s ease, filter 0.8s ease;
+            filter: grayscale(20%) sepia(20%) contrast(1.1);
+        }
+        .work-img-container:hover img {
+            transform: scale(1.03);
+            filter: grayscale(0%) sepia(0%) contrast(1.1);
+        }
+
+        /* Floating Notes Animation on Hover */
+        .floating-note {
+            position: absolute;
+            bottom: -20px;
+            opacity: 0;
+            font-size: 1.5rem;
+            color: #4E2A3D; /* Deep plum easter egg */
+            pointer-events: none;
+            z-index: 10;
+        }
+        .work-img-container:hover .floating-note {
+            animation: floatUp 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .note-1 { left: 20%; animation-delay: 0s !important; font-size: 2rem; }
+        .note-2 { left: 50%; animation-delay: 0.3s !important; }
+        .note-3 { left: 80%; animation-delay: 0.1s !important; font-size: 2.5rem; }
+        .note-4 { left: 35%; animation-delay: 0.5s !important; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-150px) rotate(45deg) scale(1.2); opacity: 0; }
+        }
+
+        /* Barline for sticky columns */
+        .barline-right {
+            border-right: 2px solid #1A1A18;
+            position: relative;
+        }
+        .barline-right::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -6px;
+            height: 100%;
+            width: 1px;
+            background-color: rgba(26, 26, 24, 0.2);
+        }
+    </style>
+
+    <!-- ===== KenE site chrome: shared header + footer ===== -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
+    <style id="kene-chrome-styles">
+      :root{
+        --kh-paper: #000000;
+        --kh-ink: #FFFFFF;
+        --kh-ink-soft: rgba(255, 255, 255, 0.16);
+        --kh-ink-dim: rgba(255, 255, 255, 0.55);
+        --kh-brass: #F2B44B;
+        --kh-crimson: #E05643;
+        --kh-header-h: 72px;
+        --kh-header-h-mobile: 62px;
+        --kh-staff-offset: 340px;
+        --kh-staff-lines-offset: 150px;
+        --kh-scale-desktop: 0.7;
+        --kh-scale-large: 1.0;
+        --kh-scale-tablet: 0.40;
+        --kh-scale-mobile: 0.375;
+      }
+      .sr-only{ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+      #scrollSentinel{ height: 1px; width: 100%; }
+
+      /* ---- Header ---- */
+      .staff-header{ position: sticky; top: 0; z-index: 100; background: #000000; color: var(--kh-ink); box-shadow: 0 1px 0 var(--kh-ink-soft); transition: box-shadow .3s ease; font-family: 'Inter', sans-serif; }
+      .staff-header.scrolled{ box-shadow: 0 1px 0 var(--kh-ink-soft), 0 12px 24px -16px rgba(0,0,0,0.8); }
+      .header-inner{ max-width: 1400px; margin: 0; height: var(--kh-header-h); padding: 0 clamp(16px, 3vw, 32px); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+      .brand{ display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--kh-ink); flex: 0 0 auto; }
+      .brand-mark{ height: 46px; width: auto; filter: invert(1); display: block; }
+      .brand-caption{ font-family: 'Bodoni Moda', serif; font-weight: 600; font-optical-sizing: auto; font-size: 16px; letter-spacing: 0.14em; color: var(--kh-ink); white-space: nowrap; margin-top: 2px; }
+      .staff-nav{ display: flex; align-items: center; gap: clamp(18px, 2.4vw, 34px); flex: 0 0 auto; }
+      .hlink{ position: relative; display: inline-flex; align-items: center; text-decoration: none; color: var(--kh-ink); padding: 6px 2px; outline: none; }
+      .hlink-label{ font-size: 15.5px; font-weight: 800; letter-spacing: 0.01em; white-space: nowrap; border-bottom: 1px solid transparent; transition: border-color .2s ease, color .2s ease; }
+      .hlink[data-current="true"] .hlink-label{ color: var(--kh-brass); border-color: var(--kh-brass); }
+      .hlink:hover .hlink-label, .hlink:focus-visible .hlink-label{ color: var(--kh-brass); border-color: var(--kh-brass); }
+      .hlink:focus-visible{ box-shadow: 0 0 0 2px var(--kh-brass); border-radius: 4px; }
+      .hnote{ position: absolute; top: -2px; left: 50%; transform: translate(-50%, 0) scale(0.7); font-size: 14px; color: var(--kh-brass); opacity: 0; pointer-events: none; transition: opacity .4s ease, transform .4s cubic-bezier(.34,1.56,.64,1); }
+      .hlink:hover .hnote, .hlink:focus-visible .hnote{ opacity: 1; transform: translate(-50%, -14px) scale(1); }
+      .hlink-mail{ display: flex; align-items: center; gap: 7px; }
+      .hlink-mail svg{ width: 16px; height: 16px; flex: 0 0 auto; }
+      .hlink-mail path, .hlink-mail rect{ transition: stroke .2s ease; }
+      .hlink-mail:hover path, .hlink-mail:hover rect, .hlink-mail:focus-visible path, .hlink-mail:focus-visible rect{ stroke: var(--kh-brass); }
+      .menu-toggle{ display: none; flex-direction: column; justify-content: center; align-items: center; gap: 5px; width: 40px; height: 40px; background: transparent; border: 1px solid var(--kh-ink-soft); border-radius: 999px; cursor: pointer; flex: 0 0 auto; }
+      .menu-line{ width: 16px; height: 1.5px; background: var(--kh-ink); transition: transform .3s ease, opacity .3s ease; }
+      .menu-toggle[aria-expanded="true"] .menu-line:nth-child(1){ transform: translateY(6.5px) rotate(45deg); }
+      .menu-toggle[aria-expanded="true"] .menu-line:nth-child(2){ opacity: 0; }
+      .menu-toggle[aria-expanded="true"] .menu-line:nth-child(3){ transform: translateY(-6.5px) rotate(-45deg); }
+      @media (prefers-reduced-motion: reduce){ .hnote, .menu-line, .staff-nav, .staff-header, .note, .stem, .notehead, .accidental, .label{ transition: none !important; } }
+      @media (max-width: 760px){
+        .header-inner{ height: var(--kh-header-h-mobile); }
+        .brand-mark{ height: 36px; }
+        .brand-caption{ font-size: 11px; letter-spacing: 0.1em; }
+        .menu-toggle{ display: flex; }
+        .staff-nav{
+          position: fixed; top: var(--kh-header-h-mobile); left: 0; right: 0;
+          flex-direction: column; align-items: stretch; gap: 0;
+          background: #000000; border-top: 1px solid var(--kh-ink-soft);
+          max-height: calc(100vh - var(--kh-header-h-mobile)); overflow-y: auto;
+          transform: translateY(-8px); opacity: 0; pointer-events: none; visibility: hidden;
+          transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='120'%3E%3Cline x1='0' y1='10' x2='10' y2='10' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='32' x2='10' y2='32' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='54' x2='10' y2='54' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='76' x2='10' y2='76' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='98' x2='10' y2='98' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3C/svg%3E");
+          background-repeat: repeat-x; background-position: top left; background-size: 10px 120px;
+        }
+        .staff-nav.open{ opacity: 1; transform: translateY(0); pointer-events: auto; visibility: visible; transition: opacity .25s ease, transform .25s ease; }
+        .hlink{ padding: 16px 20px; border-bottom: 1px solid var(--kh-ink-soft); justify-content: flex-start; }
+        .hlink-label{ font-size: 17px; }
+        .hnote{ display: none; }
+      }
+
+      /* ---- Footer ---- */
+      .staff-footer{ background: var(--kh-paper); color: var(--kh-ink); border-top: 1px solid var(--kh-ink-soft); padding: 20px clamp(8px, 2vw, 20px) 0; zoom: var(--kh-scale-desktop); font-family: 'Inter', sans-serif; }
+      .footer-top{ display:flex; flex-wrap: nowrap; align-items: center; justify-content: flex-end; max-width: 100%; margin: 0 auto; padding-bottom: 4px; }
+      .tempo-mark{ font-family: 'Caveat', cursive; font-size: 22px; color: var(--kh-crimson); transform: rotate(-3deg); margin: 0; position: relative; top: 0px; }
+      .staff-track{ position: relative; max-width: 100%; margin: 16px auto 0; padding-top: 0px; overflow: visible; }
+      .staff-lines{ position: absolute; top: 0; left: var(--kh-staff-lines-offset); width: calc(100% - var(--kh-staff-lines-offset)); height: 130px; pointer-events: none; }
+      .staff-lines line{ stroke: var(--kh-ink); stroke-width: 1; vector-effect: non-scaling-stroke; }
+      nav.notes{ position: relative; display: flex; align-items: flex-start; flex-wrap: nowrap; overflow-x: visible; row-gap: 28px; padding: 0 0 68px var(--kh-staff-offset); margin: 0; justify-content: space-between; }
+      .logo-wrap{ position: absolute; top: -53px; left: -20px; right: auto; z-index: 20; width: auto; height: auto; display: flex; flex-direction: column; align-items: flex-start; pointer-events: none; }
+      .staff-logo{ display: block; height: 230px; width: auto; object-fit: contain; filter: invert(1); }
+      .logo-caption{ font-family: 'Bodoni Moda', serif; font-size: 85px; font-weight: 600; font-optical-sizing: auto; line-height: 0.85; color: var(--kh-ink); letter-spacing: -0.01em; margin: 18px 0 0 10px; white-space: nowrap; }
+      .note{ display:flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--kh-ink); padding: 0 14px; outline: none; opacity: 0; transform: translateY(14px) scale(1.7); transform-origin: bottom center; transition: opacity .5s ease, transform .5s cubic-bezier(.34,1.56,.64,1); transition-delay: calc(var(--i) * 60ms); }
+      .staff-track.in-view .note{ opacity: 1; transform: none; }
+      .notehead-wrap{ position: relative; width: 26px; height: 130px; }
+      .stem{ position:absolute; bottom: var(--lift); left: calc(50% + 7px); width: 2px; height: 36px; background: var(--kh-ink); transition: background .2s ease; }
+      .notehead{ position:absolute; bottom: calc(var(--lift) - 7px); left: 52%; width: 19px; height: 13px; border-radius: 55%; background: var(--kh-ink); transform: translateX(-50%) rotate(-30deg); transition: transform .25s cubic-bezier(.34,1.56,.64,1), background .2s ease; }
+      .accidental{ position:absolute; left: calc(50% - 16px); bottom: calc(var(--lift) - 6px); font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: var(--kh-ink); transition: color .2s ease; }
+      .label{ margin-top: 0px; font-size: 16.5px; font-weight: 800; letter-spacing: 0.02em; white-space: nowrap; border-bottom: 1px solid transparent; transition: border-color .2s ease, color .2s ease; }
+      .label.placeholder-label{ color: rgba(255,255,255,0.4); border-bottom: 1px dashed rgba(255,255,255,0.3); font-style: italic; }
+      .note:hover .notehead, .note:focus-visible .notehead{ background: var(--kh-brass); transform: translateX(-50%) rotate(-20deg) scale(1.18) translateY(-3px); }
+      .note:hover .stem, .note:focus-visible .stem{ background: var(--kh-brass); }
+      .note:hover .accidental, .note:focus-visible .accidental{ color: var(--kh-brass); }
+      .note:hover .label, .note:focus-visible .label{ color: var(--kh-brass); border-color: var(--kh-brass); font-style: normal; }
+      .note:focus-visible{ box-shadow: 0 0 0 2px var(--kh-brass); border-radius: 4px; }
+      .barline{ align-self: stretch; width: 1px; background: var(--kh-ink); margin: 0 6px 28px; min-height: 130px; }
+      .barline.final{ width: 5px; background: linear-gradient(to right, var(--kh-ink) 0 1px, transparent 1px 3px, var(--kh-ink) 3px 5px); background-color: transparent; }
+      .footer-bottom{ width: 100%; padding: 30px clamp(8px, 2vw, 20px) 0px; border-top: 1px solid var(--kh-ink-soft); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; }
+      .copyright{ grid-column: 2; font-size: 14px; color: rgba(255,255,255,0.55); text-align: center; white-space: nowrap; }
+      .sound-toggle{ grid-column: 3; justify-self: end; display:flex; align-items:center; gap: 8px; background: transparent; border: 1px solid var(--kh-ink-soft); color: var(--kh-ink); font-family: 'Inter', sans-serif; font-size: 12.5px; padding: 7px 12px; border-radius: 999px; cursor: pointer; transition: border-color .2s ease, color .2s ease; }
+      .sound-toggle:hover, .sound-toggle:focus-visible{ border-color: var(--kh-brass); color: var(--kh-brass); }
+      .sound-toggle .dot{ width: 6px; height: 6px; border-radius: 50%; background: var(--kh-crimson); transition: background .2s ease; }
+      .sound-toggle[aria-pressed="false"] .dot{ background: var(--kh-ink-soft); }
+      @media (prefers-reduced-motion: reduce){ .note{ transition: none; transition-delay: 0s; opacity: 1; transform: none; } }
+      @media (min-width: 1920px){ .staff-footer{ zoom: var(--kh-scale-large); } }
+            @media (max-width: 900px){
+        .footer-bottom{ border-top: 1px solid var(--kh-ink-soft); margin-top: 20px; padding-top: 5px; }
+        .staff-footer{ zoom: var(--kh-scale-mobile); }
+        .staff-lines{ display: none; }
+        .staff-track{ display: flex; flex-direction: column; gap: 15px; overflow: visible; }
+        .logo-wrap{ position: static; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin-left: 45px; margin-right: 12px; margin-bottom: 0; height: auto; width: auto; flex: 0 0 auto; }
+        .staff-logo{ height: 100px; width: auto; }
+        .logo-caption{ font-size: 38px; margin: 0; line-height: 0.85; }
+        .note{ height: 150px; padding: 0 6px; }
+        .notehead-wrap{ height: 130px; }
+        .barline{ height: 150px; margin-bottom: 0; }
+        nav.notes{
+          display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: flex-start;
+          padding: 0 !important; margin: 0; gap: 12px 14px;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='150'%3E%3Cline x1='0' y1='10' x2='10' y2='10' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='32' x2='10' y2='32' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='54' x2='10' y2='54' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='76' x2='10' y2='76' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='98' x2='10' y2='98' stroke='white' stroke-width='1'/%3E%3C/svg%3E");
+          background-repeat: repeat; background-size: 10px 150px;
+        }
+      }
+    </style>
+</head>
+<body class="antialiased selection:bg-accent selection:text-paper relative">
+
+    <div id="scrollSentinel" aria-hidden="true"></div>
+    <header class="staff-header" id="staffHeader">
+      <div class="header-inner">
+        <a class="brand" href="https://www.kenecreative.com/" target="_parent" aria-label="KenE Creative, home">
+          <img class="brand-mark" src="https://static.wixstatic.com/media/705587_1dc95d7baf614605a69a707fde79aca7~mv2.png" alt="KenE Creative">
+        <span class="brand-caption" aria-hidden="true">CREATIVE</span>
+        </a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="staffNav">
+          <span class="menu-line"></span><span class="menu-line"></span><span class="menu-line"></span>
+          <span class="sr-only">Menu</span>
+        </button>
+        <nav class="staff-nav" id="staffNav" aria-label="Primary">
+          <a class="hlink" data-page="home" href="https://www.kenecreative.com/" target="_parent">
+            <span class="hnote" aria-hidden="true">&#9835;</span>
+            <span class="hlink-label">Home</span>
+          </a>
+          <a class="hlink" data-page="works" href="https://www.kenecreative.com/works" target="_parent">
+            <span class="hnote" aria-hidden="true">&#9834;</span>
+            <span class="hlink-label">Works</span>
+          </a>
+          <a class="hlink" data-page="about" href="https://www.kenecreative.com/about" target="_parent">
+            <span class="hnote" aria-hidden="true">&#9833;</span>
+            <span class="hlink-label">About</span>
+          </a>
+          <a class="hlink hlink-mail" href="mailto:kenneth@kenecreative.com" aria-label="Email Kenneth">
+            <svg viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="1" y="1" width="18" height="14" rx="1.5" stroke="currentColor" stroke-width="1.4"></rect>
+              <path d="M1.5 2L10 9L18.5 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <span class="hlink-label">Say hello</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <header class="pt-24 pb-16 px-6 lg:px-12 2xl:px-24 max-w-[100rem] 2xl:max-w-[120rem] mx-auto flex flex-col items-start justify-center relative">
+        <div class="flex flex-wrap items-center gap-4 mb-8 reveal active">
+            <span class="font-mono text-accent text-xs md:text-sm 2xl:text-base tracking-widest uppercase border border-accent px-3 py-1.5">Allegro con brio</span>
+        </div>
+        
+       <h1 class="text-7xl md:text-8xl lg:text-[9rem] 2xl:text-[11rem] font-hero font-bold tracking-tighter leading-[0.85] mb-12 reveal active text-ink" style="transition-delay: 0.1s;"> 
+  <span class="italic font-normal">Selected</span><br>
+  <span class="font-light">Works.</span> 
+</h1>
+        
+        <div class="w-full flex justify-start reveal active" style="transition-delay: 0.2s;">
+            <div class="max-w-2xl 2xl:max-w-4xl text-ink-muted text-xl md:text-2xl 2xl:text-3xl font-sans font-light leading-relaxed border-l-2 border-ink pl-6 md:pl-8 py-1">
+                <p class="text-ink text-xs md:text-sm 2xl:text-base font-mono uppercase tracking-widest">Copywriter & Creative Strategist</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Full width decorative staff line -->
+    <div class="w-full text-ink mb-16"><div class="staff-divider"></div></div>
+
+    <main class="w-full">
+        <!-- PROJECT 01: Unopened Letter -->
+        <section class="relative border-b-2 border-ink">
+            <div class="max-w-[100rem] 2xl:max-w-[120rem] mx-auto px-6 lg:px-12 2xl:px-24 py-16 2xl:py-20 flex flex-col lg:flex-row gap-12 lg:gap-24 2xl:gap-32 relative overflow-hidden">
+                <div class="clef-watermark">𝄞</div>
+                
+                <!-- Left Column (The Clef / Title) -->
+                <div class="lg:w-1/3 2xl:w-1/4 relative lg:barline-right lg:pr-12 2xl:pr-20 z-10">
+                    <div class="sticky top-12 2xl:top-16 reveal">
+                        <p class="font-mono text-accent text-sm 2xl:text-base mb-2">Opus 01.</p>
+                        <h2 class="text-4xl md:text-5xl 2xl:text-6xl font-display font-bold mb-6 text-ink leading-tight">Unopened <span class="italic font-light">Letter</span></h2>
+                        <a href="https://www.kenecreative.com/works/unopenedletter" target="_parent" class="inline-flex items-center gap-2 text-xs 2xl:text-sm font-mono font-medium text-ink border-b border-ink pb-0.5 hover:text-accent hover:border-accent transition-colors mt-4 uppercase tracking-widest">
+                            → Read More
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column (The Notes / Work) -->
+                <div class="lg:w-2/3 2xl:w-3/4 py-4 z-10">
+                    <div class="reveal">
+                        <!-- Adjusted to panoramic aspect ratio and max viewport height on large screens -->
+                        <div class="work-img-container w-full aspect-[16/9] xl:aspect-[21/9] 2xl:max-h-[50vh] mb-6 2xl:mb-8 bg-paper-dark">
+                            <img src="https://static.wixstatic.com/media/705587_a88d604a79144123ace3a5dd81a5fbaf~mv2.jpg" alt="Unopened Letter Concept" class="w-full h-full object-cover">
+                            <!-- Floating Notes -->
+                            <div class="floating-note note-1">♪</div>
+                            <div class="floating-note note-2">♫</div>
+                            <div class="floating-note note-3">♬</div>
+                            <div class="floating-note note-4">♪</div>
+                        </div>
+                        <div class="flex items-start gap-4 2xl:gap-8">
+                            <span class="font-display text-4xl 2xl:text-6xl text-ink-light">m.1</span>
+                            <div>
+                                <p class="text-ink font-sans text-lg 2xl:text-xl leading-relaxed max-w-2xl 2xl:max-w-4xl">
+                                    I worked with a close friend to help promote his single, 'Unopened Letter.' By targeting specific playlists and running paid video ads, the track became his fastest-growing song to date.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECT 02: AAP -->
+        <section class="relative border-b border-ink/30">
+            <div class="max-w-[100rem] 2xl:max-w-[120rem] mx-auto px-6 lg:px-12 2xl:px-24 py-16 2xl:py-20 flex flex-col lg:flex-row gap-12 lg:gap-24 2xl:gap-32 relative overflow-hidden">
+                <div class="clef-watermark">𝄞</div>
+                
+                <div class="lg:w-1/3 2xl:w-1/4 relative lg:barline-right lg:pr-12 2xl:pr-20 z-10">
+                    <div class="sticky top-12 2xl:top-16 reveal">
+                        <p class="font-mono text-accent text-sm 2xl:text-base mb-2">Opus 02.</p>
+                        <h2 class="text-4xl md:text-5xl 2xl:text-6xl font-display font-bold mb-6 text-ink leading-tight">American Artists <br><span class="italic font-light">Project</span></h2>
+                        <a href="https://www.kenecreative.com/works/americanartistproject" target="_parent" class="inline-flex items-center gap-2 text-xs 2xl:text-sm font-mono font-medium text-ink border-b border-ink pb-0.5 hover:text-accent hover:border-accent transition-colors mt-4 uppercase tracking-widest">
+                            → Read More
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:w-2/3 2xl:w-3/4 py-4 z-10">
+                    <div class="reveal">
+                        <div class="work-img-container w-full aspect-[16/9] xl:aspect-[21/9] 2xl:max-h-[50vh] mb-6 2xl:mb-8 bg-paper-dark">
+                            <img src="https://static.wixstatic.com/media/705587_641fcb9ac9814a989807de8b7c55f0c0~mv2.jpg" alt="American Artists Project" class="w-full h-full object-cover">
+                            <!-- Floating Notes -->
+                            <div class="floating-note note-1">♫</div>
+                            <div class="floating-note note-2">♪</div>
+                            <div class="floating-note note-3">♪</div>
+                            <div class="floating-note note-4">♬</div>
+                        </div>
+                        <div class="flex items-start gap-4 2xl:gap-8 mb-8">
+                            <span class="font-display text-4xl 2xl:text-6xl text-ink-light">m.1</span>
+                            <div>
+                                <p class="text-ink font-sans text-lg 2xl:text-xl leading-relaxed max-w-2xl 2xl:max-w-4xl">
+                                    The American Artists Project (AAP) is a nonprofit arts organization that invests in under-resourced artists and helps underrepresented communities see their stories on stage.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECT 03: Red Cross -->
+        <section class="relative border-b border-ink/30">
+            <div class="max-w-[100rem] 2xl:max-w-[120rem] mx-auto px-6 lg:px-12 2xl:px-24 py-16 2xl:py-20 flex flex-col lg:flex-row gap-12 lg:gap-24 2xl:gap-32 relative overflow-hidden">
+                <div class="clef-watermark">𝄞</div>
+                
+                <div class="lg:w-1/3 2xl:w-1/4 relative lg:barline-right lg:pr-12 2xl:pr-20 z-10">
+                    <div class="sticky top-12 2xl:top-16 reveal">
+                        <p class="font-mono text-accent text-sm 2xl:text-base mb-2">Opus 03.</p>
+                        <h2 class="text-4xl md:text-5xl 2xl:text-6xl font-display font-bold mb-6 text-ink leading-tight">American <span class="italic font-light">Red Cross</span></h2>
+                        <a href="https://www.kenecreative.com/works/redcross" target="_parent"class="inline-flex items-center gap-2 text-xs 2xl:text-sm font-mono font-medium text-ink border-b border-ink pb-0.5 hover:text-accent hover:border-accent transition-colors mt-4 uppercase tracking-widest">
+                            → Read More
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:w-2/3 2xl:w-3/4 py-4 z-10">
+                    <div class="reveal">
+                        <div class="work-img-container w-full aspect-[16/9] xl:aspect-[21/9] 2xl:max-h-[50vh] mb-6 2xl:mb-8 bg-paper-dark">
+                            <img src="https://static.wixstatic.com/media/705587_876023363dcb4447ae76c4f7a222995d~mv2.jpg" alt="American Red Cross Campaign" class="w-full h-full object-cover">
+                            <!-- Floating Notes -->
+                            <div class="floating-note note-1">♬</div>
+                            <div class="floating-note note-2">♫</div>
+                            <div class="floating-note note-3">♪</div>
+                            <div class="floating-note note-4">♫</div>
+                        </div>
+                        <div class="flex items-start gap-4 2xl:gap-8">
+                            <span class="font-display text-4xl 2xl:text-6xl text-ink-light">m.1</span>
+                            <div>
+                                <p class="text-ink font-sans text-lg 2xl:text-xl leading-relaxed max-w-2xl 2xl:max-w-4xl">
+                                    There was two key goals of this campaign: raising awareness about free bed shaker installations for the Deaf and Hard of Hearing (DHH) community and recruiting volunteers to support this initiative.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECT 04: Dutch Bros -->
+        <section class="relative">
+            <div class="max-w-[100rem] 2xl:max-w-[120rem] mx-auto px-6 lg:px-12 2xl:px-24 py-16 2xl:py-20 flex flex-col lg:flex-row gap-12 lg:gap-24 2xl:gap-32 relative overflow-hidden">
+                <div class="clef-watermark">𝄞</div>
+                
+                <div class="lg:w-1/3 2xl:w-1/4 relative lg:barline-right lg:pr-12 2xl:pr-20 z-10">
+                    <div class="sticky top-12 2xl:top-16 reveal">
+                        <p class="font-mono text-accent text-sm 2xl:text-base mb-2">Opus 04.</p>
+                        <h2 class="text-4xl md:text-5xl 2xl:text-6xl font-display font-bold mb-6 text-ink leading-tight">Dutch <span class="italic font-light">Bros</span></h2>
+                        <a href="https://www.kenecreative.com/dutchbros" target="_parent" class="inline-flex items-center gap-2 text-xs 2xl:text-sm font-mono font-medium text-ink border-b border-ink pb-0.5 hover:text-accent hover:border-accent transition-colors mt-4 uppercase tracking-widest">
+                            → Read More
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:w-2/3 2xl:w-3/4 py-4 z-10">
+                    <div class="reveal">
+                        <div class="work-img-container w-full aspect-[16/9] xl:aspect-[21/9] 2xl:max-h-[50vh] mb-6 2xl:mb-8 bg-paper-dark">
+                            <img src="https://images.unsplash.com/photo-1551030173-122aabc4489c?q=80&w=1200&auto=format&fit=crop" alt="Dutch Bros Campaign" class="w-full h-full object-cover">
+                            <!-- Floating Notes -->
+                            <div class="floating-note note-1">♪</div>
+                            <div class="floating-note note-2">♬</div>
+                            <div class="floating-note note-3">♫</div>
+                            <div class="floating-note note-4">♪</div>
+                        </div>
+                        <div class="flex items-start gap-4 2xl:gap-8">
+                            <span class="font-display text-4xl 2xl:text-6xl text-ink-light">m.1</span>
+                            <div>
+                                <p class="text-ink font-sans text-lg 2xl:text-xl leading-relaxed max-w-2xl 2xl:max-w-4xl">
+                                    Dutch Bros is currently positioned as the "Not So Serious Coffee Shop" that caters to both the adventurous fruity caffeine and coffee drinkers.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Intersection Observer for Scroll Animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -15% 0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+
+    <!-- ===== KenE site chrome: footer ===== -->
+    <footer class="staff-footer">
+      <div class="footer-top">
+        <p class="tempo-mark" aria-hidden="true">Ode to Joy, arr. KenE</p>
+      </div>
+
+      <div class="staff-track" id="staffTrack">
+        <nav class="notes" aria-label="Footer navigation">
+          <svg class="staff-lines" viewBox="0 0 1000 130" preserveAspectRatio="none" aria-hidden="true">
+            <line x1="0" y1="10" x2="1000" y2="10"></line>
+            <line x1="0" y1="32" x2="1000" y2="32"></line>
+            <line x1="0" y1="54" x2="1000" y2="54"></line>
+            <line x1="0" y1="76" x2="1000" y2="76"></line>
+            <line x1="0" y1="98" x2="1000" y2="98"></line>
+          </svg>
+
+          <div class="logo-wrap" aria-hidden="true">
+            <img src="https://static.wixstatic.com/media/705587_1dc95d7baf614605a69a707fde79aca7~mv2.png" alt="Ken E Creative Logo" class="staff-logo">
+            <span class="logo-caption">CREATIVE</span>
+          </div>
+
+          <a class="note" href="https://www.kenecreative.com/" target="_parent" style="--lift:43px; --i:0" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Home</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/works" target="_parent" style="--lift:43px; --i:1" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Works</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/about" target="_parent" style="--lift:54px; --i:2" data-freq="392.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">About</span>
+          </a>
+          <a class="note" href="https://instagram.com" style="--lift:65px; --i:3" target="_blank" rel="noopener" data-freq="440.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Instagram</span>
+          </a>
+
+          <span class="barline" aria-hidden="true"></span>
+
+          <a class="note" href="https://www.linkedin.com/in/kenneth-espinoza-79941a227" style="--lift:65px; --i:4" target="_blank" rel="noopener" data-freq="440.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">LinkedIn</span>
+          </a>
+          <a class="note" href="https://youtube.com" style="--lift:54px; --i:5" target="_blank" rel="noopener" data-freq="392.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Youtube</span>
+          </a>
+          <a class="note" href="https://tiktok.com" style="--lift:43px; --i:6" target="_blank" rel="noopener" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">TikTok</span>
+          </a>
+          <a class="note" href="mailto:kenneth@kenecreative.com" style="--lift:32px; --i:7" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Email</span>
+          </a>
+
+          <span class="barline" aria-hidden="true"></span>
+
+          <a class="note" href="https://www.kenecreative.com/works/unopenedletter" target="_parent" style="--lift:21px; --i:8" data-freq="293.66">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Unopened Letter</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/works/americanartistproject" target="_parent" style="--lift:21px; --i:9" data-freq="293.66">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">AAP</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/works/redcross" target="_parent" style="--lift:32px; --i:10" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Redcross</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/dutchbros" target="_parent" style="--lift:43px; --i:11" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Dutch Bros.</span>
+          </a>
+
+          <span class="barline" aria-hidden="true"></span>
+
+          <a class="note" href="https://www.kenecreative.com/musicdashboard" target="_parent" style="--lift:43px; --i:12" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Music Archive</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/dndtracker" target="_parent" style="--lift:32px; --i:13" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">DnD Tracker</span>
+          </a>
+          <a class="note" href="" target="_parent" style="--lift:32px; --i:14" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Visualizer</span>
+          </a>
+
+          <span class="barline final" aria-hidden="true"></span>
+        </nav>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">&copy; 2026 by KenE Creative. All rights reserved.</p>
+        <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="soundLabel">Sound on</span>
+        </button>
+      </div>
+    </footer>
+
+    <script>
+    (function(){
+      var header = document.getElementById('staffHeader');
+      var sentinel = document.getElementById('scrollSentinel');
+      var toggle = document.getElementById('menuToggle');
+      var nav = document.getElementById('staffNav');
+
+      if ('IntersectionObserver' in window && header && sentinel) {
+        var io = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){ header.classList.toggle('scrolled', !entry.isIntersecting); });
+        }, { threshold: 0 });
+        io.observe(sentinel);
+      }
+
+      if (toggle && nav) {
+        toggle.addEventListener('click', function(){
+          var open = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!open));
+          nav.classList.toggle('open', !open);
+        });
+        nav.querySelectorAll('.hlink').forEach(function(link){
+          link.addEventListener('click', function(){
+            toggle.setAttribute('aria-expanded', 'false');
+            nav.classList.remove('open');
+          });
+        });
+      }
+
+      function detectActivePage(){
+        if (window.KENE_ACTIVE_PAGE) return window.KENE_ACTIVE_PAGE;
+        try {
+          var ref = document.referrer || '';
+          if (/\/works\/?(\?|#|$)/i.test(ref)) return 'works';
+          if (/\/about\/?(\?|#|$)/i.test(ref)) return 'about';
+          if (/kenecreative\.com\/?(\?|#|$)/i.test(ref)) return 'home';
+        } catch (e) {}
+        return null;
+      }
+      var active = detectActivePage();
+      if (active) {
+        var current = document.querySelector('.hlink[data-page="' + active + '"]');
+        if (current) current.setAttribute('data-current', 'true');
+      }
+
+      var track = document.getElementById('staffTrack');
+      var notes = Array.prototype.slice.call(document.querySelectorAll('.note'));
+
+      if (track) {
+        var footerObserver = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if (entry.isIntersecting) { track.classList.add('in-view'); footerObserver.disconnect(); }
+          });
+        }, { threshold: 0.35 });
+        footerObserver.observe(track);
+      }
+
+      var soundOn = true;
+      var audioCtx = null;
+      var soundToggle = document.getElementById('soundToggle');
+      var soundLabel = document.getElementById('soundLabel');
+
+      function initAudio() {
+        if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+        if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+      }
+
+      ['click', 'touchstart', 'scroll'].forEach(function(evt) {
+        window.addEventListener(evt, function unlock() {
+          initAudio();
+          window.removeEventListener(evt, unlock);
+        }, { once: true });
+      });
+
+      if (soundToggle) {
+        soundToggle.addEventListener('click', function(){
+          soundOn = !soundOn;
+          soundToggle.setAttribute('aria-pressed', String(soundOn));
+          soundLabel.textContent = soundOn ? 'Sound on' : 'Sound off';
+          initAudio();
+        });
+      }
+
+      function playTone(freq){
+        if (!soundOn) return;
+        initAudio();
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.35);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.36);
+      }
+
+      notes.forEach(function(n){
+        var freq = parseFloat(n.getAttribute('data-freq'));
+        if (!freq) return;
+        n.addEventListener('pointerenter', function(){ playTone(freq); });
+        n.addEventListener('focus', function(){ playTone(freq); });
+      });
+    })();
+    </script>
+</body>
+</html>

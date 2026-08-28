@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow: visible !important; height: auto !important;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | KenE Creative</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --base-ivory: #121210;        /* Sleek dark background surface */
+            --aged-paper: #181816;        /* Rich, dark mode paper container */
+            --stark-black: #F4F3EF;       /* Bone-white primary text */
+            --faded-ink: #A3A198;         /* Muted gray-white body text */
+            --ghost-ink: rgba(255, 255, 255, 0.25); /* High-contrast staff lines */
+            --crimson-red: #D4AF37;       /* Gold accent */
+        }
+        html, body {
+            overflow: visible !important;
+            height: auto !important;
+        }
+        body {
+            background-color: var(--base-ivory);
+            color: var(--stark-black);
+            font-family: 'Inter', sans-serif;
+        }
+        .font-hero {
+            font-family: 'Bodoni Moda', serif;
+        }
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .font-sans {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-mono-archival {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .staff-line {
+            background: repeating-linear-gradient(
+                to bottom,
+                var(--ghost-ink),
+                var(--ghost-ink) 1px,
+                transparent 1px,
+                transparent 7px
+            );
+        }
+        @keyframes scrollSheet {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+        .scrolling-container {
+            animation: scrollSheet 40s linear infinite;
+        }
+    </style>
+
+    <!-- ===== KenE site chrome: shared header + footer ===== -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
+    <style id="kene-chrome-styles">
+      :root{
+        --kh-paper: #000000;
+        --kh-ink: #FFFFFF;
+        --kh-ink-soft: rgba(255, 255, 255, 0.16);
+        --kh-ink-dim: rgba(255, 255, 255, 0.55);
+        --kh-brass: #F2B44B;
+        --kh-crimson: #E05643;
+        --kh-header-h: 72px;
+        --kh-header-h-mobile: 62px;
+        --kh-staff-offset: 340px;
+        --kh-staff-lines-offset: 150px;
+        --kh-scale-desktop: 0.7;
+        --kh-scale-large: 1.0;
+        --kh-scale-tablet: 0.40;
+        --kh-scale-mobile: 0.375;
+      }
+      .sr-only{ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+      #scrollSentinel{ height: 1px; width: 100%; }
+      /* The page's own p-6/md:p-12 padding used to live on body, which
+         pushed the header and footer chrome inward too. It now lives on
+         .page-pad instead, wrapping only the main content, so the chrome
+         can sit flush at the true viewport edge. */
+      body{ padding: 0 !important; }
+      .page-pad{ padding: 24px; }
+      @media (min-width: 768px){ .page-pad{ padding: 48px; } }
+
+      /* ---- Header ---- */
+      .staff-header{ position: sticky; top: 0; z-index: 100; background: #000000; color: var(--kh-ink); box-shadow: 0 1px 0 var(--kh-ink-soft); transition: box-shadow .3s ease; font-family: 'Inter', sans-serif; }
+      .staff-header.scrolled{ box-shadow: 0 1px 0 var(--kh-ink-soft), 0 12px 24px -16px rgba(0,0,0,0.8); }
+      .header-inner{ max-width: 1400px; margin: 0; height: var(--kh-header-h); padding: 0 clamp(16px, 3vw, 32px); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+      .brand{ display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--kh-ink); flex: 0 0 auto; }
+      .brand-mark{ height: 46px; width: auto; filter: invert(1); display: block; }
+      .brand-caption{ font-family: 'Bodoni Moda', serif; font-weight: 600; font-optical-sizing: auto; font-size: 16px; letter-spacing: 0.14em; color: var(--kh-ink); white-space: nowrap; margin-top: 2px; }
+      .staff-nav{ display: flex; align-items: center; gap: clamp(18px, 2.4vw, 34px); flex: 0 0 auto; }
+      .hlink{ position: relative; display: inline-flex; align-items: center; text-decoration: none; color: var(--kh-ink); padding: 6px 2px; outline: none; }
+      .hlink-label{ font-size: 15.5px; font-weight: 800; letter-spacing: 0.01em; white-space: nowrap; border-bottom: 1px solid transparent; transition: border-color .2s ease, color .2s ease; }
+      .hlink[data-current="true"] .hlink-label{ color: var(--kh-brass); border-color: var(--kh-brass); }
+      .hlink:hover .hlink-label, .hlink:focus-visible .hlink-label{ color: var(--kh-brass); border-color: var(--kh-brass); }
+      .hlink:focus-visible{ box-shadow: 0 0 0 2px var(--kh-brass); border-radius: 4px; }
+      .hnote{ position: absolute; top: -2px; left: 50%; transform: translate(-50%, 0) scale(0.7); font-size: 14px; color: var(--kh-brass); opacity: 0; pointer-events: none; transition: opacity .4s ease, transform .4s cubic-bezier(.34,1.56,.64,1); }
+      .hlink:hover .hnote, .hlink:focus-visible .hnote{ opacity: 1; transform: translate(-50%, -14px) scale(1); }
+      .hlink-mail{ display: flex; align-items: center; gap: 7px; }
+      .hlink-mail svg{ width: 16px; height: 16px; flex: 0 0 auto; }
+      .hlink-mail path, .hlink-mail rect{ transition: stroke .2s ease; }
+      .hlink-mail:hover path, .hlink-mail:hover rect, .hlink-mail:focus-visible path, .hlink-mail:focus-visible rect{ stroke: var(--kh-brass); }
+      .menu-toggle{ display: none; flex-direction: column; justify-content: center; align-items: center; gap: 5px; width: 40px; height: 40px; background: transparent; border: 1px solid var(--kh-ink-soft); border-radius: 999px; cursor: pointer; flex: 0 0 auto; }
+      .menu-line{ width: 16px; height: 1.5px; background: var(--kh-ink); transition: transform .3s ease, opacity .3s ease; }
+      .menu-toggle[aria-expanded="true"] .menu-line:nth-child(1){ transform: translateY(6.5px) rotate(45deg); }
+      .menu-toggle[aria-expanded="true"] .menu-line:nth-child(2){ opacity: 0; }
+      .menu-toggle[aria-expanded="true"] .menu-line:nth-child(3){ transform: translateY(-6.5px) rotate(-45deg); }
+      @media (prefers-reduced-motion: reduce){ .hnote, .menu-line, .staff-nav, .staff-header, .note, .stem, .notehead, .accidental, .label{ transition: none !important; } }
+      @media (max-width: 760px){
+        .header-inner{ height: var(--kh-header-h-mobile); }
+        .brand-mark{ height: 36px; }
+        .brand-caption{ font-size: 11px; letter-spacing: 0.1em; }
+        .menu-toggle{ display: flex; }
+        .staff-nav{
+          position: fixed; top: var(--kh-header-h-mobile); left: 0; right: 0;
+          flex-direction: column; align-items: stretch; gap: 0;
+          background: #000000; border-top: 1px solid var(--kh-ink-soft);
+          max-height: calc(100vh - var(--kh-header-h-mobile)); overflow-y: auto;
+          transform: translateY(-8px); opacity: 0; pointer-events: none; visibility: hidden;
+          transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='120'%3E%3Cline x1='0' y1='10' x2='10' y2='10' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='32' x2='10' y2='32' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='54' x2='10' y2='54' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='76' x2='10' y2='76' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3Cline x1='0' y1='98' x2='10' y2='98' stroke='white' stroke-opacity='.12' stroke-width='1'/%3E%3C/svg%3E");
+          background-repeat: repeat-x; background-position: top left; background-size: 10px 120px;
+        }
+        .staff-nav.open{ opacity: 1; transform: translateY(0); pointer-events: auto; visibility: visible; transition: opacity .25s ease, transform .25s ease; }
+        .hlink{ padding: 16px 20px; border-bottom: 1px solid var(--kh-ink-soft); justify-content: flex-start; }
+        .hlink-label{ font-size: 17px; }
+        .hnote{ display: none; }
+      }
+
+      /* ---- Footer ---- */
+      .staff-footer{ background: var(--kh-paper); color: var(--kh-ink); border-top: 1px solid var(--kh-ink-soft); padding: 20px clamp(8px, 2vw, 20px) 0; zoom: var(--kh-scale-desktop); font-family: 'Inter', sans-serif; margin-top: 48px; }
+      .footer-top{ display:flex; flex-wrap: nowrap; align-items: center; justify-content: flex-end; max-width: 100%; margin: 0 auto; padding-bottom: 4px; }
+      .tempo-mark{ font-family: 'Caveat', cursive; font-size: 22px; color: var(--kh-crimson); transform: rotate(-3deg); margin: 0; position: relative; top: 0px; }
+      .staff-track{ position: relative; max-width: 100%; margin: 16px auto 0; padding-top: 0px; overflow: visible; }
+      .staff-lines{ position: absolute; top: 0; left: var(--kh-staff-lines-offset); width: calc(100% - var(--kh-staff-lines-offset)); height: 130px; pointer-events: none; }
+      .staff-lines line{ stroke: var(--kh-ink); stroke-width: 1; vector-effect: non-scaling-stroke; }
+      nav.notes{ position: relative; display: flex; align-items: flex-start; flex-wrap: nowrap; overflow-x: visible; row-gap: 28px; padding: 0 0 68px var(--kh-staff-offset); margin: 0; justify-content: space-between; }
+      .logo-wrap{ position: absolute; top: -53px; left: -20px; right: auto; z-index: 20; width: auto; height: auto; display: flex; flex-direction: column; align-items: flex-start; pointer-events: none; }
+      .staff-logo{ display: block; height: 230px; width: auto; object-fit: contain; filter: invert(1); }
+      .logo-caption{ font-family: 'Bodoni Moda', serif; font-size: 85px; font-weight: 600; font-optical-sizing: auto; line-height: 0.85; color: var(--kh-ink); letter-spacing: -0.01em; margin: 18px 0 0 10px; white-space: nowrap; }
+      .note{ display:flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--kh-ink); padding: 0 14px; outline: none; opacity: 0; transform: translateY(14px) scale(1.7); transform-origin: bottom center; transition: opacity .5s ease, transform .5s cubic-bezier(.34,1.56,.64,1); transition-delay: calc(var(--i) * 60ms); }
+      .staff-track.in-view .note{ opacity: 1; transform: none; }
+      .notehead-wrap{ position: relative; width: 26px; height: 130px; }
+      .stem{ position:absolute; bottom: var(--lift); left: calc(50% + 7px); width: 2px; height: 36px; background: var(--kh-ink); transition: background .2s ease; }
+      .notehead{ position:absolute; bottom: calc(var(--lift) - 7px); left: 52%; width: 19px; height: 13px; border-radius: 55%; background: var(--kh-ink); transform: translateX(-50%) rotate(-30deg); transition: transform .25s cubic-bezier(.34,1.56,.64,1), background .2s ease; }
+      .accidental{ position:absolute; left: calc(50% - 16px); bottom: calc(var(--lift) - 6px); font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: var(--kh-ink); transition: color .2s ease; }
+      .label{ margin-top: 0px; font-size: 16.5px; font-weight: 800; letter-spacing: 0.02em; white-space: nowrap; border-bottom: 1px solid transparent; transition: border-color .2s ease, color .2s ease; }
+      .label.placeholder-label{ color: rgba(255,255,255,0.4); border-bottom: 1px dashed rgba(255,255,255,0.3); font-style: italic; }
+      .note:hover .notehead, .note:focus-visible .notehead{ background: var(--kh-brass); transform: translateX(-50%) rotate(-20deg) scale(1.18) translateY(-3px); }
+      .note:hover .stem, .note:focus-visible .stem{ background: var(--kh-brass); }
+      .note:hover .accidental, .note:focus-visible .accidental{ color: var(--kh-brass); }
+      .note:hover .label, .note:focus-visible .label{ color: var(--kh-brass); border-color: var(--kh-brass); font-style: normal; }
+      .note:focus-visible{ box-shadow: 0 0 0 2px var(--kh-brass); border-radius: 4px; }
+      .barline{ align-self: stretch; width: 1px; background: var(--kh-ink); margin: 0 6px 28px; min-height: 130px; }
+      .barline.final{ width: 5px; background: linear-gradient(to right, var(--kh-ink) 0 1px, transparent 1px 3px, var(--kh-ink) 3px 5px); background-color: transparent; }
+      .footer-bottom{ width: 100%; padding: 30px clamp(8px, 2vw, 20px) 0px; border-top: 1px solid var(--kh-ink-soft); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; }
+      .copyright{ grid-column: 2; font-size: 14px; color: rgba(255,255,255,0.55); text-align: center; white-space: nowrap; }
+      .sound-toggle{ grid-column: 3; justify-self: end; display:flex; align-items:center; gap: 8px; background: transparent; border: 1px solid var(--kh-ink-soft); color: var(--kh-ink); font-family: 'Inter', sans-serif; font-size: 12.5px; padding: 7px 12px; border-radius: 999px; cursor: pointer; transition: border-color .2s ease, color .2s ease; }
+      .sound-toggle:hover, .sound-toggle:focus-visible{ border-color: var(--kh-brass); color: var(--kh-brass); }
+      .sound-toggle .dot{ width: 6px; height: 6px; border-radius: 50%; background: var(--kh-crimson); transition: background .2s ease; }
+      .sound-toggle[aria-pressed="false"] .dot{ background: var(--kh-ink-soft); }
+      @media (prefers-reduced-motion: reduce){ .note{ transition: none; transition-delay: 0s; opacity: 1; transform: none; } }
+      @media (min-width: 1920px){ .staff-footer{ zoom: var(--kh-scale-large); } }
+            @media (max-width: 900px){
+        .footer-bottom{ border-top: 1px solid var(--kh-ink-soft); margin-top: 20px; padding-top: 5px; }
+        .staff-footer{ zoom: var(--kh-scale-mobile); }
+        .staff-lines{ display: none; }
+        .staff-track{ display: flex; flex-direction: column; gap: 15px; overflow: visible; }
+        .logo-wrap{ position: static; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; margin-left: 45px; margin-right: 12px; margin-bottom: 0; height: auto; width: auto; flex: 0 0 auto; }
+        .staff-logo{ height: 100px; width: auto; }
+        .logo-caption{ font-size: 38px; margin: 0; line-height: 0.85; }
+        .note{ height: 150px; padding: 0 6px; }
+        .notehead-wrap{ height: 130px; }
+        .barline{ height: 150px; margin-bottom: 0; }
+        nav.notes{
+          display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: flex-start;
+          padding: 0 !important; margin: 0; gap: 12px 14px;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='150'%3E%3Cline x1='0' y1='10' x2='10' y2='10' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='32' x2='10' y2='32' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='54' x2='10' y2='54' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='76' x2='10' y2='76' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='98' x2='10' y2='98' stroke='white' stroke-width='1'/%3E%3C/svg%3E");
+          background-repeat: repeat; background-size: 10px 150px;
+        }
+      }
+    </style>
+</head>
+<body class="p-6 md:p-12 antialiased selection:bg-[#D4AF37] selection:text-[#121210] relative min-h-screen">
+
+    <div id="scrollSentinel" aria-hidden="true"></div>
+    <header class="staff-header" id="staffHeader">
+      <div class="header-inner">
+        <a class="brand" href="https://www.kenecreative.com/" target="_parent" aria-label="KenE Creative, home">
+          <img class="brand-mark" src="https://static.wixstatic.com/media/705587_1dc95d7baf614605a69a707fde79aca7~mv2.png" alt="KenE Creative">
+        <span class="brand-caption" aria-hidden="true">CREATIVE</span>
+        </a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="staffNav">
+          <span class="menu-line"></span><span class="menu-line"></span><span class="menu-line"></span>
+          <span class="sr-only">Menu</span>
+        </button>
+        <nav class="staff-nav" id="staffNav" aria-label="Primary">
+          <a class="hlink" data-page="home" href="https://www.kenecreative.com/" target="_parent">
+            <span class="hnote" aria-hidden="true">&#9835;</span>
+            <span class="hlink-label">Home</span>
+          </a>
+          <a class="hlink" data-page="works" href="https://www.kenecreative.com/works" target="_parent">
+            <span class="hnote" aria-hidden="true">&#9834;</span>
+            <span class="hlink-label">Works</span>
+          </a>
+          <a class="hlink" data-page="about" href="https://www.kenecreative.com/about" target="_parent">
+            <span class="hnote" aria-hidden="true">&#9833;</span>
+            <span class="hlink-label">About</span>
+          </a>
+          <a class="hlink hlink-mail" href="mailto:kenneth@kenecreative.com" aria-label="Email Kenneth">
+            <svg viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="1" y="1" width="18" height="14" rx="1.5" stroke="currentColor" stroke-width="1.4"></rect>
+              <path d="M1.5 2L10 9L18.5 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <span class="hlink-label">Say hello</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Background Scrolling Sheet Music Layer with Pure White Notes/Lines -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0 opacity-25">
+        <div class="scrolling-container absolute w-full flex flex-col space-y-20 py-12">
+            <!-- Sheet Music Row 1 -->
+            <div class="w-full relative">
+                <div class="staff-line h-24 w-full border-y border-white/20 flex items-center justify-around px-12">
+                    <span class="font-serif text-2xl text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">𝄞</span>
+                    <span class="font-serif text-xl text-white font-bold translate-y-2 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">♩</span>
+                    <span class="font-serif text-xl text-white/80 -translate-y-3">♪</span>
+                    <span class="font-serif text-2xl text-white font-bold translate-y-1 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">𝄢</span>
+                    <span class="font-serif text-xl text-[#D4AF37] -translate-y-2 font-bold drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]">♫</span>
+                    <span class="font-serif text-xl text-white font-bold translate-y-3 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">♩</span>
+                </div>
+            </div>
+            <!-- Sheet Music Row 2 -->
+            <div class="w-full relative">
+                <div class="staff-line h-24 w-full border-y border-white/20 flex items-center justify-around px-16">
+                    <span class="font-serif text-2xl text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">𝄢</span>
+                    <span class="font-serif text-xl text-[#D4AF37] -translate-y-2 font-bold drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]">♫</span>
+                    <span class="font-serif text-xl text-white font-bold translate-y-2 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">♩</span>
+                    <span class="font-serif text-xl text-white/80 -translate-y-1">♪</span>
+                    <span class="font-serif text-2xl text-white font-bold translate-y-3 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">♩</span>
+                </div>
+            </div>
+            <!-- Sheet Music Row 3 -->
+            <div class="w-full relative">
+                <div class="staff-line h-24 w-full border-y border-white/20 flex items-center justify-around px-10">
+                    <span class="font-serif text-2xl text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">𝄞</span>
+                    <span class="font-serif text-xl text-white/80 translate-y-1">♪</span>
+                    <span class="font-serif text-xl text-white font-bold -translate-y-3 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">♩</span>
+                    <span class="font-serif text-2xl text-[#D4AF37] translate-y-2 font-bold drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]">♫</span>
+                    <span class="font-serif text-xl text-white font-bold -translate-y-1 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">𝄢</span>
+                </div>
+            </div>
+            <!-- Sheet Music Row 4 -->
+            <div class="w-full relative">
+                <div class="staff-line h-24 w-full border-y border-white/20 flex items-center justify-around px-14">
+                    <span class="font-serif text-2xl text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">𝄢</span>
+                    <span class="font-serif text-xl text-white font-bold translate-y-2 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">♩</span>
+                    <span class="font-serif text-xl text-[#D4AF37] -translate-y-2 font-bold drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]">♫</span>
+                    <span class="font-serif text-xl text-white/80 translate-y-1">♪</span>
+                    <span class="font-serif text-2xl text-white font-bold -translate-y-3 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">♩</span>
+                </div>
+            </div>
+            <!-- Seamless Loop Duplicate Rows -->
+            <div class="w-full relative">
+                <div class="staff-line h-24 w-full border-y border-white/20 flex items-center justify-around px-12">
+                    <span class="font-serif text-2xl text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">𝄞</span>
+                    <span class="font-serif text-xl text-white font-bold translate-y-2 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">♩</span>
+                    <span class="font-serif text-xl text-white/80 -translate-y-3">♪</span>
+                    <span class="font-serif text-2xl text-white font-bold translate-y-1 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">𝄢</span>
+                    <span class="font-serif text-xl text-[#D4AF37] -translate-y-2 font-bold drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]">♫</span>
+                    <span class="font-serif text-xl text-white font-bold translate-y-3 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">♩</span>
+                </div>
+            </div>
+            <div class="w-full relative">
+                <div class="staff-line h-24 w-full border-y border-white/20 flex items-center justify-around px-16">
+                    <span class="font-serif text-2xl text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">𝄢</span>
+                    <span class="font-serif text-xl text-[#D4AF37] -translate-y-2 font-bold drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]">♫</span>
+                    <span class="font-serif text-xl text-white font-bold translate-y-2 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">♩</span>
+                    <span class="font-serif text-xl text-white/80 -translate-y-1">♪</span>
+                    <span class="font-serif text-2xl text-white font-bold translate-y-3 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">♩</span>
+                </div>
+            </div>
+            <div class="w-full relative">
+                <div class="staff-line h-24 w-full border-y border-white/20 flex items-center justify-around px-10">
+                    <span class="font-serif text-2xl text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">𝄞</span>
+                    <span class="font-serif text-xl text-white/80 translate-y-1">♪</span>
+                    <span class="font-serif text-xl text-white font-bold -translate-y-3 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">♩</span>
+                    <span class="font-serif text-2xl text-[#D4AF37] translate-y-2 font-bold drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]">♫</span>
+                    <span class="font-serif text-xl text-white font-bold -translate-y-1 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">𝄢</span>
+                </div>
+            </div>
+            <div class="w-full relative">
+                <div class="staff-line h-24 w-full border-y border-white/20 flex items-center justify-around px-14">
+                    <span class="font-serif text-2xl text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">𝄢</span>
+                    <span class="font-serif text-xl text-white font-bold translate-y-2 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">♩</span>
+                    <span class="font-serif text-xl text-[#D4AF37] -translate-y-2 font-bold drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]">♫</span>
+                    <span class="font-serif text-xl text-white/80 translate-y-1">♪</span>
+                    <span class="font-serif text-2xl text-white font-bold -translate-y-3 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">♩</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page padding lives here now (not on body), so the header/footer
+         chrome can sit flush at the true viewport edge without fighting it. -->
+    <div class="page-pad">
+    <!-- Main Content Rectangle (z-10) with #181816 container surface -->
+    <main class="max-w-4xl mx-auto border border-[#3A3A36] bg-[#181814300] shadow-2xl relative z-10 text-[#F4F3EF]">
+        
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-[#3A3A36]">
+            
+            <!-- Left Column: Biography, Portrait & Manifesto -->
+            <div class="md:col-span-8 p-8 md:p-12 space-y-8">
+                
+                <div class="space-y-4">
+                    <span class="font-mono-archival text-xs uppercase tracking-widest text-[#D4AF37] block">INTRODUCTION</span>
+                    <h1 class="font-serif not-italic text-4xl text-[#F4F3EF]">
+                        I’m Kenneth Espinoza, but my friends call me 
+                        Ken<span class="text-[#5A5A58]">ny</span>E.
+                    </h1>
+                    <p class="font-sans text-lg text-[#A3A198] font-light leading-relaxed">
+                        Copywriter, creative strategist, and UT Austin Advertising graduate. I believe in clarity, cleverness, and truth. If you give me your attention, I’m going to earn it. Whether I’m writing a tagline or building a campaign, my goal is to make you feel something real.
+                    </p>
+                </div>
+
+                <!-- Portrait Frame: Raw Image Display without filters -->
+                <div class="border border-[#3A3A36] bg-[#181816] p-3 shadow-sm max-w-sm">
+                    <div class="aspect-[4/5] bg-[#121210] border border-[#3A3A36] flex flex-col items-center justify-center text-center p-4 relative overflow-hidden group">
+                        <img src="https://static.wixstatic.com/media/705587_09ff7b2c1b1948ceb5505fc49e78c6e8~mv2.jpg" alt="Kenneth Espinoza" class="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="mt-2 flex justify-between items-center text-[10px] font-mono-archival text-[#A3A198]">
+                        <span>FIG. 01</span>
+                        <span>AUSTIN, TX</span>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-[#121210] border-l-2 border-[#D4AF37] space-y-3">
+                    <span class="font-mono-archival text-xs text-[#A3A198] uppercase tracking-wider block">MY PHILOSOPHY</span>
+                    <blockquote class="font-hero italic text-2xl text-[#F4F3EF]">
+                        “To do is to be.”
+                    </blockquote>
+                    <p class="font-sans text-sm text-[#A3A198] leading-relaxed">
+                        There is no arbitrary waiting period to become the person you want to be. The second you start <strong>doing</strong> and putting in effort, you are already exactly who you are trying to <strong>be</strong>. The flip side is just as real. You cannot claim to be someone if you don't back it up with action.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="font-serif not-italic text-2xl text-[#F4F3EF]">The Mindset</h3>
+                    <p class="font-sans text-[#A3A198] leading-relaxed">
+                        This site is a reflection of that mindset. Whether you're here to hire me, collaborate, or just get inspired, welcome. Hope you find something that makes you feel something.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Status & Current Rotation Ledger -->
+            <div class="md:col-span-4 bg-[#121210] p-8 flex flex-col">
+                
+                <!-- Status & Stats -->
+                <div class="space-y-6">
+                    <div class="border-b border-[#3A3A36] pb-4">
+                        <span class="font-mono-archival text-xs uppercase tracking-widest text-[#A3A198] block mb-1">CURRENT STATUS</span>
+                        <span class="font-mono-archival text-sm text-[#F4F3EF] font-medium flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            AVAILABLE FOR CREATIVE ROLES
+                        </span>
+                    </div>
+
+                    <div class="border-b border-[#3A3A36] pb-4">
+                        <span class="font-mono-archival text-xs uppercase tracking-widest text-[#A3A198] block mb-1">PRIMARY FOCUS</span>
+                        <p class="font-sans text-sm text-[#F4F3EF]">Brand Strategy, Copywriting, Digital Experience</p>
+                    </div>
+                </div>
+
+                <!-- Current Rotation Ledger Widget -->
+                <div class="border border-[#3A3A36] bg-[#181816] p-5 shadow-sm space-y-4 mt-16 mb-4">
+                    <div class="flex items-center justify-between border-b border-[#3A3A36] pb-2">
+                        <span class="font-mono-archival text-xs uppercase tracking-wider text-[#F4F3EF] font-bold">CURRENT ROTATION</span>
+                        <span class="font-mono-archival text-[9px] text-[#D4AF37] uppercase tracking-widest">ACTIVE INDEX</span>
+                    </div>
+                    
+                    <!-- Adjustable height container -->
+                    <div class="space-y-2.5 font-mono-archival text-xs overflow-y-auto pr-1" style="max-height: 300px;">
+                        <div class="space-y-0.5 border-l-2 border-[#D4AF37] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">CAFÉ ZIMMERMANN</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Concerto for 4 Violins & Cello in B Minor, RV 580</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">DANIEL HOPE / MARCUS ROBERTS TRIO</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Gershwin Song Suite: I. Fascinating Rhythm</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">BRECON BAROQUE & RACHEL PODGER</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Violin Concerto in A Minor, Op. 3 No. 6: I. Allegro</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">TOKYO STRING QUARTET</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">String Quartet No. 16 in F Major, Op. 135</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">BORODIN QUARTET</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">String Quintet in C Major, D. 956: I. Allegro</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">VIENNA PHILHARMONIC & LEONARD BERNSTEIN</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Symphony No. 9 in D Minor ("Choral"): I. Allegro</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">CAFÉ ZIMMERMANN</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Concerto for 4 Violins: III. Allegro</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">TOKYO STRING QUARTET</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">String Quartet No. 14 in C-Sharp Minor, Op. 131</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">DANIEL HOPE / MARCUS ROBERTS TRIO</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Gershwin Song Suite: II. Summertime</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">ANDREW MANZE & RICHARD EGARR</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Sonata in F Minor, BWV 1018: II. Allegro</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">BRECON BAROQUE & RACHEL PODGER</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Violin Concerto in A Minor: III. Presto</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">DANIEL HOPE / MARCUS ROBERTS TRIO</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Gershwin Song Suite: V. I Got Rhythm</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">VIENNA PHILHARMONIC & CARLOS KLEIBER</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Symphony No. 7 in A Major: I. Poco sostenuto</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">PERLMAN & GIULINI</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Violin Concerto in D Major, Op. 61: III. Rondo</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">ANDREW MANZE & RICHARD EGARR</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Sonata in C Minor, BWV 1017: IV. Allegro</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">VIENNA PHILHARMONIC & LEONARD BERNSTEIN</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Symphony No. 9: II. Molto vivace</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">TOKYO STRING QUARTET</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">String Quartet No. 15 in A Minor, Op. 132</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">ANDREW MANZE & RICHARD EGARR</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Sonata in C Minor, BWV 1017: II. Allegro</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">ISRAEL PHILHARMONIC & ITZHAK PERLMAN</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">Violin Concerto in A Minor, RV 356: I. Allegro</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">TOKYO STRING QUARTET</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">String Quartet No. 13: IV. Alla danza tedesca</div>
+                        </div>
+
+                        <div class="space-y-0.5 border-l-2 border-[#3A3A36] pl-3 py-0.5">
+                            <div class="text-[9px] text-[#A3A198] uppercase">TOKYO STRING QUARTET</div>
+                            <div class="text-[11px] text-[#F4F3EF] italic font-serif">String Quartet No. 14: III. Allegro molto</div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 border-t border-[#3A3A36] text-[10px] text-[#A3A198] font-light font-mono-archival leading-tight flex justify-between items-center">
+                        <span>AUSTIN STRATEGY DESK</span>
+                        <a href="https://music.apple.com/fi/playlist/replay-2026/pl.rp-v2RRuddY5BJ" target="_blank" class="text-[#D4AF37] hover:underline uppercase tracking-wider">Apple Music ↗</a>
+                    </div>
+                </div>
+
+                <!-- Added Button Linked to Music Dashboard -->
+                <div class="mb-4">
+                    <a href="https://www.kenecreative.com/musicdashboard" target="_parent" class="w-full block text-center border border-[#3A3A36] hover:border-[#D4AF37] bg-[#181816] hover:bg-[#1a1a17] text-[#F4F3EF] font-mono-archival text-xs uppercase tracking-wider py-3 px-4 transition-colors duration-200">
+                        8 Years of Tunes ↗
+                    </a>
+                </div>
+
+                <!-- Simple Branding Footer -->
+                <div class="pt-4 border-t border-[#3A3A36] flex justify-between items-center text-[10px] font-mono-archival text-[#A3A198] mt-auto">
+                    <span>AUSTIN, TEXAS</span>
+                    <span>KENE CREATIVE</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+    </div>
+
+    <!-- ===== KenE site chrome: footer ===== -->
+    <footer class="staff-footer">
+      <div class="footer-top">
+        <p class="tempo-mark" aria-hidden="true">Ode to Joy, arr. KenE</p>
+      </div>
+
+      <div class="staff-track" id="staffTrack">
+        <nav class="notes" aria-label="Footer navigation">
+          <svg class="staff-lines" viewBox="0 0 1000 130" preserveAspectRatio="none" aria-hidden="true">
+            <line x1="0" y1="10" x2="1000" y2="10"></line>
+            <line x1="0" y1="32" x2="1000" y2="32"></line>
+            <line x1="0" y1="54" x2="1000" y2="54"></line>
+            <line x1="0" y1="76" x2="1000" y2="76"></line>
+            <line x1="0" y1="98" x2="1000" y2="98"></line>
+          </svg>
+
+          <div class="logo-wrap" aria-hidden="true">
+            <img src="https://static.wixstatic.com/media/705587_1dc95d7baf614605a69a707fde79aca7~mv2.png" alt="Ken E Creative Logo" class="staff-logo">
+            <span class="logo-caption">CREATIVE</span>
+          </div>
+
+          <a class="note" href="https://www.kenecreative.com/" target="_parent" style="--lift:43px; --i:0" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Home</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/works" target="_parent" style="--lift:43px; --i:1" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Works</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/about" target="_parent" style="--lift:54px; --i:2" data-freq="392.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">About</span>
+          </a>
+          <a class="note" href="https://instagram.com" style="--lift:65px; --i:3" target="_blank" rel="noopener" data-freq="440.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Instagram</span>
+          </a>
+
+          <span class="barline" aria-hidden="true"></span>
+
+          <a class="note" href="https://www.linkedin.com/in/kenneth-espinoza-79941a227" style="--lift:65px; --i:4" target="_blank" rel="noopener" data-freq="440.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">LinkedIn</span>
+          </a>
+          <a class="note" href="https://youtube.com" style="--lift:54px; --i:5" target="_blank" rel="noopener" data-freq="392.00">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Youtube</span>
+          </a>
+          <a class="note" href="https://tiktok.com" style="--lift:43px; --i:6" target="_blank" rel="noopener" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">TikTok</span>
+          </a>
+          <a class="note" href="mailto:kenneth@kenecreative.com" style="--lift:32px; --i:7" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Email</span>
+          </a>
+
+          <span class="barline" aria-hidden="true"></span>
+
+          <a class="note" href="https://www.kenecreative.com/works/unopenedletter" target="_parent" style="--lift:21px; --i:8" data-freq="293.66">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Unopened Letter</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/works/americanartistproject" target="_parent" style="--lift:21px; --i:9" data-freq="293.66">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">AAP</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/works/redcross" target="_parent" style="--lift:32px; --i:10" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Redcross</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/dutchbros" target="_parent" style="--lift:43px; --i:11" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Dutch Bros.</span>
+          </a>
+
+          <span class="barline" aria-hidden="true"></span>
+
+          <a class="note" href="https://www.kenecreative.com/musicdashboard" target="_parent" style="--lift:43px; --i:12" data-freq="369.99">
+            <span class="notehead-wrap" aria-hidden="true"><span class="accidental">&#9839;</span><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Music Archive</span>
+          </a>
+          <a class="note" href="https://www.kenecreative.com/dndtracker" target="_parent" style="--lift:32px; --i:13" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">DnD Tracker</span>
+          </a>
+          <a class="note" href="" target="_parent" style="--lift:32px; --i:14" data-freq="329.63">
+            <span class="notehead-wrap" aria-hidden="true"><span class="stem"></span><span class="notehead"></span></span>
+            <span class="label">Visualizer</span>
+          </a>
+
+          <span class="barline final" aria-hidden="true"></span>
+        </nav>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">&copy; 2026 by KenE Creative. All rights reserved.</p>
+        <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="soundLabel">Sound on</span>
+        </button>
+      </div>
+    </footer>
+
+    <script>
+    (function(){
+      var header = document.getElementById('staffHeader');
+      var sentinel = document.getElementById('scrollSentinel');
+      var toggle = document.getElementById('menuToggle');
+      var nav = document.getElementById('staffNav');
+
+      if ('IntersectionObserver' in window && header && sentinel) {
+        var io = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){ header.classList.toggle('scrolled', !entry.isIntersecting); });
+        }, { threshold: 0 });
+        io.observe(sentinel);
+      }
+
+      if (toggle && nav) {
+        toggle.addEventListener('click', function(){
+          var open = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!open));
+          nav.classList.toggle('open', !open);
+        });
+        nav.querySelectorAll('.hlink').forEach(function(link){
+          link.addEventListener('click', function(){
+            toggle.setAttribute('aria-expanded', 'false');
+            nav.classList.remove('open');
+          });
+        });
+      }
+
+      function detectActivePage(){
+        if (window.KENE_ACTIVE_PAGE) return window.KENE_ACTIVE_PAGE;
+        try {
+          var ref = document.referrer || '';
+          if (/\/works\/?(\?|#|$)/i.test(ref)) return 'works';
+          if (/\/about\/?(\?|#|$)/i.test(ref)) return 'about';
+          if (/kenecreative\.com\/?(\?|#|$)/i.test(ref)) return 'home';
+        } catch (e) {}
+        return null;
+      }
+      var active = detectActivePage();
+      if (active) {
+        var current = document.querySelector('.hlink[data-page="' + active + '"]');
+        if (current) current.setAttribute('data-current', 'true');
+      }
+
+      var track = document.getElementById('staffTrack');
+      var notes = Array.prototype.slice.call(document.querySelectorAll('.note'));
+
+      if (track) {
+        var footerObserver = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if (entry.isIntersecting) { track.classList.add('in-view'); footerObserver.disconnect(); }
+          });
+        }, { threshold: 0.35 });
+        footerObserver.observe(track);
+      }
+
+      var soundOn = true;
+      var audioCtx = null;
+      var soundToggle = document.getElementById('soundToggle');
+      var soundLabel = document.getElementById('soundLabel');
+
+      function initAudio() {
+        if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+        if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+      }
+
+      ['click', 'touchstart', 'scroll'].forEach(function(evt) {
+        window.addEventListener(evt, function unlock() {
+          initAudio();
+          window.removeEventListener(evt, unlock);
+        }, { once: true });
+      });
+
+      if (soundToggle) {
+        soundToggle.addEventListener('click', function(){
+          soundOn = !soundOn;
+          soundToggle.setAttribute('aria-pressed', String(soundOn));
+          soundLabel.textContent = soundOn ? 'Sound on' : 'Sound off';
+          initAudio();
+        });
+      }
+
+      function playTone(freq){
+        if (!soundOn) return;
+        initAudio();
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.35);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.36);
+      }
+
+      notes.forEach(function(n){
+        var freq = parseFloat(n.getAttribute('data-freq'));
+        if (!freq) return;
+        n.addEventListener('pointerenter', function(){ playTone(freq); });
+        n.addEventListener('focus', function(){ playTone(freq); });
+      });
+    })();
+    </script>
+</body>
+</html>
