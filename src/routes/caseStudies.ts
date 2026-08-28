@@ -65,11 +65,9 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         text: 'A new piano sound for those days that feel like memories.',
         emphasis: 'memories',
       },
-      portrait: {
-        image: '/works/unopenedletter/nicholas-jimenez.webp',
-        alt: 'Nicholas Jimenez seated at a grand piano',
-        caption: 'Nicholas Jimenez',
-      },
+      // TODO(kenneth): image placements reverted pending labelled files.
+      // Available in public/works/unopenedletter/: cover-original, cover-rework,
+      // envelope-ref, nicholas-jimenez.
       triad: {
         challenge:
           'In a streaming feed flooded with millions of instrumental tracks, contemporary piano slips into background noise.',
@@ -86,18 +84,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         body: [
           "Nick's original cover was an impressionistic painting of a letter resting on a piano. It caught the nostalgia, but it was not memorable.",
           'We rebuilt the art around a sharper, more ownable image so the track had a face a listener could recall a week later.',
-        ],
-        media: [
-          {
-            image: '/works/unopenedletter/cover-original.webp',
-            alt: 'Original impressionistic album cover, a painted letter on a piano',
-            caption: 'Before, the original concept',
-          },
-          {
-            image: '/works/unopenedletter/cover-rework.webp',
-            alt: 'Reworked cover, a sealed envelope framed in a CD case',
-            caption: 'After, the rework',
-          },
         ],
       },
       {
@@ -116,23 +102,12 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           'The video campaign built a visual parallel to the memories the music evokes: the bittersweet pull toward moments that have already passed.',
           'We cut four versions, two final selections and two alternates, to test how far to lean into the ache.',
         ],
-        media: [
-          {
-            image: '/works/unopenedletter/envelope-ref.webp',
-            alt: 'A cream envelope with a red wax seal in dappled light',
-          },
-        ],
       },
     ],
     artefacts: {
       title: 'The deliverables',
       items: [
-        {
-          label: 'Album cover',
-          note: 'Rework',
-          field: 1,
-          image: '/works/unopenedletter/cover-rework.webp',
-        },
+        { label: 'Album cover', note: 'Rework', field: 1 },
         { label: 'Ad copy set', note: 'A/B tested', field: 1 },
         { label: 'Final cut 1', field: 1, pending: 'video' },
         { label: 'Final cut 2', field: 1, pending: 'video' },
