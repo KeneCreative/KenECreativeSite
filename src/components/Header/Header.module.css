@@ -20,10 +20,11 @@
 }
 
 .inner {
-  max-width: var(--wrap);
-  margin: 0 auto;
+  /* full-bleed: brand pinned to the left edge, nav to the right edge */
+  width: 100%;
+  margin: 0;
   height: var(--header-h);
-  padding: 0 clamp(16px, 3vw, 40px);
+  padding: 0 clamp(18px, 4vw, 56px);
   display: flex;
   align-items: center;
   justify-content: space-between;
