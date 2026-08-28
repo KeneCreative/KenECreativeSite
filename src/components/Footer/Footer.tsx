@@ -118,6 +118,7 @@ export default function Footer() {
                 <Link
                   key={item.label}
                   to={item.to}
+                  viewTransition
                   className={styles.note}
                   style={style}
                   onPointerEnter={() => playTone(item.freq)}

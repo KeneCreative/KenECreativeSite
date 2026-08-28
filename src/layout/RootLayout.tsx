@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Header from '@/components/Header/Header'
 import Footer from '@/components/Footer/Footer'
 import ScoreCanvas from '@/webgl/ScoreCanvas'
 import { useScore } from '@/store/useScore'
+import { scrollToTop } from '@/lib/lenis'
 import styles from './RootLayout.module.css'
 
 /** Routes where the persistent canvas parks its render loop. */
@@ -13,8 +14,9 @@ export default function RootLayout() {
   const { pathname } = useLocation()
   const setPaused = useScore((s) => s.setPaused)
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
+  // Reset scroll before the browser paints the new route.
+  useLayoutEffect(() => {
+    scrollToTop()
   }, [pathname])
 
   useEffect(() => {

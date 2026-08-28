@@ -44,6 +44,7 @@ export default function Header() {
         <div className={styles.inner}>
           <NavLink
             to="/"
+            viewTransition
             className={styles.brand}
             aria-label="KenE Creative, home"
             onClick={() => setMenuOpen(false)}
@@ -77,6 +78,7 @@ export default function Header() {
                 key={item.to}
                 to={item.to}
                 end={item.end}
+                viewTransition
                 className={({ isActive }) =>
                   `${styles.hlink} ${isActive ? styles.current : ''}`
                 }

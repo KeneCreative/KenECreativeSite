@@ -86,3 +86,44 @@ a {
     scroll-behavior: auto;
   }
 }
+
+/* ---- Lenis smooth scroll ---- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ---- route transition: the barline wipe ----
+   The incoming view is revealed left-to-right behind a hard vertical edge,
+   like a barline being drawn across the page. The old view holds underneath. */
+@keyframes barline-wipe-in {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+::view-transition-old(root) {
+  animation: none;
+}
+::view-transition-new(root) {
+  animation: barline-wipe-in 380ms cubic-bezier(0.72, 0, 0.24, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+}
