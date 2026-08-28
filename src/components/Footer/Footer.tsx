@@ -99,8 +99,15 @@ export default function Footer() {
             )
 
             if (item.disabled) {
+              // Not a link yet, but it is still a note on the staff — it sounds on hover.
               return (
-                <span key={item.label} className={styles.note} style={style} aria-disabled="true">
+                <span
+                  key={item.label}
+                  className={styles.note}
+                  style={style}
+                  aria-disabled="true"
+                  onPointerEnter={() => playTone(item.freq)}
+                >
                   {glyph}
                 </span>
               )
