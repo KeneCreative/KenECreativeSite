@@ -8,7 +8,7 @@ export default function NotFound() {
       <div className={s.page}>
         <p className={s.kicker}>404</p>
         <h1 className={s.title}>
-          Rest — <em>tacet</em>
+          Rest. <em>Tacet</em>.
         </h1>
         <p className={s.lede}>
           This page isn&rsquo;t in the score.{' '}

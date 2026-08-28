@@ -22,7 +22,12 @@ export default function Overture() {
 
         <div className={s.heroCards}>
           {PROJECTS.map((p) => (
-            <Link key={p.slug} to={`/works/${p.slug}`} className={s.heroCard}>
+            <Link
+              key={p.slug}
+              to={`/works/${p.slug}`}
+              viewTransition
+              className={s.heroCard}
+            >
               <span className={s.tag}>{p.meta}</span>
               <span className={s.name}>{p.name}</span>
             </Link>
@@ -30,9 +35,9 @@ export default function Overture() {
         </div>
 
         <p className={s.migrateNote}>
-          Step 2 — the persistent WebGL2 <code>ScoreCanvas</code> is live behind this page:
-          move the pointer to conduct it, scroll to resolve it to a five-line staff. The
-          drag carousel and the barline-wipe transitions land in Step 3.
+          <Link to="/works" viewTransition style={{ color: 'var(--brass)' }}>
+            All works
+          </Link>
         </p>
       </div>
     </PageTransition>
