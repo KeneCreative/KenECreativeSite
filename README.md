@@ -40,9 +40,18 @@ legacy/                      original standalone HTML (referenced by /musicdashb
 The music dashboard (`/musicdashboard`) is embedded from `legacy/musicdashboard.html`
 via a lazy iframe, re-themed to the site palette on load.
 
+## Assets
+
+Optimized web images live in `public/works/<slug>/`. Raw source media (originals,
+campaign videos) stays local under `legacy/Images/` (gitignored). After adding new
+raster files to `public/works/`, run `npm run optimize-images` (sharp → webp).
+
 ## Not yet done
 
-- Real project / artefact images (currently gradient placeholder tiles)
+- Case-study images: AAP and Unopened Letter are wired; Red Cross and Dutch Bros
+  still use gradient tiles
+- Unopened Letter campaign videos need hosting (YouTube / Vimeo / Cloudflare Stream)
+  then embed URLs into `caseStudies.ts`
 - DnD Tracker route is a stub
 - Self-hosted fonts (currently Google Fonts `<link>`)
 - Code-split GSAP
