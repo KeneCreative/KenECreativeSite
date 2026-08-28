@@ -1,13 +1,23 @@
 export type Triad = { challenge: string; insight: string; strategy: string }
 
+export type Media = { image: string; alt: string; caption?: string }
+
 export type CraftSection = {
   kicker: string
   title: string
   body: string[]
   pullQuote?: string
+  media?: Media[]
 }
 
-export type Artefact = { label: string; note?: string; field: 1 | 2 | 3 | 4 }
+export type Artefact = {
+  label: string
+  note?: string
+  field: 1 | 2 | 3 | 4
+  image?: string
+  href?: string
+  pending?: 'video'
+}
 
 export type Stat = {
   value: number
@@ -26,14 +36,16 @@ export type CaseStudy = {
   year: string
   field: 1 | 2 | 3 | 4
   disciplines: string[]
+  audio?: { src: string; label: string }
   brief: {
     role: string
     strategyLine: { text: string; emphasis: string }
     triad?: Triad
+    portrait?: Media
   }
   craft: CraftSection[]
   artefacts: { title: string; items: Artefact[] }
-  results: { intro: string; stats: Stat[]; note?: string }
+  results: { intro: string; stats: Stat[]; note?: string; media?: Media[] }
 }
 
 export const CASE_STUDIES: Record<string, CaseStudy> = {
@@ -44,12 +56,18 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     year: '2025',
     field: 1,
     disciplines: ['Creative Strategy', 'Copywriting', 'Campaign'],
+    audio: { src: '/works/unopenedletter/track.mp3', label: 'Unopened Letter, Nicholas Jimenez' },
     brief: {
       role:
         "Nicholas Jimenez is an American concert pianist, composer, and educator based in Austin. As former roommates, we collaborated on a campaign for his new piece, Unopened Letter. I built the creative strategy and wrote the copy, anchoring the whole campaign to one feeling: the universal ache of longing.",
       strategyLine: {
         text: 'A new piano sound for those days that feel like memories.',
         emphasis: 'memories',
+      },
+      portrait: {
+        image: '/works/unopenedletter/nicholas-jimenez.webp',
+        alt: 'Nicholas Jimenez seated at a grand piano',
+        caption: 'Nicholas Jimenez',
       },
       triad: {
         challenge:
@@ -68,6 +86,18 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           "Nick's original cover was an impressionistic painting of a letter resting on a piano. It caught the nostalgia, but it was not memorable.",
           'We rebuilt the art around a sharper, more ownable image so the track had a face a listener could recall a week later.',
         ],
+        media: [
+          {
+            image: '/works/unopenedletter/cover-original.webp',
+            alt: 'Original impressionistic album cover, a painted letter on a piano',
+            caption: 'Before, the original concept',
+          },
+          {
+            image: '/works/unopenedletter/cover-rework.webp',
+            alt: 'Reworked cover, a sealed envelope framed in a CD case',
+            caption: 'After, the rework',
+          },
+        ],
       },
       {
         kicker: 'Copywriting and testing',
@@ -85,17 +115,28 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           'The video campaign built a visual parallel to the memories the music evokes: the bittersweet pull toward moments that have already passed.',
           'We cut four versions, two final selections and two alternates, to test how far to lean into the ache.',
         ],
+        media: [
+          {
+            image: '/works/unopenedletter/envelope-ref.webp',
+            alt: 'A cream envelope with a red wax seal in dappled light',
+          },
+        ],
       },
     ],
     artefacts: {
       title: 'The deliverables',
       items: [
-        { label: 'Album cover', note: 'Rework', field: 1 },
+        {
+          label: 'Album cover',
+          note: 'Rework',
+          field: 1,
+          image: '/works/unopenedletter/cover-rework.webp',
+        },
         { label: 'Ad copy set', note: 'A/B tested', field: 1 },
-        { label: 'Final cut 1', field: 1 },
-        { label: 'Final cut 2', field: 1 },
-        { label: 'Alternate cut 1', field: 1 },
-        { label: 'Alternate cut 2', field: 1 },
+        { label: 'Final cut 1', field: 1, pending: 'video' },
+        { label: 'Final cut 2', field: 1, pending: 'video' },
+        { label: 'Alternate cut 1', field: 1, pending: 'video' },
+        { label: 'Alternate cut 2', field: 1, pending: 'video' },
       ],
     },
     results: {
@@ -142,6 +183,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           'Planned and promoted a donor dance party during Amplify Austin to drive votes for AAP.',
           'Secured a venue partnership with Rain on 4th, ran drink-ticket incentives, and drove attendance and on-site donations through influencer outreach.',
         ],
+        media: [
+          {
+            image: '/works/aap/partner-rainbow.webp',
+            alt: 'Instagram profile of a community partner that shared the event',
+            caption: 'A community partner amplifying the campaign',
+          },
+        ],
       },
       {
         kicker: 'Act II',
@@ -151,6 +199,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           "I researched organisations and micro-influencers aligned with AAP's mission and wrote each a tailored invitation. Several partners shared the event on their Instagram Stories.",
         ],
         pullQuote: 'Recognition drives participation.',
+        media: [
+          {
+            image: '/works/aap/influencer-secret-aap.webp',
+            alt: 'Instagram post from a micro-influencer supporting AAP',
+          },
+          {
+            image: '/works/aap/influencer-reggaeton.webp',
+            alt: 'A second micro-influencer post supporting AAP',
+          },
+        ],
       },
       {
         kicker: 'Acts III and IV',
@@ -159,25 +217,77 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           'I independently researched, wrote, and designed a donor travel guide for a curated Broadway Brunch weekend in Portland, Maine.',
           'When leadership needed an impact report immediately after a donor meeting, I researched, structured, and produced it in a 24-hour turnaround with no prior experience making one.',
         ],
+        media: [
+          {
+            image: '/works/aap/travel-guide-01.webp',
+            alt: 'Cover page of the Portland, Maine donor travel guide',
+            caption: 'Donor travel guide',
+          },
+          {
+            image: '/works/aap/impact-report-01.webp',
+            alt: 'Cover of the American Artist Project impact report',
+            caption: '24-hour impact report',
+          },
+        ],
       },
     ],
     artefacts: {
       title: 'The deliverables',
       items: [
         { label: 'Outreach emails', note: 'Partnership', field: 2 },
-        { label: 'Donor Travel Guide', note: '12 pages', field: 2 },
-        { label: '24hr Impact Report', note: '4 pages', field: 2 },
-        { label: 'Influencer posts', note: 'Secret AAP, Reggaetón', field: 2 },
-        { label: 'Community partner posts', field: 2 },
+        {
+          label: 'Donor Travel Guide',
+          note: '12 pages, PDF',
+          field: 2,
+          image: '/works/aap/travel-guide-02.webp',
+          href: '/works/aap/travel-guide.pdf',
+        },
+        {
+          label: '24hr Impact Report',
+          note: 'PDF',
+          field: 2,
+          image: '/works/aap/impact-report-02.webp',
+          href: '/works/aap/impact-report.pdf',
+        },
+        {
+          label: 'Influencer posts',
+          note: 'Secret AAP, Reggaetón',
+          field: 2,
+          image: '/works/aap/influencer-reggaeton.webp',
+        },
+        {
+          label: 'Community partner posts',
+          field: 2,
+          image: '/works/aap/partner-rainbow.webp',
+        },
       ],
     },
     results: {
       intro: 'Amplify Austin, 2024 to 2025.',
       stats: [
-        { value: 6, prefix: '#', label: 'Citywide leaderboard placement', sub: 'Up from #48' },
+        {
+          value: 130326,
+          format: 'comma',
+          prefix: '$',
+          label: 'Raised on Amplify Austin',
+          sub: '2025, from 220 donors',
+        },
+        { value: 6, prefix: '#', label: 'Citywide leaderboard', sub: 'Up from #48 the year before' },
         { value: 1, suffix: 'st', label: 'Medium-size nonprofit category', sub: '2025' },
       ],
       note: 'Partners and micro-influencers amplified the campaign across their own channels.',
+      media: [
+        {
+          image: '/works/aap/leaderboard-2024.webp',
+          alt: 'Amplify Austin leaderboard, 2024',
+          caption: '2024',
+        },
+        {
+          image: '/works/aap/leaderboard-2025.webp',
+          alt: 'Amplify Austin leaderboard, 2025, with American Artist Project at sixth',
+          caption: '2025',
+        },
+      ],
     },
   },
 

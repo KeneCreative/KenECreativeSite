@@ -3,7 +3,13 @@ import { Link, useParams } from 'react-router-dom'
 import { motion, useReducedMotion } from 'motion/react'
 import PageTransition from '@/components/PageTransition'
 import CountUp from '@/components/CountUp'
-import { CASE_STUDIES, CASE_STUDY_SLUGS, type Stat } from './caseStudies'
+import {
+  CASE_STUDIES,
+  CASE_STUDY_SLUGS,
+  type Artefact,
+  type Media,
+  type Stat,
+} from './caseStudies'
 import s from './caseStudy.module.css'
 import w from './works.module.css'
 
@@ -22,6 +28,19 @@ function Reveal({ children, className }: { children: ReactNode; className?: stri
     >
       {children}
     </motion.div>
+  )
+}
+
+function MediaRow({ media }: { media: Media[] }) {
+  return (
+    <div className={s.mediaRow} data-count={media.length}>
+      {media.map((m) => (
+        <figure key={m.image} className={s.figure}>
+          <img src={m.image} alt={m.alt} loading="lazy" decoding="async" />
+          {m.caption && <figcaption>{m.caption}</figcaption>}
+        </figure>
+      ))}
+    </div>
   )
 }
 
@@ -88,6 +107,36 @@ function StatCell({ stat }: { stat: Stat }) {
   )
 }
 
+function ArtefactTile({ item }: { item: Artefact }) {
+  const inner = (
+    <>
+      {item.image ? (
+        <img className={s.artefactImg} src={item.image} alt={item.label} loading="lazy" decoding="async" />
+      ) : (
+        <span className={`${s.artefactField} ${FIELD[item.field]}`} aria-hidden="true" />
+      )}
+      <span className={s.artefactScrim} aria-hidden="true" />
+      <span className={s.artefactMeta}>
+        <span className={s.artefactLabel}>{item.label}</span>
+        {item.pending === 'video' ? (
+          <span className={s.artefactNote}>Video, hosting pending</span>
+        ) : (
+          item.note && <span className={s.artefactNote}>{item.note}</span>
+        )}
+      </span>
+    </>
+  )
+
+  if (item.href) {
+    return (
+      <a className={s.artefact} href={item.href} target="_blank" rel="noopener noreferrer">
+        {inner}
+      </a>
+    )
+  }
+  return <div className={s.artefact}>{inner}</div>
+}
+
 export default function CaseStudy() {
   const { slug = '' } = useParams()
   const cs = CASE_STUDIES[slug]
@@ -134,6 +183,31 @@ export default function CaseStudy() {
               emphasis={cs.brief.strategyLine.emphasis}
             />
           </Reveal>
+
+          {(cs.brief.portrait || cs.audio) && (
+            <Reveal>
+              <div className={s.briefAside}>
+                {cs.brief.portrait && (
+                  <figure className={s.portrait}>
+                    <img
+                      src={cs.brief.portrait.image}
+                      alt={cs.brief.portrait.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    {cs.brief.portrait.caption && <figcaption>{cs.brief.portrait.caption}</figcaption>}
+                  </figure>
+                )}
+                {cs.audio && (
+                  <div className={s.audio}>
+                    <span className={s.audioLabel}>{cs.audio.label}</span>
+                    <audio controls preload="none" src={cs.audio.src} />
+                  </div>
+                )}
+              </div>
+            </Reveal>
+          )}
+
           {cs.brief.triad && (
             <Reveal>
               <div className={s.triad}>
@@ -169,7 +243,10 @@ export default function CaseStudy() {
                     ))}
                   </div>
                 </div>
-                <div>{sec.pullQuote && <p className={s.pullQuote}>{sec.pullQuote}</p>}</div>
+                <div className={s.craftAside}>
+                  {sec.pullQuote && <p className={s.pullQuote}>{sec.pullQuote}</p>}
+                  {sec.media && <MediaRow media={sec.media} />}
+                </div>
               </div>
             </Reveal>
           ))}
@@ -180,18 +257,10 @@ export default function CaseStudy() {
           <MovementHeader n={2} title={cs.artefacts.title} />
           <div className={s.artefactRow}>
             {cs.artefacts.items.map((a) => (
-              <div key={a.label} className={s.artefact}>
-                <span className={`${s.artefactField} ${FIELD[a.field]}`} aria-hidden="true" />
-                <span className={s.artefactLabel}>{a.label}</span>
-                {a.note && <span className={s.artefactNote}>{a.note}</span>}
-              </div>
+              <ArtefactTile key={a.label} item={a} />
             ))}
           </div>
           <p className={s.artefactCaption}>Drag or scroll to move through the artefacts</p>
-          <p className={s.imgNote}>
-            Placeholder tiles. This section needs the real deliverable images and video stills:{' '}
-            {cs.artefacts.items.map((a) => a.label).join(', ')}.
-          </p>
         </section>
 
         {/* Movement IV — Results */}
@@ -207,6 +276,11 @@ export default function CaseStudy() {
               ))}
             </div>
           </Reveal>
+          {cs.results.media && (
+            <Reveal>
+              <MediaRow media={cs.results.media} />
+            </Reveal>
+          )}
           {cs.results.note && (
             <Reveal>
               <p className={s.resultsNote}>{cs.results.note}</p>
@@ -220,7 +294,14 @@ export default function CaseStudy() {
             <Link to="/works" className={s.backLink}>
               All works
             </Link>
-            <span style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', alignItems: 'flex-end' }}>
+            <span
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.4rem',
+                alignItems: 'flex-end',
+              }}
+            >
               <span className={s.nextLabel}>Next</span>
               <Link to={`/works/${next.slug}`} viewTransition className={s.nextLink}>
                 {next.title}

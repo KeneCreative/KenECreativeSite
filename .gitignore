@@ -3,3 +3,7 @@ dist
 .DS_Store
 *.local
 .vite
+
+# Source media for case studies — the optimized web versions live in public/works/.
+# Raw originals (incl. multi-hundred-MB campaign videos) stay local only.
+legacy/Images/
