@@ -1,0 +1,88 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   KenE Creative — locked design tokens
+   Palette and type carried verbatim from the legacy site,
+   now applied identically on every surface.
+   ============================================================ */
+:root {
+  --ground: #0b0b0d;
+  --paper: #f4f1ea;
+  --paper-ink: #1a1a18;
+  --ink: #f5f3ef;
+  --ink-pure: #ffffff; /* header + footer chrome sit on true black */
+  --ink-soft: rgba(255, 255, 255, 0.16);
+  --ink-dim: rgba(255, 255, 255, 0.55);
+  --brass: #f2b44b;
+  --crimson: #e05643;
+
+  --header-h: 72px;
+  --header-h-mobile: 62px;
+
+  --font-display: 'Bodoni Moda', 'Didot', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --font-hand: 'Caveat', cursive;
+
+  --wrap: 1400px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* hidden scrollbars — carried from the legacy site */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.route-fallback {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  min-height: 60dvh;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -1,0 +1,342 @@
+/* Ported verbatim from legacy/kenefooter.html — geometry, motion and sizing unchanged. */
+
+.footer {
+  --paper: transparent;
+  --ink: #ffffff;
+  --ink-soft: rgba(255, 255, 255, 0.16);
+  --staff-offset: 340px;
+  --staff-lines-offset: 150px;
+  --scale-desktop: 0.7;
+  --scale-large: 1;
+  --scale-mobile: 0.375;
+
+  background: var(--paper);
+  color: var(--ink);
+  border-top: 1px solid var(--ink-soft);
+  padding: 20px clamp(8px, 2vw, 20px) 0;
+  zoom: var(--scale-desktop);
+  font-family: var(--font-body);
+  flex: 0 0 auto;
+}
+
+.footerTop {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  max-width: 100%;
+  margin: 0 auto;
+  padding-bottom: 4px;
+}
+
+.tempoMark {
+  font-family: var(--font-hand);
+  font-size: 22px;
+  color: var(--crimson);
+  transform: rotate(-3deg);
+  margin: 0;
+  position: relative;
+  top: 0;
+}
+
+.staffTrack {
+  position: relative;
+  max-width: 100%;
+  margin: 16px auto 0;
+  padding-top: 0;
+  overflow: visible;
+}
+
+.staffLines {
+  position: absolute;
+  top: 0;
+  left: var(--staff-lines-offset);
+  width: calc(100% - var(--staff-lines-offset));
+  height: 130px;
+  pointer-events: none;
+}
+.staffLines line {
+  stroke: var(--ink);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.notes {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  overflow-x: visible;
+  row-gap: 28px;
+  padding: 0 0 68px var(--staff-offset);
+  margin: 0;
+  justify-content: space-between;
+}
+
+.logoWrap {
+  position: absolute;
+  top: -53px;
+  left: -20px;
+  right: auto;
+  z-index: 20;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  pointer-events: none;
+}
+
+.staffLogo {
+  display: block;
+  height: 230px;
+  width: auto;
+  object-fit: contain;
+  filter: invert(1);
+}
+
+.logoCaption {
+  font-family: var(--font-display);
+  font-size: 85px;
+  font-weight: 600;
+  font-optical-sizing: auto;
+  line-height: 0.85;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin: 18px 0 0 10px;
+  white-space: nowrap;
+}
+
+.note {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink);
+  padding: 0 14px;
+  outline: none;
+  opacity: 0;
+  transform: translateY(14px) scale(1.7);
+  transform-origin: bottom center;
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: calc(var(--i) * 60ms);
+}
+.inView .note {
+  opacity: 1;
+  transform: none;
+}
+
+.noteheadWrap {
+  position: relative;
+  width: 26px;
+  height: 130px;
+}
+.stem {
+  position: absolute;
+  bottom: var(--lift);
+  left: calc(50% + 7px);
+  width: 2px;
+  height: 36px;
+  background: var(--ink);
+  transition: background 0.2s ease;
+}
+.notehead {
+  position: absolute;
+  bottom: calc(var(--lift) - 7px);
+  left: 52%;
+  width: 19px;
+  height: 13px;
+  border-radius: 55%;
+  background: var(--ink);
+  transform: translateX(-50%) rotate(-30deg);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
+}
+.accidental {
+  position: absolute;
+  left: calc(50% - 16px);
+  bottom: calc(var(--lift) - 6px);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: color 0.2s ease;
+}
+
+.label {
+  margin-top: 0;
+  font-size: 16.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.note:hover .notehead,
+.note:focus-visible .notehead {
+  background: var(--brass);
+  transform: translateX(-50%) rotate(-20deg) scale(1.18) translateY(-3px);
+}
+.note:hover .stem,
+.note:focus-visible .stem {
+  background: var(--brass);
+}
+.note:hover .accidental,
+.note:focus-visible .accidental {
+  color: var(--brass);
+}
+.note:hover .label,
+.note:focus-visible .label {
+  color: var(--brass);
+  border-color: var(--brass);
+}
+.note:focus-visible {
+  box-shadow: 0 0 0 2px var(--brass);
+  border-radius: 4px;
+}
+
+.barline {
+  align-self: stretch;
+  width: 1px;
+  background: var(--ink);
+  margin: 0 6px 28px;
+  min-height: 130px;
+}
+.final {
+  width: 5px;
+  background: linear-gradient(
+    to right,
+    var(--ink) 0 1px,
+    transparent 1px 3px,
+    var(--ink) 3px 5px
+  );
+  background-color: transparent;
+}
+
+.footerBottom {
+  width: 100%;
+  padding: 30px clamp(8px, 2vw, 20px) 0;
+  border-top: 1px solid var(--ink-soft);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+}
+.copyright {
+  grid-column: 2;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  white-space: nowrap;
+}
+.soundToggle {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid var(--ink-soft);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.soundToggle:hover,
+.soundToggle:focus-visible {
+  border-color: var(--brass);
+  color: var(--brass);
+}
+.soundToggle .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--crimson);
+  transition: background 0.2s ease;
+}
+.soundToggle[aria-pressed='false'] .dot {
+  background: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .note {
+    transition: none;
+    transition-delay: 0s;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (min-width: 1920px) {
+  .footer {
+    zoom: var(--scale-large);
+  }
+}
+
+@media (max-width: 900px) {
+  .footerBottom {
+    border-top: 1px solid var(--ink-soft);
+    margin-top: 20px;
+    padding-top: 5px;
+  }
+  .footer {
+    zoom: var(--scale-mobile);
+  }
+  .staffLines {
+    display: none;
+  }
+  .staffTrack {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow: visible;
+  }
+  .logoWrap {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    margin-left: 45px;
+    margin-right: 12px;
+    margin-bottom: 0;
+    height: auto;
+    width: auto;
+    flex: 0 0 auto;
+  }
+  .staffLogo {
+    height: 100px;
+    width: auto;
+  }
+  .logoCaption {
+    font-size: 38px;
+    margin: 0;
+    line-height: 0.85;
+  }
+  .note {
+    height: 150px;
+    padding: 0 6px;
+  }
+  .noteheadWrap {
+    height: 130px;
+  }
+  .barline {
+    height: 150px;
+    margin-bottom: 0;
+  }
+  .notes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0 !important;
+    margin: 0;
+    gap: 12px 14px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='150'%3E%3Cline x1='0' y1='10' x2='10' y2='10' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='32' x2='10' y2='32' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='54' x2='10' y2='54' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='76' x2='10' y2='76' stroke='white' stroke-width='1'/%3E%3Cline x1='0' y1='98' x2='10' y2='98' stroke='white' stroke-width='1'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 10px 150px;
+  }
+}
