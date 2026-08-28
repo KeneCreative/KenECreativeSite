@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import PageTransition from '@/components/PageTransition'
+import NameReveal from '@/components/NameReveal'
 import { PROJECTS } from './projects'
 import s from './routes.module.css'
 
@@ -8,9 +9,7 @@ export default function Overture() {
     <PageTransition>
       <section className={s.hero}>
         <p className={s.kicker}>KenE Creative</p>
-        <h1 className={s.title}>
-          Kenneth <em>Espinoza</em>
-        </h1>
+        <NameReveal />
         <p className={s.lede}>
           Creative strategist and developer in Austin, Texas. Brand strategy,
           copywriting, and digital experience, composed like a score.
