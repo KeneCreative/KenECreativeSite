@@ -33,41 +33,54 @@ const HERO_STATS = [
 ]
 
 /**
- * The Archive. Lazy route, its own chunk. Entering it turns the page to paper
- * (the one sanctioned theme switch). An overture screen precedes the full
- * dashboard, which is embedded from the preserved legacy build with its
- * duplicate site chrome stripped on load.
+ * The Archive. Lazy route, its own chunk. The embedded dashboard already ships
+ * a dark KenE theme; this route stays dark to match and nudges the frame's
+ * tokens (and chart tints) onto the site's exact palette so the seam disappears.
  */
 export default function Archive() {
   const reduce = useReducedMotion()
   const frameRef = useRef<HTMLIFrameElement>(null)
 
-  const stripChrome = useCallback(() => {
+  const alignFrame = useCallback(() => {
     const doc = frameRef.current?.contentDocument
     if (!doc) return
     try {
       const style = doc.createElement('style')
       style.textContent = `
+        /* strip the duplicate site chrome + the frame's own title hero */
         #kene-header-root, #staffHeader, .staff-header, .staff-footer { display: none !important; }
-        /* the legacy build's own title hero — this route's overture covers it */
         body > section:first-of-type { display: none !important; }
         body { padding-top: 0 !important; }
+
+        /* pull the frame onto the site's exact tokens */
+        :root {
+          --kene-bg: #0b0b0d !important;
+          --kene-paper: #141417 !important;
+          --kene-text: #f5f3ef !important;
+          --kene-muted: rgba(245,243,239,0.62) !important;
+          --kene-rule: rgba(245,243,239,0.14) !important;
+          --kene-gold: #f2b44b !important;
+        }
+        .text-brand-600, .text-brand-700, .text-amber-600, .text-amber-500 { color: #f2b44b !important; }
+        .bg-brand-500, .bg-brand-600 { background-color: #f2b44b !important; color: #0b0b0d !important; }
+        .border-brand-200, .border-brand-100, .border-brand-200\\/70 { border-color: rgba(242,180,75,0.28) !important; }
+        .shadow-sm, .shadow, .shadow-md { box-shadow: none !important; }
       `
       doc.head.appendChild(style)
     } catch {
-      /* cross-origin in some contexts — leave the embedded chrome in place */
+      /* cross-origin in some contexts — leave the frame as-is */
     }
   }, [])
 
   return (
     <PageTransition>
-      <motion.div
-        className={s.paper}
-        initial={reduce ? false : { clipPath: 'inset(0 0 100% 0)' }}
-        animate={{ clipPath: 'inset(0 0 0% 0)' }}
-        transition={{ duration: 0.6, ease: [0.72, 0, 0.24, 1] }}
-      >
-        <section className={`${s.wrap} ${s.overture}`}>
+      <div className={s.root}>
+        <motion.section
+          className={`${s.wrap} ${s.overture}`}
+          initial={reduce ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        >
           <p className={s.eyebrow}>Quantitative listening analysis, 2018 to 2026</p>
           <h1 className={s.title}>My Musical Archive</h1>
           <p className={s.intro}>
@@ -91,7 +104,7 @@ export default function Archive() {
               </div>
             ))}
           </dl>
-        </section>
+        </motion.section>
 
         <section className={`${s.wrap} ${s.embedSection}`}>
           <div className={s.embedHead}>
@@ -106,13 +119,13 @@ export default function Archive() {
             src={DASHBOARD_SRC}
             title="Apple Music long-term listening analysis, 2018 to 2026"
             loading="lazy"
-            onLoad={stripChrome}
+            onLoad={alignFrame}
           />
           <p className={s.frameNote}>
             Preserved from the original build. Charts and tables mount inside the frame.
           </p>
         </section>
-      </motion.div>
+      </div>
     </PageTransition>
   )
 }
