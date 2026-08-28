@@ -17,6 +17,8 @@
   zoom: var(--scale-desktop);
   font-family: var(--font-body);
   flex: 0 0 auto;
+  position: relative;
+  z-index: 1; /* above the fixed ScoreCanvas */
 }
 
 .footerTop {

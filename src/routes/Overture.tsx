@@ -6,16 +6,18 @@ import s from './routes.module.css'
 export default function Overture() {
   return (
     <PageTransition>
-      <div className={s.page}>
-        <p className={s.kicker}>KenE Creative — Movement I</p>
+      <section className={s.hero}>
+        <p className={s.kicker}>KenE Creative</p>
         <h1 className={s.title}>
           Kenneth <em>Espinoza</em>
         </h1>
         <p className={s.lede}>
           Creative strategist and developer in Austin, Texas. Brand strategy,
-          copywriting, and digital experience — composed like a score.
+          copywriting, and digital experience, composed like a score.
         </p>
+      </section>
 
+      <div className={s.page}>
         <div className={s.staff} aria-hidden="true" />
 
         <div className={s.heroCards}>
@@ -28,9 +30,9 @@ export default function Overture() {
         </div>
 
         <p className={s.migrateNote}>
-          Step 1 — parity shell. The persistent WebGL2 <code>ScoreCanvas</code> and the
-          drag carousel land in Step 2. Original hero preserved at{' '}
-          <code>legacy/index.html</code>.
+          Step 2 — the persistent WebGL2 <code>ScoreCanvas</code> is live behind this page:
+          move the pointer to conduct it, scroll to resolve it to a five-line staff. The
+          drag carousel and the barline-wipe transitions land in Step 3.
         </p>
       </div>
     </PageTransition>

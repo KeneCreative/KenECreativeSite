@@ -2,31 +2,32 @@ import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Header from '@/components/Header/Header'
 import Footer from '@/components/Footer/Footer'
+import ScoreCanvas from '@/webgl/ScoreCanvas'
+import { useScore } from '@/store/useScore'
 import styles from './RootLayout.module.css'
 
-/**
- * The persistent shell. Header, Footer (and, from Step 2, the WebGL ScoreCanvas)
- * are siblings of the <Outlet> and never unmount across navigation.
- * Only the matched route inside <main> changes.
- */
+/** Routes where the persistent canvas parks its render loop. */
+const HEAVY_ROUTES = new Set(['/musicdashboard'])
+
 export default function RootLayout() {
   const { pathname } = useLocation()
+  const setPaused = useScore((s) => s.setPaused)
 
-  // Scroll to top on route change (until Lenis owns scroll in Step 3).
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [pathname])
 
+  useEffect(() => {
+    setPaused(HEAVY_ROUTES.has(pathname))
+  }, [pathname, setPaused])
+
   return (
     <>
+      <ScoreCanvas />
       <Header />
-
-      {/* Step 2: <ScoreCanvas /> mounts here — persistent, behind content. */}
-
       <main className={styles.main}>
         <Outlet />
       </main>
-
       <Footer />
     </>
   )

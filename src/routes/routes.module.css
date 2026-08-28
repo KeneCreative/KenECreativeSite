@@ -6,6 +6,19 @@
   padding: clamp(3rem, 8vw, 6rem) clamp(1.15rem, 5vw, 3rem) clamp(4rem, 10vw, 7rem);
 }
 
+/* Overture hero — tall enough for the score field to resolve as you scroll past it */
+.hero {
+  min-height: 100dvh;
+  max-width: var(--wrap);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 clamp(1.15rem, 5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
 .kicker {
   font-family: var(--font-mono);
   font-size: 0.72rem;
