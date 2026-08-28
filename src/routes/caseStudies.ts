@@ -15,6 +15,7 @@ export type Artefact = {
   note?: string
   field: 1 | 2 | 3 | 4
   image?: string
+  images?: string[] // a stack of small images inside one tile
   href?: string
   pending?: 'video'
 }
@@ -183,13 +184,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           'Planned and promoted a donor dance party during Amplify Austin to drive votes for AAP.',
           'Secured a venue partnership with Rain on 4th, ran drink-ticket incentives, and drove attendance and on-site donations through influencer outreach.',
         ],
-        media: [
-          {
-            image: '/works/aap/partner-rainbow.webp',
-            alt: 'Instagram profile of a community partner that shared the event',
-            caption: 'A community partner amplifying the campaign',
-          },
-        ],
       },
       {
         kicker: 'Act II',
@@ -199,16 +193,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           "I researched organisations and micro-influencers aligned with AAP's mission and wrote each a tailored invitation. Several partners shared the event on their Instagram Stories.",
         ],
         pullQuote: 'Recognition drives participation.',
-        media: [
-          {
-            image: '/works/aap/influencer-secret-aap.webp',
-            alt: 'Instagram post from a micro-influencer supporting AAP',
-          },
-          {
-            image: '/works/aap/influencer-reggaeton.webp',
-            alt: 'A second micro-influencer post supporting AAP',
-          },
-        ],
       },
       {
         kicker: 'Acts III and IV',
@@ -234,7 +218,17 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     artefacts: {
       title: 'The deliverables',
       items: [
-        { label: 'Outreach emails', note: 'Partnership', field: 2 },
+        {
+          label: 'Influencers reached out to',
+          note: '3 posts',
+          field: 2,
+          // TODO(kenneth): confirm the order once the images are labelled
+          images: [
+            '/works/aap/influencer-secret-aap.webp',
+            '/works/aap/influencer-reggaeton.webp',
+            '/works/aap/partner-rainbow.webp',
+          ],
+        },
         {
           label: 'Donor Travel Guide',
           note: '12 pages, PDF',
@@ -248,17 +242,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           field: 2,
           image: '/works/aap/impact-report-02.webp',
           href: '/works/aap/impact-report.pdf',
-        },
-        {
-          label: 'Influencer posts',
-          note: 'Secret AAP, Reggaetón',
-          field: 2,
-          image: '/works/aap/influencer-reggaeton.webp',
-        },
-        {
-          label: 'Community partner posts',
-          field: 2,
-          image: '/works/aap/partner-rainbow.webp',
         },
       ],
     },

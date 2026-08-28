@@ -108,6 +108,23 @@ function StatCell({ stat }: { stat: Stat }) {
 }
 
 function ArtefactTile({ item }: { item: Artefact }) {
+  // A stack of small images inside one tile (label sits above the stack).
+  if (item.images) {
+    return (
+      <div className={`${s.artefact} ${s.artefactStackTile}`}>
+        <span className={s.artefactStackMeta}>
+          <span className={s.artefactLabel}>{item.label}</span>
+          {item.note && <span className={s.artefactNote}>{item.note}</span>}
+        </span>
+        <span className={s.artefactStack}>
+          {item.images.map((src) => (
+            <img key={src} src={src} alt={item.label} loading="lazy" decoding="async" />
+          ))}
+        </span>
+      </div>
+    )
+  }
+
   const inner = (
     <>
       {item.image ? (
