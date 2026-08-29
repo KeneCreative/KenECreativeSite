@@ -392,6 +392,7 @@ export default function CaseStudy() {
                     openLabel={f.openLabel}
                     meta={f.meta}
                     cover={f.cover}
+                    tight={f.tight}
                     slides={f.slides}
                   />
                 </Reveal>

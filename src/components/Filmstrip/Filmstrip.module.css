@@ -130,6 +130,10 @@
   align-items: center;
   justify-content: center;
 }
+/* hug the image exactly — no letterbox above/below */
+.frameTight {
+  min-height: 0;
+}
 .frame img {
   max-width: 100%;
   max-height: 72vh;

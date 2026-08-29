@@ -12,13 +12,15 @@ type Props = {
   /** Optional cover shown on the closed card (defaults to the first slide). */
   cover?: string
   meta?: string
+  /** Frame hugs the image exactly (no min-height) — for wide, short artwork. */
+  tight?: boolean
 }
 
 /**
  * A closed title card that opens into a spread viewer with a numbered
  * thumbnail strip and prev/next. In-site, no download.
  */
-export default function Filmstrip({ title, openLabel, slides, cover, meta }: Props) {
+export default function Filmstrip({ title, openLabel, slides, cover, meta, tight }: Props) {
   const reduce = useReducedMotion()
   const [open, setOpen] = useState(false)
   const [i, setI] = useState(0)
@@ -101,7 +103,7 @@ export default function Filmstrip({ title, openLabel, slides, cover, meta }: Pro
         >
           ‹
         </button>
-        <div className={s.frame}>
+        <div className={`${s.frame} ${tight ? s.frameTight : ''}`}>
           <motion.img
             key={slide.src}
             src={slide.src}

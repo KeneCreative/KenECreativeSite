@@ -12,12 +12,12 @@ export type AnimTab = {
   caption: string
 }
 
-const AUTOPLAY_MS = 4000
+const AUTOPLAY_MS = 3000
 
 /**
  * Dog / Granny / Bedshaker tabs. Two columns: a scrollable storyboard list on
- * the left, top-aligned with the frame box on the right. The sequence
- * auto-advances (4s), which drives the frame; any interaction restarts the
+ * the left, matched to the full height of the frame box on the right. The
+ * sequence auto-advances (3s), which drives the frame; any jump restarts the
  * timer; hovering the panel pauses it. The spot's caption sits below, centred.
  */
 export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
@@ -34,15 +34,15 @@ export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
   const hovering = useRef(false)
   const inView = useInView(rootRef, { amount: 0.2 })
 
-  // Match the list column height to the frame box so the two columns stay
-  // balanced: the scrollable list fills (box height - the label above it).
+  // Match the list column height to the whole frame box (image + counter row)
+  // so the list bottom lines up with the bottom of the counter box.
   const [listH, setListH] = useState<number | null>(null)
   useEffect(() => {
     const box = boxRef.current
     if (!box) return
     const measure = () => {
       const labelH = labelRef.current?.offsetHeight ?? 0
-      setListH(Math.max(200, box.getBoundingClientRect().height - labelH - 12))
+      setListH(Math.max(220, box.getBoundingClientRect().height - labelH - 12))
     }
     const ro = new ResizeObserver(measure)
     ro.observe(box)
@@ -57,13 +57,24 @@ export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
   const goto = useCallback((i: number) => setBeat(((i % total) + total) % total), [total])
   const step = (d: number) => goto(beat + d)
 
-  // Keep the active beat visible in the scrollable list.
+  // On tab switch: jump the list back to the top (first beat highlighted).
+  useEffect(() => {
+    listRef.current?.scrollTo({ top: 0, behavior: 'auto' })
+  }, [tabIdx])
+
+  // Follow the active beat within the current tab.
   useEffect(() => {
     const list = listRef.current
     const active = list?.children[beat] as HTMLElement | undefined
     if (!list || !active) return
-    list.scrollTo({ top: active.offsetTop - 16, behavior: reduce ? 'auto' : 'smooth' })
-  }, [beat, tabIdx, reduce])
+    const id = requestAnimationFrame(() => {
+      list.scrollTo({
+        top: Math.max(0, active.offsetTop - 16),
+        behavior: reduce ? 'auto' : 'smooth',
+      })
+    })
+    return () => cancelAnimationFrame(id)
+  }, [beat, reduce])
 
   // Pause autoplay while the pointer is over the component.
   useEffect(() => {
@@ -137,8 +148,8 @@ export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
         </div>
 
         <div className={s.visuals}>
-          <div className={s.frameWrap}>
-            <div className={s.frameStage} ref={boxRef}>
+          <div className={s.frameWrap} ref={boxRef}>
+            <div className={s.frameStage}>
               <motion.img
                 key={`${tab.key}-${beat}`}
                 className={s.frame}

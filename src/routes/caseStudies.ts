@@ -11,7 +11,7 @@ export type FilmstripDef = {
   openLabel: string
   meta?: string
   cover?: string
-  compact?: boolean
+  tight?: boolean
   slides: Slide[]
 }
 
@@ -478,6 +478,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           openLabel: 'See the card set',
           meta: 'Front, plus four back variations. QR to the free request tool',
           cover: '/works/redcross/cards/1-front.webp',
+          tight: true,
           slides: [
             { src: '/works/redcross/cards/1-front.webp', alt: 'Business card front, American Red Cross in ASL fingerspelling on red', caption: 'Front, primary design' },
             { src: '/works/redcross/cards/2-back-seconds.webp', alt: 'Business card back reading In a fire, seconds count', caption: 'Back 01, in a fire, seconds count' },
