@@ -45,6 +45,14 @@
   max-width: 56ch;
   margin: 0;
 }
+.portrait {
+  margin-top: clamp(2rem, 5vw, 3rem);
+  width: clamp(220px, 34vw, 360px);
+  height: auto;
+  display: block;
+  border: 1px solid var(--ink-soft);
+  filter: saturate(0.92) brightness(0.95);
+}
 
 .section {
   padding: clamp(3.5rem, 9vw, 7rem) 0;

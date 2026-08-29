@@ -29,6 +29,7 @@ export default function Works() {
       }}
     >
       <span className={`${s.field} ${FIELD[p.field]}`} aria-hidden="true" />
+      <img className={s.cardImg} src={p.thumb} alt="" loading="lazy" decoding="async" draggable={false} />
       <span className={s.scrim} aria-hidden="true" />
       <span className={s.cardBody}>
         <span className={s.cardIndex}>{String(i + 1).padStart(2, '0')}</span>

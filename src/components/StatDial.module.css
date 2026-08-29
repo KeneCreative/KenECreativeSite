@@ -1,0 +1,56 @@
+.dial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: clamp(1.4rem, 3.5vw, 2.2rem);
+  background: var(--ground);
+}
+.ring {
+  width: clamp(96px, 14vw, 128px);
+  height: auto;
+  transform: rotate(-90deg);
+}
+.track {
+  fill: none;
+  stroke: var(--ink-soft);
+  stroke-width: 6;
+}
+.progress {
+  fill: none;
+  stroke: var(--brass);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s linear;
+}
+.dial {
+  position: relative;
+}
+.centre {
+  position: absolute;
+  top: clamp(1.4rem, 3.5vw, 2.2rem);
+  left: 0;
+  right: 0;
+  height: clamp(96px, 14vw, 128px);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(1.3rem, 1rem + 1.4vw, 1.9rem);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.label {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-top: 0.4rem;
+}
+.sub {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+  max-width: 22ch;
+}

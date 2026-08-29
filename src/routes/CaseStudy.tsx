@@ -3,10 +3,13 @@ import { Link, useParams } from 'react-router-dom'
 import { motion, useReducedMotion } from 'motion/react'
 import PageTransition from '@/components/PageTransition'
 import CountUp from '@/components/CountUp'
+import Filmstrip from '@/components/Filmstrip/Filmstrip'
+import StatDial from '@/components/StatDial'
 import {
   CASE_STUDIES,
   CASE_STUDY_SLUGS,
   type Artefact,
+  type GalleryDef,
   type Media,
   type Stat,
 } from './caseStudies'
@@ -40,6 +43,26 @@ function MediaRow({ media }: { media: Media[] }) {
           {m.caption && <figcaption>{m.caption}</figcaption>}
         </figure>
       ))}
+    </div>
+  )
+}
+
+function Gallery({ def }: { def: GalleryDef }) {
+  return (
+    <div className={s.gallery}>
+      <div className={s.galleryHead}>
+        <h3 className={s.galleryTitle}>{def.title}</h3>
+        {def.lead && <p className={s.galleryLead}>{def.lead}</p>}
+      </div>
+      <ol className={s.galleryList}>
+        {def.items.map((it, i) => (
+          <li key={it.src} className={s.galleryItem}>
+            <span className={s.galleryNo}>{String(i + 1).padStart(2, '0')}</span>
+            <img src={it.src} alt={it.alt} loading="lazy" decoding="async" />
+            <span className={s.galleryCaption}>{it.caption}</span>
+          </li>
+        ))}
+      </ol>
     </div>
   )
 }
@@ -269,15 +292,47 @@ export default function CaseStudy() {
           ))}
         </section>
 
-        {/* Movement III — Artefacts */}
-        <section className={`${s.wrap} ${s.movement}`}>
+        {/* Movement III — Deliverables */}
+        <section className={`${s.wrap} ${s.movement} ${s.deliverables}`}>
           <MovementHeader n={2} title={cs.artefacts.title} />
-          <div className={s.artefactRow}>
-            {cs.artefacts.items.map((a) => (
-              <ArtefactTile key={a.label} item={a} />
-            ))}
-          </div>
-          <p className={s.artefactCaption}>Drag or scroll to move through the artefacts</p>
+          {cs.artefacts.lead && (
+            <Reveal>
+              <p className={s.resultsIntro}>{cs.artefacts.lead}</p>
+            </Reveal>
+          )}
+
+          {cs.artefacts.filmstrips && (
+            <div className={s.filmstripGrid}>
+              {cs.artefacts.filmstrips.map((f) => (
+                <Reveal key={f.title}>
+                  <Filmstrip
+                    title={f.title}
+                    openLabel={f.openLabel}
+                    meta={f.meta}
+                    cover={f.cover}
+                    slides={f.slides}
+                  />
+                </Reveal>
+              ))}
+            </div>
+          )}
+
+          {cs.artefacts.gallery && (
+            <Reveal>
+              <Gallery def={cs.artefacts.gallery} />
+            </Reveal>
+          )}
+
+          {cs.artefacts.items && (
+            <>
+              <div className={s.artefactRow}>
+                {cs.artefacts.items.map((a) => (
+                  <ArtefactTile key={a.label} item={a} />
+                ))}
+              </div>
+              <p className={s.artefactCaption}>Drag or scroll to move through the deliverables</p>
+            </>
+          )}
         </section>
 
         {/* Movement IV — Results */}
@@ -293,6 +348,43 @@ export default function CaseStudy() {
               ))}
             </div>
           </Reveal>
+
+          {cs.results.dials && (
+            <Reveal>
+              <div className={s.dialGrid}>
+                {cs.results.dials.map((d) => (
+                  <StatDial
+                    key={d.label}
+                    value={d.value}
+                    display={d.display}
+                    label={d.label}
+                    sub={d.sub}
+                  />
+                ))}
+              </div>
+            </Reveal>
+          )}
+
+          {cs.results.comparison && (
+            <Reveal>
+              <figure className={s.comparison}>
+                <div className={s.comparisonPair}>
+                  {[cs.results.comparison.before, cs.results.comparison.after].map((m) => (
+                    <div key={m.image} className={s.comparisonItem}>
+                      <img src={m.image} alt={m.alt} loading="lazy" decoding="async" />
+                      {m.caption && <figcaption>{m.caption}</figcaption>}
+                    </div>
+                  ))}
+                </div>
+                {cs.results.comparison.caption && (
+                  <figcaption className={s.comparisonNote}>
+                    {cs.results.comparison.caption}
+                  </figcaption>
+                )}
+              </figure>
+            </Reveal>
+          )}
+
           {cs.results.media && (
             <Reveal>
               <MediaRow media={cs.results.media} />

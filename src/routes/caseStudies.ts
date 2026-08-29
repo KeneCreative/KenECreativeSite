@@ -1,6 +1,28 @@
+import type { Slide } from '@/components/Filmstrip/Filmstrip'
+
 export type Triad = { challenge: string; insight: string; strategy: string }
 
 export type Media = { image: string; alt: string; caption?: string }
+
+export type FilmstripDef = {
+  title: string
+  openLabel: string
+  meta?: string
+  cover?: string
+  slides: Slide[]
+}
+
+export type GalleryItem = { src: string; alt: string; caption: string }
+export type GalleryDef = { title: string; lead?: string; items: GalleryItem[] }
+
+export type Dial = { value: number | null; label: string; sub?: string; display?: string }
+
+/** Build filmstrip slides for a folder of NN.webp page scans. */
+export const pages = (base: string, count: number, alt: string): Slide[] =>
+  Array.from({ length: count }, (_, i) => ({
+    src: `${base}/${String(i + 1).padStart(2, '0')}.webp`,
+    alt: `${alt}, page ${i + 1}`,
+  }))
 
 export type CraftSection = {
   kicker: string
@@ -45,8 +67,21 @@ export type CaseStudy = {
     portrait?: Media
   }
   craft: CraftSection[]
-  artefacts: { title: string; items: Artefact[] }
-  results: { intro: string; stats: Stat[]; note?: string; media?: Media[] }
+  artefacts: {
+    title: string
+    lead?: string
+    items?: Artefact[]
+    gallery?: GalleryDef
+    filmstrips?: FilmstripDef[]
+  }
+  results: {
+    intro: string
+    stats: Stat[]
+    dials?: Dial[]
+    comparison?: { before: Media; after: Media; caption?: string }
+    note?: string
+    media?: Media[]
+  }
 }
 
 export const CASE_STUDIES: Record<string, CaseStudy> = {
@@ -176,47 +211,46 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           'I independently researched, wrote, and designed a donor travel guide for a curated Broadway Brunch weekend in Portland, Maine.',
           'When leadership needed an impact report immediately after a donor meeting, I researched, structured, and produced it in a 24-hour turnaround with no prior experience making one.',
         ],
-        media: [
-          {
-            image: '/works/aap/travel-guide-01.webp',
-            alt: 'Cover page of the Portland, Maine donor travel guide',
-            caption: 'Donor travel guide',
-          },
-          {
-            image: '/works/aap/impact-report-01.webp',
-            alt: 'Cover of the American Artist Project impact report',
-            caption: '24-hour impact report',
-          },
-        ],
       },
     ],
     artefacts: {
       title: 'The deliverables',
-      items: [
+      lead: 'Flip through the full guide and report. Nothing to download.',
+      gallery: {
+        title: 'Influencers who came out and posted',
+        lead: 'Values-aligned creators and partners I invited in, who shared Amplify Austin on their own channels.',
+        items: [
+          {
+            src: '/works/aap/influencer/1-secret-aap.webp',
+            alt: 'Instagram profile of a performance-art creator who posted about AAP',
+            caption: 'Secret ATX, performance art',
+          },
+          {
+            src: '/works/aap/influencer/2-reggaeton.webp',
+            alt: 'Instagram profile of the UT Austin reggaeton dance club',
+            caption: 'Reggaetón Dance Club, UT Austin',
+          },
+          {
+            src: '/works/aap/influencer/3-rainbow.webp',
+            alt: 'Instagram profile of Rainbow Connections ATX',
+            caption: 'Rainbow Connections ATX',
+          },
+        ],
+      },
+      filmstrips: [
         {
-          label: 'Influencers reached out to',
-          note: '3 posts',
-          field: 2,
-          // TODO(kenneth): confirm the order once the images are labelled
-          images: [
-            '/works/aap/influencer-secret-aap.webp',
-            '/works/aap/influencer-reggaeton.webp',
-            '/works/aap/partner-rainbow.webp',
-          ],
+          title: 'Donor Travel Guide',
+          openLabel: 'Preview the guide',
+          meta: 'Broadway Brunch on the Road, Portland, Maine',
+          cover: '/works/aap/travel-guide/01.webp',
+          slides: pages('/works/aap/travel-guide', 12, 'Donor travel guide'),
         },
         {
-          label: 'Donor Travel Guide',
-          note: '12 pages, PDF',
-          field: 2,
-          image: '/works/aap/travel-guide-02.webp',
-          href: '/works/aap/travel-guide.pdf',
-        },
-        {
-          label: '24hr Impact Report',
-          note: 'PDF',
-          field: 2,
-          image: '/works/aap/impact-report-02.webp',
-          href: '/works/aap/impact-report.pdf',
+          title: '24-hour Impact Report',
+          openLabel: 'View the report',
+          meta: 'Researched, structured and produced in one day',
+          cover: '/works/aap/impact-report/01.webp',
+          slides: pages('/works/aap/impact-report', 4, 'Impact report'),
         },
       ],
     },
@@ -231,21 +265,27 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           sub: '2025, from 220 donors',
         },
         { value: 6, prefix: '#', label: 'Citywide leaderboard', sub: 'Up from #48 the year before' },
-        { value: 1, suffix: 'st', label: 'Medium-size nonprofit category', sub: '2025' },
       ],
-      note: 'Partners and micro-influencers amplified the campaign across their own channels.',
-      media: [
-        {
+      dials: [
+        // TODO(kenneth): real attendance / donor-growth percentages
+        { value: null, label: 'Attendance', sub: 'Year over year' },
+        { value: null, label: 'Donor growth', sub: 'Year over year' },
+        { value: 100, display: '1st', label: 'Medium-size nonprofit', sub: 'Category placement, 2025' },
+      ],
+      comparison: {
+        before: {
           image: '/works/aap/leaderboard-2024.webp',
-          alt: 'Amplify Austin leaderboard, 2024',
-          caption: '2024',
+          alt: 'Amplify Austin citywide leaderboard, 2024, American Artist Project at 48th',
+          caption: '2024, 48th citywide',
         },
-        {
+        after: {
           image: '/works/aap/leaderboard-2025.webp',
-          alt: 'Amplify Austin leaderboard, 2025, with American Artist Project at sixth',
-          caption: '2025',
+          alt: 'Amplify Austin citywide leaderboard, 2025, American Artist Project at 6th',
+          caption: '2025, 6th citywide',
         },
-      ],
+        caption: 'Amplify Austin citywide ranking, year over year',
+      },
+      note: 'Partners and micro-influencers amplified the campaign across their own channels.',
     },
   },
 

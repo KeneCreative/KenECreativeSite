@@ -45,6 +45,13 @@ export default function About() {
             clarity, cleverness, and truth. If you give me your attention, I&rsquo;m going to
             earn it, whether that&rsquo;s a tagline or a whole campaign.
           </p>
+          <img
+            className={s.portrait}
+            src="/about/portrait.webp"
+            alt="Kenneth Espinoza"
+            loading="lazy"
+            decoding="async"
+          />
         </header>
 
         <section className={`${s.wrap} ${s.section}`}>

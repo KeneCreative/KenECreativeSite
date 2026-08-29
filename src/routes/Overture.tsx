@@ -27,6 +27,8 @@ export default function Overture() {
               viewTransition
               className={s.heroCard}
             >
+              <img className={s.heroCardImg} src={p.thumb} alt="" loading="lazy" decoding="async" />
+              <span className={s.heroCardScrim} aria-hidden="true" />
               <span className={s.tag}>{p.meta}</span>
               <span className={s.name}>{p.name}</span>
             </Link>
