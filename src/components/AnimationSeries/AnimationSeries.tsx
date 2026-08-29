@@ -72,17 +72,22 @@ export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
 
         <div className={s.visuals}>
           <div className={s.frameWrap}>
-            <motion.img
-              key={`${tab.key}-${beat}`}
-              className={s.frame}
-              src={tab.frames[beat]}
-              alt={`${tab.label} animation, beat ${beat + 1}`}
-              loading="lazy"
-              decoding="async"
-              initial={reduce ? false : { opacity: 0.35 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.2 }}
-            />
+            <div className={s.frameStage}>
+              <motion.img
+                key={`${tab.key}-${beat}`}
+                className={s.frame}
+                src={tab.frames[beat]}
+                alt={`${tab.label} animation, beat ${beat + 1}`}
+                decoding="async"
+                initial={reduce ? false : { opacity: 0.35 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
+              />
+            </div>
+            <p className={s.frameBeat}>
+              <span className={s.frameBeatNo}>{String(beat + 1).padStart(2, '0')}</span>
+              {tab.beats[beat]}
+            </p>
             <div className={s.frameNav}>
               <button
                 type="button"

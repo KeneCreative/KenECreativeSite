@@ -473,6 +473,9 @@ a.artefact:focus-visible .artefactImg {
   gap: clamp(1.25rem, 3vw, 2rem);
   margin-top: clamp(2rem, 5vw, 3rem);
 }
+.filmstripCompact {
+  max-width: 420px;
+}
 
 .gallery,
 .showBlock {
@@ -487,12 +490,18 @@ a.artefact:focus-visible .artefactImg {
 }
 .cardHero {
   max-width: 560px;
-  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  margin: 0 auto clamp(1.5rem, 4vw, 2.5rem);
+  text-align: center;
 }
 .cardRow {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: clamp(1rem, 3vw, 1.75rem);
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+@media (max-width: 1080px) {
+  .cardRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 .galleryHead {
   max-width: 60ch;

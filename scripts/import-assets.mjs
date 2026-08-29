@@ -40,9 +40,30 @@ const JOBS = [
   { from: 'Redcross Files/Business cards/3 Back - Fire Waits For No One.png', to: 'works/redcross/cards/3-back-fire-waits.webp', maxW: 1600 },
   { from: 'Redcross Files/Business cards/4 Back - Your Only Warning.png', to: 'works/redcross/cards/4-back-warning.webp', maxW: 1600 },
   { from: 'Redcross Files/Business cards/5 Back - Neither Should Your Alarm.png', to: 'works/redcross/cards/5-back-alarm.webp', maxW: 1600 },
-  { dir: 'Redcross Files/Animation series/Dog', to: 'works/redcross/dog', maxW: 1400, seq: /Dog\s+(\d+)/, tagline: /Tagline/ },
-  { dir: 'Redcross Files/Animation series/Granny', to: 'works/redcross/granny', maxW: 1400, seq: /Granny\s+(\d+)/, tagline: /Tagline/ },
-  { dir: 'Redcross Files/Animation series/Bed Shaker', to: 'works/redcross/bedshaker', maxW: 1400, seq: /Bedshaker\s+(\d+)/, tagline: /Tagline/ },
+  {
+    dir: 'Redcross Files/Animation series/Dog',
+    to: 'works/redcross/dog',
+    seq: /Dog\s+(\d+)/,
+    tagline: /Tagline/,
+    resize: { width: 1426, height: 935, fit: 'cover', position: 'centre' },
+    taglineOpt: { extractPct: { top: 0.28, height: 0.44 }, resize: { width: 960 } },
+  },
+  {
+    dir: 'Redcross Files/Animation series/Granny',
+    to: 'works/redcross/granny',
+    seq: /Granny\s+(\d+)/,
+    tagline: /Tagline/,
+    resize: { width: 1426, height: 935, fit: 'cover', position: 'centre' },
+    taglineOpt: { extractPct: { top: 0.28, height: 0.44 }, resize: { width: 960 } },
+  },
+  {
+    dir: 'Redcross Files/Animation series/Bed Shaker',
+    to: 'works/redcross/bedshaker',
+    seq: /Bedshaker\s+(\d+)/,
+    tagline: /Tagline/,
+    maxW: 1100,
+    taglineOpt: { extractPct: { top: 0.22, height: 0.5 }, resize: { width: 960 } },
+  },
   { dir: 'Redcross Files/Infographic', to: 'works/redcross/infographic', maxW: 1400, seq: /(\d+)/ },
 
   // --- Unopened Letter ---
@@ -53,12 +74,20 @@ const JOBS = [
   { from: 'Unopened Letter Files/Unopened Letter.mp3', to: 'works/unopenedletter/track.mp3' },
 ]
 
-async function toWebp(src, dst, maxW) {
+async function toWebp(src, dst, opt = {}) {
+  const { maxW = 1600, resize, extractPct } = opt
   await mkdir(path.dirname(dst), { recursive: true })
-  const img = sharp(src, { failOn: 'none' })
-  const meta = await img.metadata()
-  let pipe = img.rotate()
-  if (meta.width && meta.width > maxW) pipe = pipe.resize({ width: maxW })
+  let pipe = sharp(src, { failOn: 'none' }).rotate()
+  const meta = await sharp(src).metadata()
+
+  if (extractPct && meta.width && meta.height) {
+    const top = Math.round(meta.height * extractPct.top)
+    const height = Math.round(meta.height * extractPct.height)
+    pipe = pipe.extract({ left: 0, top, width: meta.width, height })
+  }
+  if (resize) pipe = pipe.resize(resize)
+  else if (meta.width && meta.width > maxW) pipe = pipe.resize({ width: maxW })
+
   await pipe.webp({ quality: 80, effort: 5 }).toFile(dst)
   const [a, b] = [(await stat(src)).size, (await stat(dst)).size]
   console.log(`${path.relative(OUT, dst).padEnd(46)} ${(a / 1e6).toFixed(2)} -> ${(b / 1e6).toFixed(2)} MB`)
@@ -78,7 +107,7 @@ for (const job of JOBS) {
       continue
     }
     const dst = path.join(OUT, job.to)
-    if (RASTER.has(path.extname(src).toLowerCase())) await toWebp(src, dst, job.maxW ?? 1600)
+    if (RASTER.has(path.extname(src).toLowerCase())) await toWebp(src, dst, job)
     else await copyFile(src, dst)
     continue
   }
@@ -93,8 +122,10 @@ for (const job of JOBS) {
   for (const f of files) {
     const src = path.join(dir, f)
     let name
+    let opt = job
     if (job.tagline && job.tagline.test(f)) {
       name = 'tagline.webp'
+      opt = job.taglineOpt ? { ...job, ...job.taglineOpt } : job
     } else {
       const m = f.match(job.seq)
       if (!m) {
@@ -103,7 +134,7 @@ for (const job of JOBS) {
       }
       name = `${String(Number(m[1])).padStart(2, '0')}.webp`
     }
-    await toWebp(src, path.join(OUT, job.to, name), job.maxW ?? 1600)
+    await toWebp(src, path.join(OUT, job.to, name), opt)
   }
 }
 

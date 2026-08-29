@@ -11,6 +11,7 @@ export type FilmstripDef = {
   openLabel: string
   meta?: string
   cover?: string
+  compact?: boolean
   slides: Slide[]
 }
 
@@ -477,6 +478,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           openLabel: 'Read the steps',
           meta: 'How to request a free unit, in four steps',
           cover: '/works/redcross/infographic/01.webp',
+          compact: true,
           slides: pages('/works/redcross/infographic', 4, 'Bed shaker infographic'),
         },
       ],

@@ -8,6 +8,7 @@ import Slideshow from '@/components/Slideshow/Slideshow'
 import StatDial from '@/components/StatDial'
 import TiltCard from '@/components/TiltCard/TiltCard'
 import AnimationSeries from '@/components/AnimationSeries/AnimationSeries'
+import { useMediaQuery } from '@/lib/useMediaQuery'
 import {
   CASE_STUDIES,
   CASE_STUDY_SLUGS,
@@ -15,6 +16,7 @@ import {
   type GalleryDef,
   type Media,
   type Stat,
+  type TiltCardsDef,
 } from './caseStudies'
 import s from './caseStudy.module.css'
 import w from './works.module.css'
@@ -46,6 +48,37 @@ function MediaRow({ media }: { media: Media[] }) {
           {m.caption && <figcaption>{m.caption}</figcaption>}
         </figure>
       ))}
+    </div>
+  )
+}
+
+function TiltCards({ def }: { def: TiltCardsDef }) {
+  // On narrow screens the four back cards become a slideshow (top one visible).
+  const narrow = useMediaQuery('(max-width: 720px)')
+  return (
+    <div className={s.cardsBlock}>
+      <div className={s.galleryHead}>
+        <h3 className={s.galleryTitle}>{def.title}</h3>
+        {def.lead && <p className={s.galleryLead}>{def.lead}</p>}
+      </div>
+      {def.hero && (
+        <div className={s.cardHero}>
+          <TiltCard {...def.hero} />
+        </div>
+      )}
+      {narrow ? (
+        <Slideshow
+          slides={def.items.map((c) => ({ src: c.src, alt: c.alt, caption: c.caption }))}
+          fit="contain"
+          aspect="16 / 9"
+        />
+      ) : (
+        <div className={s.cardRow}>
+          {def.items.map((c) => (
+            <TiltCard key={c.src} {...c} />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -320,31 +353,14 @@ export default function CaseStudy() {
 
           {cs.artefacts.tiltCards && (
             <Reveal>
-              <div className={s.cardsBlock}>
-                <div className={s.galleryHead}>
-                  <h3 className={s.galleryTitle}>{cs.artefacts.tiltCards.title}</h3>
-                  {cs.artefacts.tiltCards.lead && (
-                    <p className={s.galleryLead}>{cs.artefacts.tiltCards.lead}</p>
-                  )}
-                </div>
-                {cs.artefacts.tiltCards.hero && (
-                  <div className={s.cardHero}>
-                    <TiltCard {...cs.artefacts.tiltCards.hero} />
-                  </div>
-                )}
-                <div className={s.cardRow}>
-                  {cs.artefacts.tiltCards.items.map((c) => (
-                    <TiltCard key={c.src} {...c} />
-                  ))}
-                </div>
-              </div>
+              <TiltCards def={cs.artefacts.tiltCards} />
             </Reveal>
           )}
 
           {cs.artefacts.filmstrips && (
             <div className={s.filmstripGrid}>
               {cs.artefacts.filmstrips.map((f) => (
-                <Reveal key={f.title}>
+                <Reveal key={f.title} className={f.compact ? s.filmstripCompact : undefined}>
                   <Filmstrip
                     title={f.title}
                     openLabel={f.openLabel}
