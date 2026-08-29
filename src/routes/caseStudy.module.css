@@ -474,8 +474,12 @@ a.artefact:focus-visible .artefactImg {
   margin-top: clamp(2rem, 5vw, 3rem);
 }
 
-.gallery {
+.gallery,
+.showBlock {
   margin-top: clamp(2.5rem, 6vw, 4rem);
+}
+.showBlock {
+  max-width: 640px;
 }
 .galleryHead {
   max-width: 60ch;

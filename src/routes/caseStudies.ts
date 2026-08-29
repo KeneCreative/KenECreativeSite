@@ -1,4 +1,5 @@
 import type { Slide } from '@/components/Filmstrip/Filmstrip'
+import type { Shot } from '@/components/Slideshow/Slideshow'
 
 export type Triad = { challenge: string; insight: string; strategy: string }
 
@@ -14,6 +15,14 @@ export type FilmstripDef = {
 
 export type GalleryItem = { src: string; alt: string; caption: string }
 export type GalleryDef = { title: string; lead?: string; items: GalleryItem[] }
+
+export type SlideshowDef = {
+  title: string
+  lead?: string
+  fit?: 'cover' | 'contain'
+  aspect?: string
+  slides: Shot[]
+}
 
 export type Dial = { value: number | null; label: string; sub?: string; display?: string }
 
@@ -72,6 +81,7 @@ export type CaseStudy = {
     lead?: string
     items?: Artefact[]
     gallery?: GalleryDef
+    slideshow?: SlideshowDef
     filmstrips?: FilmstripDef[]
   }
   results: {
@@ -216,24 +226,26 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     artefacts: {
       title: 'The deliverables',
       lead: 'Flip through the full guide and report. Nothing to download.',
-      gallery: {
+      slideshow: {
         title: 'Influencers who came out and posted',
         lead: 'Values-aligned creators and partners I invited in, who shared Amplify Austin on their own channels.',
-        items: [
+        fit: 'contain',
+        aspect: '5 / 4',
+        slides: [
           {
             src: '/works/aap/influencer/1-secret-aap.webp',
-            alt: 'Instagram profile of a performance-art creator who posted about AAP',
+            alt: 'Instagram post from a performance-art creator supporting AAP',
             caption: 'Secret ATX, performance art',
           },
           {
             src: '/works/aap/influencer/2-reggaeton.webp',
-            alt: 'Instagram profile of the UT Austin reggaeton dance club',
+            alt: 'Instagram post from the UT Austin reggaetón dance club',
             caption: 'Reggaetón Dance Club, UT Austin',
           },
           {
             src: '/works/aap/influencer/3-rainbow.webp',
-            alt: 'Instagram profile of Rainbow Connections ATX',
-            caption: 'Rainbow Connections ATX',
+            alt: 'Instagram post from Rainbow Connections ATX',
+            caption: 'Rainbow Connections ATX, community partner',
           },
         ],
       },
@@ -267,9 +279,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         { value: 6, prefix: '#', label: 'Citywide leaderboard', sub: 'Up from #48 the year before' },
       ],
       dials: [
-        // TODO(kenneth): real attendance / donor-growth percentages
-        { value: null, label: 'Attendance', sub: 'Year over year' },
-        { value: null, label: 'Donor growth', sub: 'Year over year' },
+        { value: 45, label: 'Attendance', sub: 'Year over year' },
+        { value: 36, label: 'Donor growth', sub: 'Year over year' },
         { value: 100, display: '1st', label: 'Medium-size nonprofit', sub: 'Category placement, 2025' },
       ],
       comparison: {

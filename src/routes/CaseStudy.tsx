@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from 'motion/react'
 import PageTransition from '@/components/PageTransition'
 import CountUp from '@/components/CountUp'
 import Filmstrip from '@/components/Filmstrip/Filmstrip'
+import Slideshow from '@/components/Slideshow/Slideshow'
 import StatDial from '@/components/StatDial'
 import {
   CASE_STUDIES,
@@ -320,6 +321,24 @@ export default function CaseStudy() {
           {cs.artefacts.gallery && (
             <Reveal>
               <Gallery def={cs.artefacts.gallery} />
+            </Reveal>
+          )}
+
+          {cs.artefacts.slideshow && (
+            <Reveal>
+              <div className={s.showBlock}>
+                <div className={s.galleryHead}>
+                  <h3 className={s.galleryTitle}>{cs.artefacts.slideshow.title}</h3>
+                  {cs.artefacts.slideshow.lead && (
+                    <p className={s.galleryLead}>{cs.artefacts.slideshow.lead}</p>
+                  )}
+                </div>
+                <Slideshow
+                  slides={cs.artefacts.slideshow.slides}
+                  fit={cs.artefacts.slideshow.fit}
+                  aspect={cs.artefacts.slideshow.aspect}
+                />
+              </div>
             </Reveal>
           )}
 
