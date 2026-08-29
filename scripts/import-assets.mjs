@@ -35,6 +35,11 @@ const JOBS = [
   { from: 'American Artist Project Files/Influencers who came out and posted us/Rainbowatxamplify.PNG', to: 'works/aap/influencer/3-rainbow.webp', maxW: 900 },
 
   // --- Red Cross ---
+  { from: 'Redcross Files/Business cards/1 Front - Primary Design.png', to: 'works/redcross/cards/1-front.webp', maxW: 1600 },
+  { from: 'Redcross Files/Business cards/2 Back - Seconds Count.png', to: 'works/redcross/cards/2-back-seconds.webp', maxW: 1600 },
+  { from: 'Redcross Files/Business cards/3 Back - Fire Waits For No One.png', to: 'works/redcross/cards/3-back-fire-waits.webp', maxW: 1600 },
+  { from: 'Redcross Files/Business cards/4 Back - Your Only Warning.png', to: 'works/redcross/cards/4-back-warning.webp', maxW: 1600 },
+  { from: 'Redcross Files/Business cards/5 Back - Neither Should Your Alarm.png', to: 'works/redcross/cards/5-back-alarm.webp', maxW: 1600 },
   { dir: 'Redcross Files/Animation series/Dog', to: 'works/redcross/dog', maxW: 1400, seq: /Dog\s+(\d+)/, tagline: /Tagline/ },
   { dir: 'Redcross Files/Animation series/Granny', to: 'works/redcross/granny', maxW: 1400, seq: /Granny\s+(\d+)/, tagline: /Tagline/ },
   { dir: 'Redcross Files/Animation series/Bed Shaker', to: 'works/redcross/bedshaker', maxW: 1400, seq: /Bedshaker\s+(\d+)/, tagline: /Tagline/ },

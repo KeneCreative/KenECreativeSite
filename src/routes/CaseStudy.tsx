@@ -6,6 +6,8 @@ import CountUp from '@/components/CountUp'
 import Filmstrip from '@/components/Filmstrip/Filmstrip'
 import Slideshow from '@/components/Slideshow/Slideshow'
 import StatDial from '@/components/StatDial'
+import TiltCard from '@/components/TiltCard/TiltCard'
+import AnimationSeries from '@/components/AnimationSeries/AnimationSeries'
 import {
   CASE_STUDIES,
   CASE_STUDY_SLUGS,
@@ -299,6 +301,43 @@ export default function CaseStudy() {
           {cs.artefacts.lead && (
             <Reveal>
               <p className={s.resultsIntro}>{cs.artefacts.lead}</p>
+            </Reveal>
+          )}
+
+          {cs.artefacts.animationSeries && (
+            <Reveal>
+              <div className={s.showBlockWide}>
+                <div className={s.galleryHead}>
+                  <h3 className={s.galleryTitle}>{cs.artefacts.animationSeries.title}</h3>
+                  {cs.artefacts.animationSeries.lead && (
+                    <p className={s.galleryLead}>{cs.artefacts.animationSeries.lead}</p>
+                  )}
+                </div>
+                <AnimationSeries tabs={cs.artefacts.animationSeries.tabs} />
+              </div>
+            </Reveal>
+          )}
+
+          {cs.artefacts.tiltCards && (
+            <Reveal>
+              <div className={s.cardsBlock}>
+                <div className={s.galleryHead}>
+                  <h3 className={s.galleryTitle}>{cs.artefacts.tiltCards.title}</h3>
+                  {cs.artefacts.tiltCards.lead && (
+                    <p className={s.galleryLead}>{cs.artefacts.tiltCards.lead}</p>
+                  )}
+                </div>
+                {cs.artefacts.tiltCards.hero && (
+                  <div className={s.cardHero}>
+                    <TiltCard {...cs.artefacts.tiltCards.hero} />
+                  </div>
+                )}
+                <div className={s.cardRow}>
+                  {cs.artefacts.tiltCards.items.map((c) => (
+                    <TiltCard key={c.src} {...c} />
+                  ))}
+                </div>
+              </div>
             </Reveal>
           )}
 

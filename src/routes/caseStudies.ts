@@ -1,5 +1,6 @@
 import type { Slide } from '@/components/Filmstrip/Filmstrip'
 import type { Shot } from '@/components/Slideshow/Slideshow'
+import type { AnimTab } from '@/components/AnimationSeries/AnimationSeries'
 
 export type Triad = { challenge: string; insight: string; strategy: string }
 
@@ -23,6 +24,15 @@ export type SlideshowDef = {
   aspect?: string
   slides: Shot[]
 }
+
+export type TiltCardItem = { src: string; alt: string; caption?: string }
+export type TiltCardsDef = { title: string; lead?: string; hero?: TiltCardItem; items: TiltCardItem[] }
+
+export type AnimationSeriesDef = { title: string; lead?: string; tabs: AnimTab[] }
+
+/** Frame image paths for a Red Cross animation folder (NN.webp). */
+export const frames = (base: string, count: number): string[] =>
+  Array.from({ length: count }, (_, i) => `${base}/${String(i + 1).padStart(2, '0')}.webp`)
 
 export type Dial = { value: number | null; label: string; sub?: string; display?: string }
 
@@ -83,6 +93,8 @@ export type CaseStudy = {
     gallery?: GalleryDef
     slideshow?: SlideshowDef
     filmstrips?: FilmstripDef[]
+    tiltCards?: TiltCardsDef
+    animationSeries?: AnimationSeriesDef
   }
   results: {
     intro: string
@@ -353,13 +365,120 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ],
     artefacts: {
       title: 'The deliverables',
-      items: [
-        { label: 'Creative brief', field: 3 },
-        { label: 'Animated PSA script', note: 'Dog, Granny, Bedshaker', field: 3 },
-        { label: 'Business card series', note: '4 back variations', field: 3 },
-        { label: 'Storyboards', note: '11 frames', field: 3 },
-        { label: 'Social captions', field: 3 },
-        { label: 'Free bedshaker infographic', note: '4 steps', field: 3 },
+      tiltCards: {
+        title: 'Business cards',
+        lead: 'Direct, high-contrast copy with a QR code straight to the free bed-shaker request tool. Small enough to hand over during outreach and keep by a nightstand.',
+        hero: {
+          src: '/works/redcross/cards/1-front.webp',
+          alt: 'Business card front, American Red Cross in ASL fingerspelling on red',
+          caption: 'Primary design, front',
+        },
+        items: [
+          {
+            src: '/works/redcross/cards/2-back-seconds.webp',
+            alt: 'Business card back reading In a fire, seconds count',
+            caption: 'In a fire, seconds count',
+          },
+          {
+            src: '/works/redcross/cards/3-back-fire-waits.webp',
+            alt: 'Business card back reading Fire waits for no one',
+            caption: 'Fire waits for no one',
+          },
+          {
+            src: '/works/redcross/cards/4-back-warning.webp',
+            alt: 'Business card back reading Your only warning',
+            caption: 'Your only warning',
+          },
+          {
+            src: '/works/redcross/cards/5-back-alarm.webp',
+            alt: 'Business card back reading Neither should your alarm',
+            caption: 'Neither should your alarm',
+          },
+        ],
+      },
+      animationSeries: {
+        title: 'Animation series',
+        lead: 'Three thirty-second spots. Pick a beat to jump the frame, or step through. Each spot ends on its own tagline and carries its own caption.',
+        tabs: [
+          {
+            key: 'dog',
+            label: 'Dog',
+            tagline: 'Your dog waits for you. What are you waiting for?',
+            desc: 'This spot flips the relationship between a person and their pet. The dog does not just alert Steve, it waits for him, nudging and refusing to leave without its owner. The one who is supposed to rely on a human becomes the protector.',
+            beats: [
+              'Dark scribbles appear on screen',
+              'Dog mouth barking appears with muffled barking sound',
+              'Dark scribbles fade back on screen',
+              'Fire alarm with red, flashing light appears, with a muffled beep',
+              'Dark scribbles fade back on screen',
+              "Dog's mouth barking appears with muffled barking sound",
+              'Dark scribbles fade back on screen',
+              'Dog is barking at Steve, sleeping in bed, trying to wake him',
+              'Steve is starting to wake up as the dog continues to nudge him',
+              "Steve is sitting up in bed, awakened by the dog, realising there's a fire",
+              'Steve and the dog are running out of the room',
+            ],
+            frames: frames('/works/redcross/dog', 11),
+            taglineImage: '/works/redcross/dog/tagline.webp',
+            caption:
+              '#SignTheAlarm Fire damage goes beyond flames. Request a bed shaker alarm installed and provided by the Red Cross to ensure your safety. Learn more and request yours by clicking the link in our bio.',
+          },
+          {
+            key: 'granny',
+            label: 'Granny',
+            tagline: "When you're asleep, so is your sense of smell.",
+            desc: 'This spot shows what happens when someone relies on smell during a fire. Jane has to physically enter the room to wake her Deaf grandmother. The moment is confused rather than panicked, showing how much time and risk is added when you depend on another person to wake you.',
+            beats: [
+              'Dark scribbles appear on screen',
+              'Face mouthing the words "wake up" appears on screen',
+              'Dark scribbles reappear on screen',
+              'Fire alarm with red, flashing light appears, with a muffled beep',
+              'Dark scribbles reappear on screen',
+              'Face mouthing the words "wake up" reappears on screen',
+              'Dark scribbles reappear on screen',
+              'Granny is lying in bed, unaware of the danger. Jane shakes the bed to wake her',
+              'Jane signs to Granny, "fire, fire"',
+              'Granny is awake, shocked by the fire',
+              'Granny and Jane quickly exit the room',
+            ],
+            frames: frames('/works/redcross/granny', 11),
+            taglineImage: '/works/redcross/granny/tagline.webp',
+            caption:
+              "#SignTheAlarm Fire doesn't discriminate, and neither should someone's alarm. Consider volunteering with the Red Cross and be part of installing bed shaker alarms for people in your community. Visit the link in our bio for details.",
+          },
+          {
+            key: 'bedshaker',
+            label: 'Bedshaker',
+            tagline: 'A bed shaker is not an early warning. It is your only warning.',
+            desc: 'The conclusion to the series. Jenny is woken by her bed shaker while she is alone. She relies on no pet and no person, the vibration wakes her and she gets out safely without putting anyone else at risk. It reframes what "early warning" means for the DHH community.',
+            beats: [
+              'Dark scribbles appear on screen',
+              '"Wake up" in sign flashes along with text',
+              'Dark scribbles reappear on screen',
+              'Fire alarm with red, flashing light appears, with a muffled beep',
+              'Dark scribbles reappear on screen',
+              '"Wake up" in sign flashes along with text again',
+              'Dark scribbles reappear on screen',
+              'Jenny is asleep with the bed shaker attached to the bed, unaware of the danger',
+              'The bed shaker activates and Jenny wakes from the shaking of the bed',
+              'A close-up of the bed shaker, emphasising the movement',
+              'Jenny is out of bed, exiting the room quickly',
+            ],
+            frames: frames('/works/redcross/bedshaker', 11),
+            taglineImage: '/works/redcross/bedshaker/tagline.webp',
+            caption:
+              '#SignTheAlarm The speed of fire is unpredictable. Learn how to protect your home and loved ones with fire safety resources from the Red Cross. Stay informed and stay safe. Find out more at the link in our bio.',
+          },
+        ],
+      },
+      filmstrips: [
+        {
+          title: 'Free bed shaker infographic',
+          openLabel: 'Read the steps',
+          meta: 'How to request a free unit, in four steps',
+          cover: '/works/redcross/infographic/01.webp',
+          slides: pages('/works/redcross/infographic', 4, 'Bed shaker infographic'),
+        },
       ],
     },
     results: {

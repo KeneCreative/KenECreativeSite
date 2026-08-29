@@ -1,0 +1,202 @@
+.root {
+  border: 1px solid var(--ink-soft);
+  background: var(--ground-raise);
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--ink-soft);
+}
+.tab {
+  flex: 1 1 auto;
+  padding: 0.9rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--ink-soft);
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.tab:last-child {
+  border-right: 0;
+}
+.tab:hover {
+  color: var(--ink);
+}
+.tabActive {
+  color: var(--brass);
+  background: rgba(242, 180, 75, 0.06);
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(1.25rem, 4vw, 2.5rem);
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.tagline {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: italic;
+  font-size: clamp(1.25rem, 1rem + 1.2vw, 1.8rem);
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 0 0 1rem;
+}
+.desc {
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: var(--ink-muted, rgba(245, 243, 239, 0.72));
+  margin: 0 0 1.6rem;
+}
+.beatsLabel {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin: 0 0 0.6rem;
+}
+.beats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--ink-soft);
+}
+.beat {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2.2rem 1fr;
+  gap: 0.4rem 0.8rem;
+  align-items: baseline;
+  text-align: left;
+  padding: 0.7rem 0.5rem;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--ink-soft);
+  cursor: pointer;
+  font-size: 0.86rem;
+  line-height: 1.4;
+  color: var(--ink-muted, rgba(245, 243, 239, 0.7));
+  transition: color 0.15s ease, background 0.15s ease, padding-left 0.2s ease;
+}
+.beat:hover {
+  color: var(--ink);
+}
+.beatActive {
+  color: var(--ink);
+  background: rgba(242, 180, 75, 0.08);
+  box-shadow: inset 2px 0 0 var(--brass);
+  padding-left: 0.8rem;
+}
+.beatNo {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--brass);
+}
+
+.visuals {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.frameWrap {
+  position: relative;
+  border: 1px solid var(--ink-soft);
+  background: var(--ground);
+}
+.frame {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+.frameNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.7rem;
+  border-top: 1px solid var(--ink-soft);
+}
+.frameBtn {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--ink-soft);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.frameBtn:hover,
+.frameBtn:focus-visible {
+  border-color: var(--brass);
+  color: var(--brass);
+}
+.frameCount {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+}
+
+.endCard {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.endCard figcaption {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.endCard img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--ink-soft);
+  background: var(--ground);
+}
+
+.caption {
+  border: 1px solid var(--ink-soft);
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.captionTag {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+.caption p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--ink-muted, rgba(245, 243, 239, 0.72));
+}
+
+@media (max-width: 820px) {
+  .panel {
+    grid-template-columns: 1fr;
+  }
+  .visuals {
+    order: -1;
+  }
+}

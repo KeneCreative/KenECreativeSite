@@ -1,0 +1,38 @@
+.wrap {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.card {
+  position: relative;
+  border: 1px solid var(--ink-soft);
+  background: var(--ground-raise);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+  box-shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.7);
+}
+.card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0) 45%
+  );
+  mix-blend-mode: overlay;
+}
+.wrap figcaption {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
