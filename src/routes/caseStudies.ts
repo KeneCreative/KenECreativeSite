@@ -399,7 +399,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       },
       animationSeries: {
         title: 'Animation series',
-        lead: 'Three thirty-second spots. Pick a beat to jump the frame, or step through. Each spot ends on its own tagline and carries its own caption.',
+        lead: 'Three thirty-second spots. Pick a beat to jump the frame, or step through. Each sequence runs to its tagline, a call to action, and the campaign end card.',
         tabs: [
           {
             key: 'dog',
@@ -418,9 +418,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               'Steve is starting to wake up as the dog continues to nudge him',
               "Steve is sitting up in bed, awakened by the dog, realising there's a fire",
               'Steve and the dog are running out of the room',
+              'Closing tagline: your dog waits for you',
+              'Call to action: switch to a bed shaker',
+              'End card: #SignTheAlarm',
             ],
-            frames: frames('/works/redcross/dog', 11),
-            taglineImage: '/works/redcross/dog/tagline.webp',
+            frames: frames('/works/redcross/dog', 14),
             caption:
               '#SignTheAlarm Fire damage goes beyond flames. Request a bed shaker alarm installed and provided by the Red Cross to ensure your safety. Learn more and request yours by clicking the link in our bio.',
           },
@@ -441,9 +443,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               'Jane signs to Granny, "fire, fire"',
               'Granny is awake, shocked by the fire',
               'Granny and Jane quickly exit the room',
+              'Closing tagline: when you are asleep, so is your sense of smell',
+              'Call to action: switch to a bed shaker',
+              'End card: #SignTheAlarm',
             ],
-            frames: frames('/works/redcross/granny', 11),
-            taglineImage: '/works/redcross/granny/tagline.webp',
+            frames: frames('/works/redcross/granny', 14),
             caption:
               "#SignTheAlarm Fire doesn't discriminate, and neither should someone's alarm. Consider volunteering with the Red Cross and be part of installing bed shaker alarms for people in your community. Visit the link in our bio for details.",
           },
@@ -464,9 +468,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               'The bed shaker activates and Jenny wakes from the shaking of the bed',
               'A close-up of the bed shaker, emphasising the movement',
               'Jenny is out of bed, exiting the room quickly',
+              'Closing tagline: a bed shaker is your only warning',
+              'Call to action: switch to a bed shaker',
+              'End card: #SignTheAlarm',
             ],
-            frames: frames('/works/redcross/bedshaker', 11),
-            taglineImage: '/works/redcross/bedshaker/tagline.webp',
+            frames: frames('/works/redcross/bedshaker', 14),
             caption:
               '#SignTheAlarm The speed of fire is unpredictable. Learn how to protect your home and loved ones with fire safety resources from the Red Cross. Stay informed and stay safe. Find out more at the link in our bio.',
           },

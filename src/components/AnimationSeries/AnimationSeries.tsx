@@ -9,7 +9,6 @@ export type AnimTab = {
   desc: string
   beats: string[]
   frames: string[]
-  taglineImage: string
   caption: string
 }
 
@@ -68,6 +67,11 @@ export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
               </li>
             ))}
           </ol>
+
+          <div className={s.caption}>
+            <span className={s.captionTag}>{tab.label} caption</span>
+            <p>{tab.caption}</p>
+          </div>
         </div>
 
         <div className={s.visuals}>
@@ -109,21 +113,6 @@ export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
                 ›
               </button>
             </div>
-          </div>
-
-          <figure className={s.endCard}>
-            <figcaption>Final tagline</figcaption>
-            <img
-              src={tab.taglineImage}
-              alt={`${tab.label} animation end card`}
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-
-          <div className={s.caption}>
-            <span className={s.captionTag}>{tab.label} caption</span>
-            <p>{tab.caption}</p>
           </div>
         </div>
       </div>

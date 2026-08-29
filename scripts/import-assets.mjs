@@ -40,29 +40,43 @@ const JOBS = [
   { from: 'Redcross Files/Business cards/3 Back - Fire Waits For No One.png', to: 'works/redcross/cards/3-back-fire-waits.webp', maxW: 1600 },
   { from: 'Redcross Files/Business cards/4 Back - Your Only Warning.png', to: 'works/redcross/cards/4-back-warning.webp', maxW: 1600 },
   { from: 'Redcross Files/Business cards/5 Back - Neither Should Your Alarm.png', to: 'works/redcross/cards/5-back-alarm.webp', maxW: 1600 },
+  // Animation series: frames 01-11 are storyboard shots (trim the white border,
+  // crop to a consistent box). Frames 12-14 are the closing sequence:
+  // tagline -> "switch to a bed shaker" -> #SignTheAlarm end card.
   {
     dir: 'Redcross Files/Animation series/Dog',
     to: 'works/redcross/dog',
-    seq: /Dog\s+(\d+)/,
-    tagline: /Tagline/,
+    seq: /^Dog\s+0*(\d+)/,
+    trim: true,
     resize: { width: 1426, height: 935, fit: 'cover', position: 'centre' },
-    taglineOpt: { extractPct: { top: 0.28, height: 0.44 }, resize: { width: 960 } },
+    extra: [
+      { from: 'Redcross Files/Animation series/Dog/Dogtaglinenew.png', name: '12.webp' },
+      { from: 'Redcross Files/Animation series/Dog/FrameafterDogTagline.png', name: '13.webp' },
+      { from: 'Redcross Files/Animation series/Dog/EndcardDog.png', name: '14.webp' },
+    ],
   },
   {
     dir: 'Redcross Files/Animation series/Granny',
     to: 'works/redcross/granny',
-    seq: /Granny\s+(\d+)/,
-    tagline: /Tagline/,
+    seq: /^Granny\s+0*(\d+)/,
+    trim: true,
     resize: { width: 1426, height: 935, fit: 'cover', position: 'centre' },
-    taglineOpt: { extractPct: { top: 0.28, height: 0.44 }, resize: { width: 960 } },
+    extra: [
+      { from: 'Redcross Files/Animation series/Granny/GrannyTaglinenew.png', name: '12.webp' },
+      { from: 'Redcross Files/Animation series/Granny/FrameafterGrannyTagline.png', name: '13.webp' },
+      { from: 'Redcross Files/Animation series/Granny/EndcardGranny.png', name: '14.webp' },
+    ],
   },
   {
     dir: 'Redcross Files/Animation series/Bed Shaker',
     to: 'works/redcross/bedshaker',
-    seq: /Bedshaker\s+(\d+)/,
-    tagline: /Tagline/,
+    seq: /^Bedshaker\s+0*(\d+)/,
     maxW: 1100,
-    taglineOpt: { extractPct: { top: 0.22, height: 0.5 }, resize: { width: 960 } },
+    extra: [
+      { from: 'Redcross Files/Animation series/Bed Shaker/Bedshaker Tagline.png', name: '12.webp', maxW: 1100 },
+      { from: 'Redcross Files/Animation series/Bed Shaker/Frame after BedshakerTagline.png', name: '13.webp', maxW: 1100 },
+      { from: 'Redcross Files/Animation series/Bed Shaker/Endcard BedhsakerVert.png', name: '14.webp', maxW: 1100 },
+    ],
   },
   { dir: 'Redcross Files/Infographic', to: 'works/redcross/infographic', maxW: 1400, seq: /(\d+)/ },
 
@@ -75,7 +89,7 @@ const JOBS = [
 ]
 
 async function toWebp(src, dst, opt = {}) {
-  const { maxW = 1600, resize, extractPct } = opt
+  const { maxW = 1600, resize, extractPct, trim } = opt
   await mkdir(path.dirname(dst), { recursive: true })
   let pipe = sharp(src, { failOn: 'none' }).rotate()
   const meta = await sharp(src).metadata()
@@ -85,6 +99,7 @@ async function toWebp(src, dst, opt = {}) {
     const height = Math.round(meta.height * extractPct.height)
     pipe = pipe.extract({ left: 0, top, width: meta.width, height })
   }
+  if (trim) pipe = pipe.trim({ threshold: 22 })
   if (resize) pipe = pipe.resize(resize)
   else if (meta.width && meta.width > maxW) pipe = pipe.resize({ width: maxW })
 
@@ -119,7 +134,9 @@ for (const job of JOBS) {
     continue
   }
   const files = (await readdir(dir)).filter((f) => RASTER.has(path.extname(f).toLowerCase()))
+  const claimed = new Set((job.extra ?? []).map((e) => path.basename(e.from)))
   for (const f of files) {
+    if (claimed.has(f)) continue
     const src = path.join(dir, f)
     let name
     let opt = job
@@ -128,13 +145,18 @@ for (const job of JOBS) {
       opt = job.taglineOpt ? { ...job, ...job.taglineOpt } : job
     } else {
       const m = f.match(job.seq)
-      if (!m) {
-        console.warn(`  skip (no index): ${f}`)
-        continue
-      }
+      if (!m) continue
       name = `${String(Number(m[1])).padStart(2, '0')}.webp`
     }
     await toWebp(src, path.join(OUT, job.to, name), opt)
+  }
+  for (const e of job.extra ?? []) {
+    const src = path.join(SRC, e.from)
+    if (!existsSync(src)) {
+      console.warn(`MISSING  ${e.from}`)
+      continue
+    }
+    await toWebp(src, path.join(OUT, job.to, e.name), { ...job, ...e })
   }
 }
 

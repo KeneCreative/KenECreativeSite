@@ -134,6 +134,12 @@
   gap: 0.6rem;
   align-items: baseline;
 }
+/* the side list already shows the beat on desktop */
+@media (min-width: 821px) {
+  .frameBeat {
+    display: none;
+  }
+}
 .frameBeatNo {
   font-family: var(--font-mono);
   font-size: 0.68rem;
@@ -173,30 +179,8 @@
   color: var(--ink-dim);
 }
 
-.endCard {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: flex-start;
-}
-.endCard figcaption {
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-}
-.endCard img {
-  width: 100%;
-  max-width: 360px;
-  height: auto;
-  display: block;
-  border: 1px solid var(--ink-soft);
-  background: var(--ground);
-}
-
 .caption {
+  margin-top: 1.4rem;
   border: 1px solid var(--ink-soft);
   padding: 1rem 1.1rem;
   display: flex;
