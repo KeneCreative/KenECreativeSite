@@ -62,19 +62,18 @@ export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
     listRef.current?.scrollTo({ top: 0, behavior: 'auto' })
   }, [tabIdx])
 
-  // Follow the active beat within the current tab.
+  // Keep the active beat pinned near the top of the list as it advances, so the
+  // script stays readable. Instant, not smooth, to avoid chasing during autoplay.
   useEffect(() => {
     const list = listRef.current
     const active = list?.children[beat] as HTMLElement | undefined
     if (!list || !active) return
     const id = requestAnimationFrame(() => {
-      list.scrollTo({
-        top: Math.max(0, active.offsetTop - 16),
-        behavior: reduce ? 'auto' : 'smooth',
-      })
+      const max = list.scrollHeight - list.clientHeight
+      list.scrollTop = Math.max(0, Math.min(max, active.offsetTop - 12))
     })
     return () => cancelAnimationFrame(id)
-  }, [beat, reduce])
+  }, [beat])
 
   // Pause autoplay while the pointer is over the component.
   useEffect(() => {
