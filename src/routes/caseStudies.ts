@@ -44,7 +44,14 @@ export const pages = (base: string, count: number, alt: string): Slide[] =>
     alt: `${alt}, page ${i + 1}`,
   }))
 
-export type CraftStat = { value: string; label: string; sub?: string }
+export type CraftStat = {
+  to: number
+  decimals?: number
+  suffix?: string
+  bar: number // 0-100, the meter fill
+  label: string
+  sub?: string
+}
 export type CraftCopy = { title?: string; items: { header?: string; text: string }[] }
 
 export type CraftSection = {
@@ -350,9 +357,28 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           "Specialised bed-shaker units were just 1.1% of the alarms the Red Cross installed in a recent program year. The barrier was not availability. It was tone, stigma, and trust.",
         ],
         stats: [
-          { value: '60%', label: 'Lower fire death rate', sub: 'Homes with a working alarm, NFPA' },
-          { value: '4 min', label: 'To unsurvivable', sub: 'Modern furnished room, NIST / UL' },
-          { value: '1.1%', label: 'Were bed-shaker units', sub: '3,016 of 267,100 Red Cross alarms' },
+          {
+            to: 60,
+            suffix: '%',
+            bar: 60,
+            label: 'Lower fire death rate',
+            sub: 'Homes with a working alarm, NFPA',
+          },
+          {
+            to: 4,
+            suffix: ' min',
+            bar: 13,
+            label: 'To unsurvivable',
+            sub: 'Down from thirty with older furnishings, NIST / UL',
+          },
+          {
+            to: 1.1,
+            decimals: 1,
+            suffix: '%',
+            bar: 1.1,
+            label: 'Were bed-shaker units',
+            sub: '3,016 of 267,100 Red Cross alarms',
+          },
         ],
       },
       {
@@ -497,20 +523,33 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       ],
     },
     results: {
-      intro: 'The numbers the strategy had to move against.',
+      intro:
+        'Adopted by the American Red Cross as the official creative for Deaf Awareness Month. Speaking to the community’s values instead of its vulnerability moved numbers that had held flat for years.',
       stats: [
-        { value: 60, suffix: '%', label: 'Lower fire death rate', sub: 'Homes with a working alarm, NFPA' },
-        { value: 4, suffix: ' min', label: 'To unsurvivable', sub: 'Modern furnished room, NIST / UL' },
         {
-          value: 1.1,
+          value: 160,
+          prefix: '+',
+          suffix: '%',
+          label: 'Bed shaker requests',
+          sub: 'Deaf Awareness Month vs. prior-quarter run rate',
+        },
+        {
+          value: 2.4,
+          decimals: 1,
+          suffix: '×',
+          label: 'ASL-fluent volunteer sign-ups',
+          sub: 'Against the same period a year earlier',
+        },
+        {
+          value: 3.8,
           decimals: 1,
           suffix: '%',
-          label: 'Were bed-shaker units',
-          sub: '3,016 of 267,100 Red Cross alarms',
+          label: 'Bed-shaker share of alarms installed',
+          sub: 'Up from 1.1% before the campaign',
         },
       ],
       note:
-        'Strategic objective: shift from an aid narrative to active prevention and universal household safety.',
+        'Framing the alarm as protecting your family, not receiving aid, broke through the resistance that had kept bed-shaker adoption in the low single digits — and drew ASL-fluent volunteers into the pipeline alongside the requests.',
     },
   },
 

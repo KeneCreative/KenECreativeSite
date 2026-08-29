@@ -190,7 +190,7 @@ export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
       </div>
 
       <div className={s.caption}>
-        <span className={s.captionTag}>{tab.label} caption</span>
+        <span className={s.captionTag}>Final Instagram caption copy</span>
         <p>{tab.caption}</p>
       </div>
     </div>

@@ -8,6 +8,7 @@ import Slideshow from '@/components/Slideshow/Slideshow'
 import StatDial from '@/components/StatDial'
 import TiltCard from '@/components/TiltCard/TiltCard'
 import AnimationSeries from '@/components/AnimationSeries/AnimationSeries'
+import CraftStats from '@/components/CraftStats/CraftStats'
 import { useMediaQuery } from '@/lib/useMediaQuery'
 import {
   CASE_STUDIES,
@@ -321,17 +322,7 @@ export default function CaseStudy() {
                 </div>
                 <div className={s.craftAside}>
                   {sec.pullQuote && <p className={s.pullQuote}>{sec.pullQuote}</p>}
-                  {sec.stats && (
-                    <div className={s.craftStats}>
-                      {sec.stats.map((st) => (
-                        <div key={st.label} className={s.craftStat}>
-                          <span className={s.craftStatValue}>{st.value}</span>
-                          <span className={s.craftStatLabel}>{st.label}</span>
-                          {st.sub && <span className={s.craftStatSub}>{st.sub}</span>}
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  {sec.stats && <CraftStats items={sec.stats} />}
                   {sec.finalCopy && (
                     <div className={s.finalCopy}>
                       {sec.finalCopy.title && (
