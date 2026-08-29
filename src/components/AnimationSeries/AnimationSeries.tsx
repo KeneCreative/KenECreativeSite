@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { motion, useReducedMotion } from 'motion/react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { motion, useInView, useReducedMotion } from 'motion/react'
 import s from './AnimationSeries.module.css'
 
 export type AnimTab = {
@@ -12,10 +12,13 @@ export type AnimTab = {
   caption: string
 }
 
+const AUTOPLAY_MS = 4000
+
 /**
- * Dog / Granny / Bedshaker tabs. Each drives a synced pairing: a clickable
- * beat-by-beat shot list on the left, a frame viewer on the right that follows
- * the active beat, a static final-tagline image, and the animation's caption.
+ * Dog / Granny / Bedshaker tabs. Two columns: a scrollable storyboard list on
+ * the left, top-aligned with the frame box on the right. The sequence
+ * auto-advances (4s), which drives the frame; any interaction restarts the
+ * timer; hovering the panel pauses it. The spot's caption sits below, centred.
  */
 export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
   const reduce = useReducedMotion()
@@ -24,14 +27,69 @@ export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
   const tab = tabs[tabIdx]
   const total = tab.frames.length
 
+  const rootRef = useRef<HTMLDivElement>(null)
+  const boxRef = useRef<HTMLDivElement>(null)
+  const listRef = useRef<HTMLOListElement>(null)
+  const labelRef = useRef<HTMLParagraphElement>(null)
+  const hovering = useRef(false)
+  const inView = useInView(rootRef, { amount: 0.2 })
+
+  // Match the list column height to the frame box so the two columns stay
+  // balanced: the scrollable list fills (box height - the label above it).
+  const [listH, setListH] = useState<number | null>(null)
+  useEffect(() => {
+    const box = boxRef.current
+    if (!box) return
+    const measure = () => {
+      const labelH = labelRef.current?.offsetHeight ?? 0
+      setListH(Math.max(200, box.getBoundingClientRect().height - labelH - 12))
+    }
+    const ro = new ResizeObserver(measure)
+    ro.observe(box)
+    measure()
+    return () => ro.disconnect()
+  }, [])
+
   const selectTab = (i: number) => {
     setTabIdx(i)
     setBeat(0)
   }
-  const stepBeat = (d: number) => setBeat((b) => Math.min(total - 1, Math.max(0, b + d)))
+  const goto = useCallback((i: number) => setBeat(((i % total) + total) % total), [total])
+  const step = (d: number) => goto(beat + d)
+
+  // Keep the active beat visible in the scrollable list.
+  useEffect(() => {
+    const list = listRef.current
+    const active = list?.children[beat] as HTMLElement | undefined
+    if (!list || !active) return
+    list.scrollTo({ top: active.offsetTop - 16, behavior: reduce ? 'auto' : 'smooth' })
+  }, [beat, tabIdx, reduce])
+
+  // Pause autoplay while the pointer is over the component.
+  useEffect(() => {
+    const el = rootRef.current
+    if (!el) return
+    const on = () => (hovering.current = true)
+    const off = () => (hovering.current = false)
+    el.addEventListener('pointerenter', on)
+    el.addEventListener('pointerleave', off)
+    return () => {
+      el.removeEventListener('pointerenter', on)
+      el.removeEventListener('pointerleave', off)
+    }
+  }, [])
+
+  // Autoplay: advance every 4s, which drives the frame. Any jump restarts it.
+  useEffect(() => {
+    if (reduce || !inView) return
+    const id = window.setInterval(() => {
+      if (!hovering.current) setBeat((b) => (b + 1) % total)
+    }, AUTOPLAY_MS)
+    return () => window.clearInterval(id)
+  }, [reduce, inView, total, tabIdx, beat])
 
   return (
-    <div className={s.root}>
+    <div className={s.root} ref={rootRef}>
       <div className={s.tabs} role="tablist" aria-label="Animation">
         {tabs.map((t, i) => (
           <button
@@ -47,18 +105,27 @@ export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
         ))}
       </div>
 
+      <div className={s.intro}>
+        <p className={s.tagline}>{tab.tagline}</p>
+        <p className={s.desc}>{tab.desc}</p>
+      </div>
+
       <div className={s.panel}>
-        <div className={s.narrative}>
-          <p className={s.tagline}>{tab.tagline}</p>
-          <p className={s.desc}>{tab.desc}</p>
-          <p className={s.beatsLabel}>Storyboard sequence and script</p>
-          <ol className={s.beats}>
+        <div className={s.listCol}>
+          <p className={s.beatsLabel} ref={labelRef}>
+            Storyboard sequence and script
+          </p>
+          <ol
+            className={s.beats}
+            ref={listRef}
+            style={listH ? { maxHeight: listH } : undefined}
+          >
             {tab.beats.map((b, i) => (
               <li key={i}>
                 <button
                   type="button"
                   className={`${s.beat} ${i === beat ? s.beatActive : ''}`}
-                  onClick={() => setBeat(i)}
+                  onClick={() => goto(i)}
                   aria-current={i === beat}
                 >
                   <span className={s.beatNo}>{String(i + 1).padStart(2, '0')}</span>
@@ -67,16 +134,11 @@ export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
               </li>
             ))}
           </ol>
-
-          <div className={s.caption}>
-            <span className={s.captionTag}>{tab.label} caption</span>
-            <p>{tab.caption}</p>
-          </div>
         </div>
 
         <div className={s.visuals}>
           <div className={s.frameWrap}>
-            <div className={s.frameStage}>
+            <div className={s.frameStage} ref={boxRef}>
               <motion.img
                 key={`${tab.key}-${beat}`}
                 className={s.frame}
@@ -96,7 +158,7 @@ export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
               <button
                 type="button"
                 className={s.frameBtn}
-                onClick={() => stepBeat(-1)}
+                onClick={() => step(-1)}
                 aria-label="Previous frame"
               >
                 ‹
@@ -107,7 +169,7 @@ export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
               <button
                 type="button"
                 className={s.frameBtn}
-                onClick={() => stepBeat(1)}
+                onClick={() => step(1)}
                 aria-label="Next frame"
               >
                 ›
@@ -115,6 +177,11 @@ export default function AnimationSeries({ tabs }: { tabs: AnimTab[] }) {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className={s.caption}>
+        <span className={s.captionTag}>{tab.label} caption</span>
+        <p>{tab.caption}</p>
       </div>
     </div>
   )

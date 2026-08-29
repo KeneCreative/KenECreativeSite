@@ -44,11 +44,16 @@ export const pages = (base: string, count: number, alt: string): Slide[] =>
     alt: `${alt}, page ${i + 1}`,
   }))
 
+export type CraftStat = { value: string; label: string; sub?: string }
+export type CraftCopy = { title?: string; items: { header?: string; text: string }[] }
+
 export type CraftSection = {
   kicker: string
   title: string
   body: string[]
   pullQuote?: string
+  stats?: CraftStat[]
+  finalCopy?: CraftCopy
   media?: Media[]
 }
 
@@ -344,7 +349,11 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           'A modern furnished room can become unsurvivable in about four minutes, down from thirty with older furnishings. The standard 3,100 Hz alarm sits in the exact frequency range most degraded by hearing loss, and the sense of smell shuts off entirely during deep sleep.',
           "Specialised bed-shaker units were just 1.1% of the alarms the Red Cross installed in a recent program year. The barrier was not availability. It was tone, stigma, and trust.",
         ],
-        pullQuote: 'A modern house fire can become unsurvivable in about four minutes.',
+        stats: [
+          { value: '60%', label: 'Lower fire death rate', sub: 'Homes with a working alarm, NFPA' },
+          { value: '4 min', label: 'To unsurvivable', sub: 'Modern furnished room, NIST / UL' },
+          { value: '1.1%', label: 'Were bed-shaker units', sub: '3,016 of 267,100 Red Cross alarms' },
+        ],
       },
       {
         kicker: 'Thirty-second social spot',
@@ -353,7 +362,14 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           'Traditional safety PSAs risk being dismissed the moment they imply vulnerability. Each animation instead centres on a loved one, a dog, a grandmother, a sister, intervening during a house fire.',
           'The narrative shows the real risk of relying on sound and smell while others are put in danger trying to wake you. Shifting the weight from self-preservation to protecting others creates urgency without condescension.',
         ],
-        pullQuote: 'Your dog waits for you. What are you waiting for?',
+        finalCopy: {
+          title: 'Final taglines',
+          items: [
+            { header: 'Dog', text: 'Your dog waits for you. What are you waiting for?' },
+            { header: 'Granny', text: "When you're asleep, so is your sense of smell." },
+            { header: 'Bedshaker', text: 'A bed shaker is not an early warning. It is your only warning.' },
+          ],
+        },
       },
       {
         kicker: 'Print call-to-action',
@@ -362,41 +378,19 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           'The card series leans deliberately into urgency: in a fire, a DHH individual may only get one warning, and seconds matter.',
           'Blunt, minimal, time-sensitive copy paired with QR codes linking straight to the free bed-shaker request tool. Not charity. Prevention.',
         ],
+        finalCopy: {
+          title: 'Final copy, the four backs',
+          items: [
+            { header: 'Back 01', text: 'In a fire, seconds count' },
+            { header: 'Back 02', text: 'Fire waits for no one, and neither should you' },
+            { header: 'Back 03', text: 'Your only warning' },
+            { header: 'Back 04', text: 'Fire doesn’t discriminate, neither should your alarm' },
+          ],
+        },
       },
     ],
     artefacts: {
       title: 'The deliverables',
-      tiltCards: {
-        title: 'Business cards',
-        lead: 'Direct, high-contrast copy with a QR code straight to the free bed-shaker request tool. Small enough to hand over during outreach and keep by a nightstand.',
-        hero: {
-          src: '/works/redcross/cards/1-front.webp',
-          alt: 'Business card front, American Red Cross in ASL fingerspelling on red',
-          caption: 'Primary design, front',
-        },
-        items: [
-          {
-            src: '/works/redcross/cards/2-back-seconds.webp',
-            alt: 'Business card back reading In a fire, seconds count',
-            caption: 'In a fire, seconds count',
-          },
-          {
-            src: '/works/redcross/cards/3-back-fire-waits.webp',
-            alt: 'Business card back reading Fire waits for no one',
-            caption: 'Fire waits for no one',
-          },
-          {
-            src: '/works/redcross/cards/4-back-warning.webp',
-            alt: 'Business card back reading Your only warning',
-            caption: 'Your only warning',
-          },
-          {
-            src: '/works/redcross/cards/5-back-alarm.webp',
-            alt: 'Business card back reading Neither should your alarm',
-            caption: 'Neither should your alarm',
-          },
-        ],
-      },
       animationSeries: {
         title: 'Animation series',
         lead: 'Three thirty-second spots. Pick a beat to jump the frame, or step through. Each sequence runs to its tagline, a call to action, and the campaign end card.',
@@ -480,11 +474,23 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       },
       filmstrips: [
         {
+          title: 'Business cards',
+          openLabel: 'See the card set',
+          meta: 'Front, plus four back variations. QR to the free request tool',
+          cover: '/works/redcross/cards/1-front.webp',
+          slides: [
+            { src: '/works/redcross/cards/1-front.webp', alt: 'Business card front, American Red Cross in ASL fingerspelling on red', caption: 'Front, primary design' },
+            { src: '/works/redcross/cards/2-back-seconds.webp', alt: 'Business card back reading In a fire, seconds count', caption: 'Back 01, in a fire, seconds count' },
+            { src: '/works/redcross/cards/3-back-fire-waits.webp', alt: 'Business card back reading Fire waits for no one', caption: 'Back 02, fire waits for no one' },
+            { src: '/works/redcross/cards/4-back-warning.webp', alt: 'Business card back reading Your only warning', caption: 'Back 03, your only warning' },
+            { src: '/works/redcross/cards/5-back-alarm.webp', alt: 'Business card back reading Neither should your alarm', caption: 'Back 04, neither should your alarm' },
+          ],
+        },
+        {
           title: 'Free bed shaker infographic',
           openLabel: 'Read the steps',
           meta: 'How to request a free unit, in four steps',
           cover: '/works/redcross/infographic/01.webp',
-          compact: true,
           slides: pages('/works/redcross/infographic', 4, 'Bed shaker infographic'),
         },
       ],

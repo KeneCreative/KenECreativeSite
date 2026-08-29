@@ -469,12 +469,83 @@ a.artefact:focus-visible .artefactImg {
 }
 .filmstripGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: clamp(1.25rem, 3vw, 2rem);
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: clamp(1.5rem, 3.5vw, 2.25rem);
   margin-top: clamp(2rem, 5vw, 3rem);
 }
-.filmstripCompact {
-  max-width: 420px;
+
+/* ---- craft aside: stats + final copy ---- */
+.craftStats {
+  display: grid;
+  gap: 1px;
+  background: var(--ink-soft);
+  border: 1px solid var(--ink-soft);
+}
+.craftStat {
+  background: var(--ground);
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.craftStatValue {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.craftStatLabel {
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+.craftStatSub {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-dim);
+}
+
+.finalCopy {
+  border: 1px solid var(--ink-soft);
+  padding: 1.1rem 1.2rem;
+}
+.finalCopyTitle {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 0 0 0.9rem;
+}
+.finalCopy ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.finalCopy li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.finalCopyHeader {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.finalCopyText {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.02rem;
+  line-height: 1.3;
+  color: var(--ink);
 }
 
 .gallery,

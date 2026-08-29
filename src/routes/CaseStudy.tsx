@@ -321,6 +321,32 @@ export default function CaseStudy() {
                 </div>
                 <div className={s.craftAside}>
                   {sec.pullQuote && <p className={s.pullQuote}>{sec.pullQuote}</p>}
+                  {sec.stats && (
+                    <div className={s.craftStats}>
+                      {sec.stats.map((st) => (
+                        <div key={st.label} className={s.craftStat}>
+                          <span className={s.craftStatValue}>{st.value}</span>
+                          <span className={s.craftStatLabel}>{st.label}</span>
+                          {st.sub && <span className={s.craftStatSub}>{st.sub}</span>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {sec.finalCopy && (
+                    <div className={s.finalCopy}>
+                      {sec.finalCopy.title && (
+                        <p className={s.finalCopyTitle}>{sec.finalCopy.title}</p>
+                      )}
+                      <ul>
+                        {sec.finalCopy.items.map((it, k) => (
+                          <li key={k}>
+                            {it.header && <span className={s.finalCopyHeader}>{it.header}</span>}
+                            <span className={s.finalCopyText}>{it.text}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                   {sec.media && <MediaRow media={sec.media} />}
                 </div>
               </div>
@@ -360,7 +386,7 @@ export default function CaseStudy() {
           {cs.artefacts.filmstrips && (
             <div className={s.filmstripGrid}>
               {cs.artefacts.filmstrips.map((f) => (
-                <Reveal key={f.title} className={f.compact ? s.filmstripCompact : undefined}>
+                <Reveal key={f.title}>
                   <Filmstrip
                     title={f.title}
                     openLabel={f.openLabel}
