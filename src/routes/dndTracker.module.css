@@ -164,6 +164,41 @@
   margin: 0 auto;
   padding: 0 clamp(1.15rem, 5vw, 3rem) clamp(3.5rem, 9vw, 6.5rem);
 }
+
+/* Phone-sized: the embed is unusably cramped, so link out with a clean card. */
+.compactCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: clamp(1.5rem, 6vw, 2rem);
+  border: 1px solid var(--ink-soft);
+  border-radius: 12px;
+  background: var(--ground);
+  text-decoration: none;
+  transition: border-color 0.2s ease;
+}
+.compactCard:hover,
+.compactCard:focus-visible {
+  border-color: var(--brass);
+}
+.compactLabel {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.compactCopy {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--ink-muted, rgba(245, 243, 239, 0.72));
+}
+.compactCta {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  color: var(--brass);
+}
 .frameInner {
   position: relative;
   width: 100%;

@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type SyntheticEvent } from 'react'
 import PageTransition from '@/components/PageTransition'
 import s from './dndTracker.module.css'
 
 /** The DnD Campaign Tracker is a separate deployment; this route just frames it. */
 const APP_URL = 'https://dnd-tracker-nu.vercel.app/'
+
+/** Below this the embed is too cramped to be worth showing — link out instead. */
+const COMPACT_MQ = '(max-width: 720px)'
 
 const DOES = [
   'DM control panel with a separate, live player-facing display',
@@ -17,10 +20,21 @@ const BUILT_WITH = ['React', 'AI-assisted dev', 'GitHub', 'D&D 5e API']
 
 export default function DndTracker() {
   const [loaded, setLoaded] = useState(false)
+  const [compact, setCompact] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(COMPACT_MQ).matches,
+  )
   // The embedded app focuses a field on load, which makes the browser scroll
   // the iframe into view and skips the reader past the intro. Undo that once,
   // unless the reader has already taken over scrolling.
   const userScrolled = useRef(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia(COMPACT_MQ)
+    const onChange = () => setCompact(mq.matches)
+    onChange()
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
 
   useEffect(() => {
     const mark = () => {
@@ -36,14 +50,27 @@ export default function DndTracker() {
     }
   }, [])
 
-  const handleLoad = () => {
+  const handleLoad = (e: SyntheticEvent<HTMLIFrameElement>) => {
     setLoaded(true)
     if (userScrolled.current) return
-    ;[0, 60, 180].forEach((t) =>
+    // The app hydrates and focuses a field a beat after `load`, which scrolls
+    // the iframe into view. Drop that focus and pin the page to the top for a
+    // short grace window, bailing the moment the reader scrolls for real.
+    e.currentTarget.blur()
+    const pin = () => {
+      if (userScrolled.current) {
+        window.removeEventListener('scroll', pin)
+        return
+      }
+      if (window.scrollY > 0) window.scrollTo(0, 0)
+    }
+    window.addEventListener('scroll', pin, { passive: true })
+    ;[0, 120, 300, 600, 1000, 1500].forEach((t) =>
       window.setTimeout(() => {
-        if (!userScrolled.current) window.scrollTo(0, 0)
+        if (!userScrolled.current && window.scrollY > 0) window.scrollTo(0, 0)
       }, t),
     )
+    window.setTimeout(() => window.removeEventListener('scroll', pin), 1700)
   }
 
   return (
@@ -99,36 +126,54 @@ export default function DndTracker() {
             </aside>
           </div>
 
-          <p className={s.cue}>
-            &darr; The live tracker is below.{' '}
-            <a className={s.openNew} href={APP_URL} target="_blank" rel="noopener noreferrer">
-              Open it in a new tab ↗
-            </a>
-          </p>
+          {!compact && (
+            <p className={s.cue}>
+              &darr; The live tracker is below.{' '}
+              <a className={s.openNew} href={APP_URL} target="_blank" rel="noopener noreferrer">
+                Open it in a new tab ↗
+              </a>
+            </p>
+          )}
         </header>
 
         <div className={s.frameWrap}>
-          <div className={s.frameInner}>
-            {!loaded && (
-              <div className={s.fallback}>
-                <p>Loading the DnD Campaign Tracker&hellip;</p>
-                <p>
-                  If it doesn&rsquo;t appear,{' '}
-                  <a href={APP_URL} target="_blank" rel="noopener noreferrer">
-                    open it directly
-                  </a>
-                  .
-                </p>
-              </div>
-            )}
-            <iframe
-              className={s.frame}
-              src={APP_URL}
-              title="DnD Campaign Tracker application"
-              referrerPolicy="no-referrer-when-downgrade"
-              onLoad={handleLoad}
-            />
-          </div>
+          {compact ? (
+            <a
+              className={s.compactCard}
+              href={APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className={s.compactLabel}>Best on a bigger screen</span>
+              <span className={s.compactCopy}>
+                The tracker runs full-screen with a DM panel and a separate player view, so it
+                needs a laptop or an iPad, not a phone.
+              </span>
+              <span className={s.compactCta}>Open the DnD Campaign Tracker ↗</span>
+            </a>
+          ) : (
+            <div className={s.frameInner}>
+              {!loaded && (
+                <div className={s.fallback}>
+                  <p>Loading the DnD Campaign Tracker&hellip;</p>
+                  <p>
+                    If it doesn&rsquo;t appear,{' '}
+                    <a href={APP_URL} target="_blank" rel="noopener noreferrer">
+                      open it directly
+                    </a>
+                    .
+                  </p>
+                </div>
+              )}
+              <iframe
+                className={s.frame}
+                src={APP_URL}
+                title="DnD Campaign Tracker application"
+                referrerPolicy="no-referrer-when-downgrade"
+                onLoad={handleLoad}
+              />
+            </div>
+          )}
         </div>
       </div>
     </PageTransition>
