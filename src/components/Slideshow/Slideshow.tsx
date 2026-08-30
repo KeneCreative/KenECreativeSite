@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import s from './Slideshow.module.css'
 
@@ -9,15 +9,29 @@ type Props = {
   /** Fit style for the frame. 'contain' keeps whole documents/screens visible. */
   fit?: 'cover' | 'contain'
   aspect?: string
+  /**
+   * Auto-advance interval in ms. Off by default. Pauses on hover / focus and
+   * stays off under reduced motion.
+   */
+  autoplayMs?: number
+  /** Drop the side arrows and single-column the stage, for narrow columns. */
+  compact?: boolean
 }
 
 /**
  * A compact click-through image slideshow: framed image, prev/next, a dot
  * rail, and a caption that changes with the slide.
  */
-export default function Slideshow({ slides, fit = 'contain', aspect = '4 / 3' }: Props) {
+export default function Slideshow({
+  slides,
+  fit = 'contain',
+  aspect = '4 / 3',
+  autoplayMs,
+  compact = false,
+}: Props) {
   const reduce = useReducedMotion()
   const [i, setI] = useState(0)
+  const [paused, setPaused] = useState(false)
   const count = slides.length
   const step = useCallback(
     (d: number) => setI((c) => (((c + d) % count) + count) % count),
@@ -25,17 +39,31 @@ export default function Slideshow({ slides, fit = 'contain', aspect = '4 / 3' }:
   )
   const shot = slides[i]
 
+  useEffect(() => {
+    if (!autoplayMs || reduce || paused || count < 2) return
+    const id = window.setInterval(() => setI((c) => (c + 1) % count), autoplayMs)
+    return () => window.clearInterval(id)
+  }, [autoplayMs, reduce, paused, count])
+
   return (
-    <div className={s.root}>
-      <div className={s.stage}>
-        <button
-          className={`${s.nav} ${s.prev}`}
-          type="button"
-          onClick={() => step(-1)}
-          aria-label="Previous"
-        >
-          ‹
-        </button>
+    <div
+      className={s.root}
+      onPointerEnter={() => setPaused(true)}
+      onPointerLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
+    >
+      <div className={`${s.stage} ${compact ? s.stageCompact : ''}`}>
+        {!compact && (
+          <button
+            className={`${s.nav} ${s.prev}`}
+            type="button"
+            onClick={() => step(-1)}
+            aria-label="Previous"
+          >
+            ‹
+          </button>
+        )}
         <div
           className={s.frame}
           style={{ aspectRatio: aspect }}
@@ -55,14 +83,16 @@ export default function Slideshow({ slides, fit = 'contain', aspect = '4 / 3' }:
             transition={{ duration: 0.22 }}
           />
         </div>
-        <button
-          className={`${s.nav} ${s.next}`}
-          type="button"
-          onClick={() => step(1)}
-          aria-label="Next"
-        >
-          ›
-        </button>
+        {!compact && (
+          <button
+            className={`${s.nav} ${s.next}`}
+            type="button"
+            onClick={() => step(1)}
+            aria-label="Next"
+          >
+            ›
+          </button>
+        )}
       </div>
 
       <div className={s.foot}>

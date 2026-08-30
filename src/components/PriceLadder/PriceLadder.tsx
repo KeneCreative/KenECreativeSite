@@ -27,10 +27,19 @@ function Cup({ scale, kind, highlight }: Pick<PriceCup, 'scale' | 'kind' | 'high
  * sharing a baseline so the gap reads at a glance. Cups rise in on scroll.
  * `bare` drops the outer border/background for nesting in another box.
  */
-export default function PriceLadder({ def, bare }: { def: PriceLadderDef; bare?: boolean }) {
+export default function PriceLadder({
+  def,
+  bare,
+  narrow,
+}: {
+  def: PriceLadderDef
+  bare?: boolean
+  /** Smaller cups and tighter gaps, for a sidebar-width column. */
+  narrow?: boolean
+}) {
   const reduce = useReducedMotion()
   return (
-    <figure className={`${s.root} ${bare ? s.bare : ''}`}>
+    <figure className={`${s.root} ${bare ? s.bare : ''} ${narrow ? s.narrow : ''}`}>
       <figcaption className={s.head}>
         <span className={s.kicker}>Price ladder</span>
         <span className={s.title}>{def.title}</span>

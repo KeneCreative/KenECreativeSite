@@ -7,6 +7,7 @@ const LOGO = 'https://static.wixstatic.com/media/705587_1dc95d7baf614605a69a707f
 const NAV = [
   { to: '/', label: 'Home', note: '♫', end: true },
   { to: '/works', label: 'Works', note: '♪', end: false },
+  { to: '/book', label: 'Book', note: '♬', end: false },
   { to: '/about', label: 'About', note: '♩', end: false },
 ] as const
 

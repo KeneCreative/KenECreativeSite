@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import PageTransition from '@/components/PageTransition'
 import NameReveal from '@/components/NameReveal'
+import BookCta from '@/components/BookCta/BookCta'
 import { PROJECTS } from './projects'
 import s from './routes.module.css'
 
@@ -14,6 +15,7 @@ export default function Overture() {
           Creative strategist and developer in Austin, Texas. Brand strategy,
           copywriting, and digital experience, composed like a score.
         </p>
+        <BookCta />
       </section>
 
       <div className={s.page}>

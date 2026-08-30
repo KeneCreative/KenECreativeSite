@@ -3,6 +3,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 import RootLayout from '@/layout/RootLayout'
 import Overture from '@/routes/Overture'
 import Works from '@/routes/Works'
+import Book from '@/routes/Book'
 import CaseStudy from '@/routes/CaseStudy'
 import About from '@/routes/About'
 import DndTracker from '@/routes/DndTracker'
@@ -19,6 +20,7 @@ export const router = createBrowserRouter([
       { index: true, element: <Overture /> },
       { path: 'works', element: <Works /> },
       { path: 'works/:slug', element: <CaseStudy /> },
+      { path: 'book', element: <Book /> },
       { path: 'about', element: <About /> },
       { path: 'dndtracker', element: <DndTracker /> },
       {

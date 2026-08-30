@@ -1,0 +1,306 @@
+/* Book: a fast-skim index of the actual copy, one module per campaign.
+   Transparent surfaces so the ScoreCanvas threads behind, same as About.
+   Each module is meant to read in roughly one screen. */
+
+.root {
+  flex: 1 0 auto;
+}
+.wrap {
+  max-width: 1120px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 clamp(1.15rem, 5vw, 3rem);
+}
+
+/* ---------- hero: short, just says what the page is ---------- */
+.hero {
+  padding-top: calc(var(--header-h) + clamp(2.5rem, 8vw, 5.5rem));
+  padding-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 0 0 1.4rem;
+}
+.heroLead {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 1.4rem + 2.4vw, 3.1rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--ink);
+  max-width: 16ch;
+  margin: 0 0 1.1rem;
+}
+.heroSub {
+  font-size: clamp(1rem, 0.95rem + 0.35vw, 1.15rem);
+  line-height: 1.6;
+  color: var(--ink-dim);
+  max-width: 46ch;
+  margin: 0;
+}
+
+/* ---------- module ---------- */
+.module {
+  border-top: 1px solid var(--ink-soft);
+  /* padding-top / bottom only, .wrap owns the horizontal padding */
+  padding-top: clamp(2.5rem, 5.5vw, 3.9rem);
+  padding-bottom: clamp(2.5rem, 5.5vw, 3.9rem);
+}
+.module:last-of-type {
+  padding-bottom: clamp(3.5rem, 10vw, 7rem);
+}
+
+/* copy left, supporting visual right */
+.moduleGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(15rem, 34%, 23rem);
+  gap: clamp(1.5rem, 4.5vw, 3.25rem);
+  align-items: start;
+}
+.moduleMain {
+  min-width: 0;
+}
+.moduleMain > *:last-child {
+  margin-bottom: 0;
+}
+.moduleAside {
+  min-width: 0;
+}
+@media (max-width: 860px) {
+  .moduleGrid {
+    grid-template-columns: 1fr;
+    gap: clamp(1.75rem, 6vw, 2.5rem);
+  }
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 1.1rem + 1vw, 1.9rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 0.85rem;
+}
+
+.roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.1rem;
+  margin: 0 0 1.4rem;
+}
+.role {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.blurb {
+  font-size: clamp(0.98rem, 0.93rem + 0.3vw, 1.12rem);
+  line-height: 1.6;
+  color: var(--ink-dim);
+  max-width: 56ch;
+  margin: 0 0 clamp(1.75rem, 4vw, 2.5rem);
+}
+
+/* the centerpiece: largest, boldest type on the page */
+.featured {
+  max-width: min(100%, 34rem);
+  margin: 0 0 clamp(1.4rem, 3.5vw, 2rem);
+}
+.featuredLine {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 1.3rem + 2.7vw, 3.15rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  color: var(--ink);
+  margin: 0 0 0.35em;
+}
+.featuredLine:last-child {
+  margin-bottom: 0;
+}
+.featuredLine em {
+  font-style: normal;
+  color: var(--brass);
+}
+/* uppercase poster treatment (Unopened Letter) */
+.featuredCaps {
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 1.14;
+}
+/* a stacked series of shorter lines (Red Cross), a step down so three
+   of them still fit the screen, still the biggest type in the module */
+.featuredSeries {
+  max-width: min(100%, 30rem);
+}
+.featuredSeries .featuredLine {
+  font-size: clamp(1.5rem, 1.15rem + 1.7vw, 2.35rem);
+  line-height: 1.16;
+  margin-bottom: 0.55em;
+}
+/* a stacked set of lines that varies in length (the AAP deliverables) runs
+   a step smaller, with more air between lines since each is its own quote */
+.featuredSm {
+  max-width: min(100%, 40rem);
+}
+.featuredSm .featuredLine {
+  font-size: clamp(1.4rem, 1.1rem + 1.5vw, 2.15rem);
+  line-height: 1.2;
+  margin-bottom: 0.7em;
+}
+
+.srcTag {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 0 0 0.7rem;
+}
+.srcTagGap {
+  margin-top: 1.6rem;
+}
+
+/* Red Cross: one block per animation, tagline over the social copy it ran with */
+.anims {
+  margin: 0 0 clamp(1.4rem, 3.5vw, 2rem);
+}
+.animGroup {
+  max-width: 44rem;
+}
+.animGroup + .animGroup {
+  margin-top: clamp(1.75rem, 4vw, 2.75rem);
+}
+.animLabel {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin: 0 0 0.7rem;
+}
+.animLine {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.45rem, 1.1rem + 1.7vw, 2.3rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  color: var(--ink);
+  max-width: 24ch;
+  margin: 0 0 0.9rem;
+}
+.animSocialLabel {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 0 0 0.5rem;
+}
+.animSocial {
+  font-size: clamp(0.85rem, 0.82rem + 0.22vw, 0.97rem);
+  line-height: 1.55;
+  color: var(--ink-dim);
+  max-width: 54ch;
+  margin: 0;
+}
+
+.secondary {
+  font-size: clamp(0.92rem, 0.88rem + 0.3vw, 1.05rem);
+  line-height: 1.55;
+  color: var(--ink-dim);
+  max-width: 46ch;
+  margin: 0 0 clamp(1.75rem, 4vw, 2.5rem);
+}
+
+/* supporting visual: small, secondary, framed like the About portrait.
+   Sits in the right column, so it fills that column's width. */
+.shot {
+  margin: 0;
+  border: 1px solid var(--ink-soft);
+  background: var(--ground);
+  padding: 0.5rem;
+  width: 100%;
+}
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.shotCaption {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.55;
+  color: var(--ink-dim);
+  margin: 0.7rem 0 0;
+}
+
+.ladderWrap {
+  margin: 0;
+  border: 1px solid var(--ink-soft);
+  background: var(--ground);
+  padding: clamp(1rem, 3vw, 1.45rem);
+  width: 100%;
+}
+
+/* auto-advancing set in the right column (Red Cross cards) */
+.slideshowBlock {
+  width: 100%;
+}
+.asideLabel {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin: 0 0 0.9rem;
+}
+
+.csLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: clamp(1.75rem, 4.5vw, 2.75rem);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--ink-soft);
+  padding-bottom: 0.35rem;
+  transition: color 0.2s ease, border-color 0.2s ease, gap 0.2s ease;
+}
+.csLink:hover,
+.csLink:focus-visible {
+  color: var(--brass);
+  border-color: var(--brass);
+  gap: 0.9rem;
+}
+.arrow {
+  transition: transform 0.2s ease;
+}
+.csLink:hover .arrow,
+.csLink:focus-visible .arrow {
+  transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .csLink,
+  .arrow {
+    transition: none;
+  }
+}

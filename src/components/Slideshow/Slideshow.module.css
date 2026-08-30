@@ -9,6 +9,10 @@
   gap: clamp(0.5rem, 2vw, 1rem);
   padding: clamp(1rem, 3vw, 1.75rem);
 }
+.stageCompact {
+  grid-template-columns: 1fr;
+  padding: clamp(0.75rem, 2.5vw, 1rem);
+}
 .frame {
   position: relative;
   width: 100%;

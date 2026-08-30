@@ -40,6 +40,27 @@
   max-width: 560px;
   margin: 0 auto;
 }
+.narrow .row {
+  gap: 0.5rem;
+  max-width: none;
+  flex-wrap: nowrap;
+}
+.narrow .cup {
+  width: clamp(40px, 15vw, 58px);
+}
+.narrow .price {
+  font-size: 0.78rem;
+}
+.narrow .brand {
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+}
+.narrow .head {
+  margin-bottom: clamp(1rem, 4vw, 1.6rem);
+}
+.narrow .source {
+  margin-top: clamp(1rem, 4vw, 1.6rem);
+}
 
 .item {
   display: flex;
