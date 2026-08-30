@@ -12,6 +12,7 @@ import CraftStats from '@/components/CraftStats/CraftStats'
 import AlbumEvolution from '@/components/AlbumEvolution/AlbumEvolution'
 import VideoTheater from '@/components/VideoTheater/VideoTheater'
 import ResultsTimeline from '@/components/ResultsTimeline/ResultsTimeline'
+import PriceLadder from '@/components/PriceLadder/PriceLadder'
 import { useMediaQuery } from '@/lib/useMediaQuery'
 import {
   CASE_STUDIES,
@@ -358,6 +359,11 @@ export default function CaseStudy() {
                   )}
                   {sec.media && <MediaRow media={sec.media} />}
                 </div>
+                {sec.ladder && (
+                  <div className={s.craftWide}>
+                    <PriceLadder def={sec.ladder} />
+                  </div>
+                )}
               </div>
             </Reveal>
           ))}

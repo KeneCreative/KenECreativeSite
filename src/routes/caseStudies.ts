@@ -58,6 +58,20 @@ export type TimelineDef = {
   points: TimelinePoint[]
 }
 
+export type PriceCup = {
+  brand: string
+  price: string
+  /** Cup height as a fraction of the tallest, 0-1. */
+  scale: number
+  kind?: 'plain' | 'lid' | 'sleeve'
+  highlight?: boolean
+}
+export type PriceLadderDef = {
+  title: string
+  cups: PriceCup[]
+  source?: { label: string; href: string }
+}
+
 /** Frame image paths for a Red Cross animation folder (NN.webp). */
 export const frames = (base: string, count: number): string[] =>
   Array.from({ length: count }, (_, i) => `${base}/${String(i + 1).padStart(2, '0')}.webp`)
@@ -89,6 +103,8 @@ export type CraftSection = {
   stats?: CraftStat[]
   finalCopy?: CraftCopy
   media?: Media[]
+  /** Full-width graphic below the section text. */
+  ladder?: PriceLadderDef
 }
 
 export type Artefact = {
@@ -672,6 +688,19 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           "The price ladder makes it worse. Dutch Bros at $3.50 reads as cheap next to Starbucks at $5.25, even when the cup is not.",
         ],
         pullQuote: 'I feel bad about syrups sometimes. That feels suspicious to me.',
+        ladder: {
+          title: 'What a cup costs across the category',
+          cups: [
+            { brand: '7-Eleven', price: '$3.49', scale: 0.6, kind: 'plain' },
+            { brand: 'Dutch Bros', price: '$3.50', scale: 0.62, kind: 'plain', highlight: true },
+            { brand: 'Dunkin', price: '$4.69', scale: 0.82, kind: 'lid' },
+            { brand: 'Starbucks', price: '$5.25', scale: 1, kind: 'sleeve' },
+          ],
+          source: {
+            label: 'Foodservice Coffee and Tea, US 2023, Mintel',
+            href: 'https://store.mintel.com/report/us-foodservice-coffee-and-tea-market-report-2023',
+          },
+        },
       },
       {
         kicker: 'Positioning framework',

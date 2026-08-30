@@ -144,6 +144,10 @@
 .craftSection:first-of-type {
   border-top: 0;
 }
+.craftWide {
+  grid-column: 1 / -1;
+  margin-top: clamp(1.25rem, 3vw, 2.25rem);
+}
 .craftKicker {
   font-family: var(--font-mono);
   font-size: 0.68rem;
