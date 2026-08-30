@@ -17,6 +17,7 @@ const HEAVY_ROUTES = new Set<string>()
 export default function RootLayout() {
   const { pathname } = useLocation()
   const setPaused = useScore((s) => s.setPaused)
+  const setForceMotion = useScore((s) => s.setForceMotion)
 
   // Reset scroll before the browser paints the new route.
   useLayoutEffect(() => {
@@ -25,7 +26,10 @@ export default function RootLayout() {
 
   useEffect(() => {
     setPaused(HEAVY_ROUTES.has(pathname))
-  }, [pathname, setPaused])
+    // The home hero keeps drifting even with reduced-motion on; every other
+    // route honors the setting and holds still.
+    setForceMotion(pathname === '/')
+  }, [pathname, setPaused, setForceMotion])
 
   return (
     <>

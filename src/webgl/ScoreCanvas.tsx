@@ -9,8 +9,8 @@ const MAX_DPR = 1.5
 
 /**
  * Persistent WebGL2 score field. Mounted once by RootLayout, never unmounts.
- * Reads the non-reactive signal singleton; the only React coupling is the
- * `paused` flag the router flips for the heavy route.
+ * Reads the non-reactive signal singleton; the React coupling is the `paused`
+ * flag (heavy route) and `forceMotion` (home route overrides reduced-motion).
  */
 export default function ScoreCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -97,7 +97,11 @@ export default function ScoreCanvas() {
       raf = requestAnimationFrame(frame)
       if (!program) return
 
-      if (reduced) {
+      // Reduced-motion holds the field still — unless the router has asked for
+      // motion on this route (the home hero).
+      const hold = reduced && !useScore.getState().forceMotion
+
+      if (hold) {
         if (!dirty && scoreSignals.scroll === lastScroll) return
       } else {
         decaySignals()
@@ -113,7 +117,7 @@ export default function ScoreCanvas() {
       gl!.uniform1f(uni.uScroll ?? null, scoreSignals.scroll)
       gl!.uniform2f(uni.uPointer ?? null, scoreSignals.pointerX, scoreSignals.pointerY)
       gl!.uniform1f(uni.uVel ?? null, scoreSignals.pointerVel)
-      gl!.uniform1f(uni.uReduced ?? null, reduced ? 1 : 0)
+      gl!.uniform1f(uni.uReduced ?? null, hold ? 1 : 0)
       gl!.clear(gl!.COLOR_BUFFER_BIT)
       gl!.drawArrays(gl!.TRIANGLES, 0, 3)
       gl!.bindVertexArray(null)
