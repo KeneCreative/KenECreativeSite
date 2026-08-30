@@ -104,9 +104,9 @@ export default function Archive() {
           <p className={s.eyebrow}>Quantitative listening analysis, 2018 to 2026</p>
           <h1 className={s.title}>My Musical Archive</h1>
           <p className={s.intro}>
-            Music is one of my favorite pleasures and a defining rhythm of my life. This
-            dashboard tracks macro-genre shifts, deep-dive compositions, and daily listening
-            habits over eight years.
+            If I had to sum up eight years of listening in one word, it&rsquo;s more. This
+            dashboard tracks the shifts, the deep dives, and the daily habits behind that word,
+            all pulled straight from eight years of Apple Music data.
           </p>
           <p className={s.source}>Data sourced directly from Apple Music exports.</p>
 
