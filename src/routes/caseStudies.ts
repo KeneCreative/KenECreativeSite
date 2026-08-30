@@ -84,6 +84,21 @@ export type ExecutionDef = {
 }
 export type ExecutionsDef = { title: string; lead?: string; items: ExecutionDef[] }
 
+export type MarketLeaderDef = {
+  name: string
+  /** Leader's category share, 0-100. */
+  share: number
+  /** Next competitor's share, drawn as a thin wedge after the leader. */
+  next?: number
+  label: string
+  sub?: string
+}
+
+export type FourAxis = { name: string; thesis: string; evidence: string[] }
+export type FourCsDef = { opening: string; axes: FourAxis[] }
+
+export type VerdictDef = { title: string; body: string[]; sign?: string; ref?: string }
+
 /** Frame image paths for a Red Cross animation folder (NN.webp). */
 export const frames = (base: string, count: number): string[] =>
   Array.from({ length: count }, (_, i) => `${base}/${String(i + 1).padStart(2, '0')}.webp`)
@@ -117,8 +132,11 @@ export type CraftSection = {
   media?: Media[]
   /** Verbatim research quotes, shown in the section aside. */
   fieldNotes?: FieldNotesDef
+  /** Category-leader share ring, shown in the section aside. */
+  marketLeader?: MarketLeaderDef
   /** Full-width graphic below the section text. */
   ladder?: PriceLadderDef
+  fourCs?: FourCsDef
 }
 
 export type Artefact = {
@@ -171,10 +189,11 @@ export type CaseStudy = {
   }
   results: {
     intro: string
-    stats: Stat[]
+    stats?: Stat[]
     dials?: Dial[]
     comparison?: { before: Media; after: Media; caption?: string }
     timeline?: TimelineDef
+    verdict?: VerdictDef
     note?: string
     media?: Media[]
   }
@@ -699,9 +718,17 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         kicker: 'Field research',
         title: 'The perception problem',
         body: [
+          'One player sets the reference for quality. Starbucks holds 28.7% of the category, more than ten times the next-largest chain, so its cues become the defaults everyone else is read against.',
           'In purist interviews the pattern was consistent: syrups signal something to hide.',
           "The price ladder makes it worse. Dutch Bros at $3.50 reads as cheap next to Starbucks at $5.25, even when the cup is not.",
         ],
+        marketLeader: {
+          name: 'Starbucks',
+          share: 28.7,
+          next: 2.65,
+          label: 'Starbucks share of the Coffee & Snack Shops category, 2023',
+          sub: 'Next-largest chain: 2.65%',
+        },
         fieldNotes: {
           label: 'Verbatim testimony',
           ref: 'DB-8842-X',
@@ -737,6 +764,46 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           'Company, consumer, category, and culture all point the same way. Dutch Bros has served fun flavored drinks since 1992, while the rest of the category is now racing to catch up.',
           "The repositioning: fun flavors elevate an already high-quality coffee. The ask shifts from 'switch to us' to 'add us to your rotation.'",
         ],
+        fourCs: {
+          opening:
+            'Dutch Bros already has permission to be taken seriously. It just has to claim it.',
+          axes: [
+            {
+              name: 'Company',
+              thesis: 'Happy employees create happy experiences.',
+              evidence: [
+                'The number one reason people leave a job is not feeling valued.',
+                'Dutch Bros tells investors that losing quality employees would hurt its growth.',
+                'People who feel appreciated are more self-motivated and enjoy the work.',
+              ],
+            },
+            {
+              name: 'Consumer',
+              thesis: 'Coffee Purists want small bursts of joy in an everyday routine.',
+              evidence: [
+                '38% of Gen Z would order coffee or tea if the menu had unique, fun drinks.',
+                '56% of Dutch Bros customers are 25 or under, a cult-like Gen-Z following.',
+                'People want the brands they buy to champion the causes they care about.',
+              ],
+            },
+            {
+              name: 'Category',
+              thesis: 'Coffee shops are racing to offer fun drinks. Dutch Bros has since 1992.',
+              evidence: [
+                'Drinks with unusual flavors, textures, and ingredients are rising fast.',
+                '30% of customers are motivated to order by unique drink offerings.',
+              ],
+            },
+            {
+              name: 'Cultural',
+              thesis: 'When life feels routine, personalization and fun are the real currency.',
+              evidence: [
+                'A positive environment for staff creates a more authentic customer experience.',
+                'People feel more connected to brands that value transparency and ethics.',
+              ],
+            },
+          ],
+        },
       },
       {
         kicker: 'Creative strategy',
@@ -745,7 +812,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           "'A Bean's Life' traces a single bean from origin to cup, making craft visible without the austerity of specialty coffee.",
           "'Surprise, It's a Dutch Bros' opens inside what looks like a restrained artisanal shop, builds credibility through ritual, then reveals the space is a Dutch Bros.",
         ],
-        pullQuote: 'Not so serious, on purpose.',
+        pullQuote: 'Fun as intentional and earned, not a distraction from the coffee.',
       },
     ],
     artefacts: {
@@ -795,19 +862,16 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
       },
     },
     results: {
-      intro: 'The category math behind the opportunity.',
-      stats: [
-        {
-          value: 28.7,
-          decimals: 1,
-          suffix: '%',
-          label: 'Starbucks category share',
-          sub: '2023, ten times the next competitor',
-        },
-        { value: 3.5, decimals: 2, prefix: '$', label: 'Dutch Bros cup', sub: 'vs $5.25 Starbucks' },
-        { value: 56, suffix: '%', label: 'Customers aged 25 or under', sub: 'Gen-Z following' },
-      ],
-      note: 'Speculative client proposal. Sealed and indexed.',
+      intro: 'A speculative client proposal, sealed and indexed. The closing read on where Dutch Bros stands, and what it still has to prove.',
+      verdict: {
+        title: 'Not so serious, on purpose',
+        body: [
+          'Dutch Bros is positioned as the "not so serious" coffee shop for fruit-and-caffeine adventurers and coffee drinkers alike.',
+          'Coffee Purists take their coffee seriously, but they still want small bursts of joy in an everyday routine. They just need to know the coffee underneath is good.',
+        ],
+        sign: 'KenE Creative, Strategy & Positioning',
+        ref: 'DB-994',
+      },
     },
   },
 }

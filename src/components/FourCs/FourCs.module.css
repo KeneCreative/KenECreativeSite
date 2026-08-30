@@ -1,0 +1,131 @@
+.root {
+  border: 1px solid var(--ink-soft);
+  background: var(--ground-raise, #141417);
+}
+
+.axes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.axis {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.4rem, 3.5vw, 2.25rem);
+  border-bottom: 1px solid var(--ink-soft);
+}
+.axis:nth-child(odd) {
+  border-right: 1px solid var(--ink-soft);
+}
+.axis:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.mark {
+  position: absolute;
+  top: -0.35em;
+  right: 0.1em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(5rem, 12vw, 8rem);
+  line-height: 1;
+  color: var(--ink);
+  opacity: 0.05;
+  pointer-events: none;
+}
+.no {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  color: var(--ink-dim);
+}
+.name {
+  display: block;
+  margin-top: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+.thesis {
+  margin: 0.7rem 0 1.1rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.1rem, 0.95rem + 0.7vw, 1.4rem);
+  line-height: 1.25;
+  color: var(--ink);
+}
+.evidence {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.evidence li {
+  position: relative;
+  padding-left: 1rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--ink-muted, rgba(245, 243, 239, 0.72));
+}
+.evidence li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 4px;
+  height: 4px;
+  background: var(--brass);
+}
+.stat {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--brass);
+  font-variant-numeric: tabular-nums;
+}
+
+.converge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-top: 1px solid var(--ink-soft);
+  background: var(--ground);
+}
+.funnel {
+  width: min(220px, 60%);
+  height: 30px;
+}
+.funnel line {
+  stroke: var(--brass);
+  stroke-width: 1;
+  opacity: 0.55;
+}
+.opening {
+  margin: 0;
+  max-width: 54ch;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.15rem, 1rem + 0.9vw, 1.6rem);
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+@media (max-width: 720px) {
+  .axes {
+    grid-template-columns: 1fr;
+  }
+  .axis {
+    border-right: 0 !important;
+  }
+  .axis:nth-last-child(-n + 2) {
+    border-bottom: 1px solid var(--ink-soft);
+  }
+  .axis:last-child {
+    border-bottom: 0;
+  }
+}

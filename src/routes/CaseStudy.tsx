@@ -14,6 +14,8 @@ import VideoTheater from '@/components/VideoTheater/VideoTheater'
 import ResultsTimeline from '@/components/ResultsTimeline/ResultsTimeline'
 import PriceLadder from '@/components/PriceLadder/PriceLadder'
 import Executions from '@/components/Executions/Executions'
+import FourCs from '@/components/FourCs/FourCs'
+import MarketLeader from '@/components/MarketLeader/MarketLeader'
 import { useMediaQuery } from '@/lib/useMediaQuery'
 import {
   CASE_STUDIES,
@@ -342,6 +344,7 @@ export default function CaseStudy() {
                 </div>
                 <div className={s.craftAside}>
                   {sec.pullQuote && <p className={s.pullQuote}>{sec.pullQuote}</p>}
+                  {sec.marketLeader && <MarketLeader {...sec.marketLeader} />}
                   {sec.fieldNotes && (
                     <figure className={s.fieldNotes}>
                       <figcaption className={s.fieldNotesHead}>
@@ -379,6 +382,11 @@ export default function CaseStudy() {
                 {sec.ladder && (
                   <div className={s.craftWide}>
                     <PriceLadder def={sec.ladder} />
+                  </div>
+                )}
+                {sec.fourCs && (
+                  <div className={s.craftWide}>
+                    <FourCs def={sec.fourCs} />
                   </div>
                 )}
               </div>
@@ -516,13 +524,40 @@ export default function CaseStudy() {
           <Reveal>
             <p className={s.resultsIntro}>{cs.results.intro}</p>
           </Reveal>
-          <Reveal>
-            <div className={s.statGrid}>
-              {cs.results.stats.map((st) => (
-                <StatCell key={st.label} stat={st} />
-              ))}
-            </div>
-          </Reveal>
+          {cs.results.stats && cs.results.stats.length > 0 && (
+            <Reveal>
+              <div className={s.statGrid}>
+                {cs.results.stats.map((st) => (
+                  <StatCell key={st.label} stat={st} />
+                ))}
+              </div>
+            </Reveal>
+          )}
+
+          {cs.results.verdict && (
+            <Reveal>
+              <figure className={s.verdict}>
+                <figcaption className={s.verdictHead}>
+                  <span className={s.verdictDot} aria-hidden="true" />
+                  Closing field note
+                </figcaption>
+                <h3 className={s.verdictTitle}>{cs.results.verdict.title}</h3>
+                {cs.results.verdict.body.map((para, k) => (
+                  <p key={k} className={s.verdictBody}>
+                    {para}
+                  </p>
+                ))}
+                {(cs.results.verdict.sign || cs.results.verdict.ref) && (
+                  <p className={s.verdictSign}>
+                    {cs.results.verdict.sign}
+                    {cs.results.verdict.ref && (
+                      <span className={s.verdictRef}>Archive {cs.results.verdict.ref}</span>
+                    )}
+                  </p>
+                )}
+              </figure>
+            </Reveal>
+          )}
 
           {cs.results.timeline && (
             <Reveal>
