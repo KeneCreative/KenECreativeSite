@@ -69,6 +69,8 @@ type Module = {
   ladder?: PriceLadderDef
   /** Auto-advancing set, sits in the right column. */
   slideshow?: SlideGroup
+  /** Full document, opened in a new tab next to the case-study link. */
+  pdf?: string
 }
 
 const MODULES: Module[] = [
@@ -148,16 +150,6 @@ const MODULES: Module[] = [
     },
   },
   {
-    name: 'Dutch Bros',
-    href: '/works/dutchbros',
-    roles: ['Strategy', 'Research', 'Concept Development', 'Copywriting (Speculative)'],
-    blurb:
-      "Speculative brand positioning project reframing Dutch Bros' value and quality perception to win over discerning coffee drinkers without losing its core identity.",
-    featured: ['Not So Serious, On Purpose.'],
-    secondary: "Good coffee doesn't have to be serious to be taken seriously.",
-    ladder: DUTCH_LADDER,
-  },
-  {
     name: 'American Artists Project · Impact Report',
     href: '/works/americanartistproject',
     roles: ['Copywriting', 'Data Storytelling', 'Nonprofit Marketing'],
@@ -174,6 +166,7 @@ const MODULES: Module[] = [
       alt: 'Grant Impact spread from the 24-hour impact report, statistics beside an artist testimonial',
       caption: 'Grant Impact spread, 24-hour report.',
     },
+    pdf: '/works/aap/impact-report.pdf',
   },
   {
     name: 'American Artists Project · Travel Guide',
@@ -197,10 +190,21 @@ const MODULES: Module[] = [
       'An intimate boutique inn occupying two restored 19th-century mansions in the West End. Each house features eclectic decor and cozy common lounges.',
     ],
     shot: {
-      src: '/works/aap/travel-guide/06.webp',
-      alt: 'Where to Stay spread from the Portland travel guide, boutique hotels with photos and write-ups',
-      caption: 'Where to Stay spread, Portland travel guide.',
+      src: '/works/aap/travel-guide/07.webp',
+      alt: 'Restaurants spread from the Portland travel guide, breakfast, brunch, and lunch picks with food photos and write-ups',
+      caption: 'Restaurants spread, Portland travel guide.',
     },
+    pdf: '/works/aap/travel-guide.pdf',
+  },
+  {
+    name: 'Dutch Bros',
+    href: '/works/dutchbros',
+    roles: ['Strategy', 'Research', 'Concept Development', 'Copywriting (Speculative)'],
+    blurb:
+      "Speculative brand positioning project reframing Dutch Bros' value and quality perception to win over discerning coffee drinkers without losing its core identity.",
+    featured: ['Not So Serious, On Purpose.'],
+    secondary: "Good coffee doesn't have to be serious to be taken seriously.",
+    ladder: DUTCH_LADDER,
   },
 ]
 
@@ -325,12 +329,27 @@ export default function Book() {
                   )}
                 </div>
 
-                <Link to={m.href} viewTransition className={s.csLink}>
-                  Read the case study
-                  <span className={s.arrow} aria-hidden="true">
-                    &rarr;
-                  </span>
-                </Link>
+                <div className={s.actions}>
+                  <Link to={m.href} viewTransition className={s.csLink}>
+                    Read the case study
+                    <span className={s.arrow} aria-hidden="true">
+                      &rarr;
+                    </span>
+                  </Link>
+                  {m.pdf && (
+                    <a
+                      className={s.pdfBtn}
+                      href={m.pdf}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View the PDF
+                      <span className={s.pdfIcon} aria-hidden="true">
+                        &#8599;
+                      </span>
+                    </a>
+                  )}
+                </div>
               </Reveal>
             </section>
           )

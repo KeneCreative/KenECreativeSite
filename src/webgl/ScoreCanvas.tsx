@@ -36,7 +36,11 @@ export default function ScoreCanvas() {
     let running = false
     let dirty = true
     let lastScroll = -1
-    const startT = performance.now()
+    let lastCalm = -1
+    // Drift phase, accumulated per frame so we can slow it toward the page
+    // bottom without the jump a changing time-multiplier would cause.
+    let phase = 0
+    let phaseLast = performance.now()
 
     function buildGl() {
       if (program) return
@@ -55,11 +59,13 @@ export default function ScoreCanvas() {
       gl!.blendFunc(gl!.SRC_ALPHA, gl!.ONE_MINUS_SRC_ALPHA)
       uni = {
         uRes: gl!.getUniformLocation(program, 'uRes'),
-        uTime: gl!.getUniformLocation(program, 'uTime'),
+        uPhase: gl!.getUniformLocation(program, 'uPhase'),
+        uCalm: gl!.getUniformLocation(program, 'uCalm'),
         uScroll: gl!.getUniformLocation(program, 'uScroll'),
         uPointer: gl!.getUniformLocation(program, 'uPointer'),
         uVel: gl!.getUniformLocation(program, 'uVel'),
         uReduced: gl!.getUniformLocation(program, 'uReduced'),
+        uDim: gl!.getUniformLocation(program, 'uDim'),
       }
       gl!.clearColor(0, 0, 0, 1)
     }
@@ -97,27 +103,39 @@ export default function ScoreCanvas() {
       raf = requestAnimationFrame(frame)
       if (!program) return
 
+      const now = performance.now()
+      const dt = Math.min(Math.max(now - phaseLast, 0) / 1000, 0.05)
+      phaseLast = now
+
       // Reduced-motion holds the field still — unless the router has asked for
       // motion on this route (the home hero).
       const hold = reduced && !useScore.getState().forceMotion
 
       if (hold) {
-        if (!dirty && scoreSignals.scroll === lastScroll) return
+        if (!dirty && scoreSignals.scroll === lastScroll && scoreSignals.calm === lastCalm)
+          return
       } else {
+        // Drift eases off as the field settles: full pace when energetic, ~25%
+        // of it once fully calm (the Book page starts partway settled).
+        const c = scoreSignals.calm
+        const eased = c * c * (3.0 - 2.0 * c)
+        phase += dt * (1.0 - 0.75 * eased)
         decaySignals()
       }
       lastScroll = scoreSignals.scroll
+      lastCalm = scoreSignals.calm
       dirty = false
 
-      const t = (performance.now() - startT) / 1000
       gl!.useProgram(program)
       gl!.bindVertexArray(vao)
       gl!.uniform2f(uni.uRes ?? null, canvas!.width, canvas!.height)
-      gl!.uniform1f(uni.uTime ?? null, t)
+      gl!.uniform1f(uni.uPhase ?? null, phase)
+      gl!.uniform1f(uni.uCalm ?? null, scoreSignals.calm)
       gl!.uniform1f(uni.uScroll ?? null, scoreSignals.scroll)
       gl!.uniform2f(uni.uPointer ?? null, scoreSignals.pointerX, scoreSignals.pointerY)
       gl!.uniform1f(uni.uVel ?? null, scoreSignals.pointerVel)
       gl!.uniform1f(uni.uReduced ?? null, hold ? 1 : 0)
+      gl!.uniform1f(uni.uDim ?? null, scoreSignals.dim)
       gl!.clear(gl!.COLOR_BUFFER_BIT)
       gl!.drawArrays(gl!.TRIANGLES, 0, 3)
       gl!.bindVertexArray(null)

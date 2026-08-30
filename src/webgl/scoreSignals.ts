@@ -3,26 +3,45 @@
  * Written by DOM listeners, read once per animation frame. No React involvement.
  */
 export const scoreSignals = {
-  /** 0 at the top of the page, 1 once the hero transition has fully resolved. */
+  /** Raw page progress: 0 at the top, 1 scrolled to the bottom. Drives the fade-out. */
   scroll: 0,
+  /**
+   * How settled the field is: 0 energetic, 1 fully calm. Same as `scroll` unless
+   * a route sets a floor (the Book page starts partway settled).
+   */
+  calm: 0,
   /** Pointer position, normalised. y measured from the top. */
   pointerX: 0.5,
   pointerY: 0.35,
   /** Smoothed pointer speed, ~0 at rest, climbs toward ~1 on fast moves. */
   pointerVel: 0,
+  /** Overall alpha multiplier. 1 normally; a reading route can knock it down. */
+  dim: 1,
 }
-
-/** Scroll distance (in viewport heights) over which the hero resolves. */
-const RESOLVE_VH = 1.35
 
 let lastX = 0
 let lastY = 0
 let lastT = 0
 let hasPointer = false
+let calmFloor = 0
 
 function onScroll() {
-  const span = Math.max(1, window.innerHeight * RESOLVE_VH)
-  scoreSignals.scroll = Math.min(1, Math.max(0, window.scrollY / span))
+  // Progress through the whole page: 0 at the top, 1 scrolled to the bottom.
+  const span = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+  const raw = Math.min(1, Math.max(0, window.scrollY / span))
+  scoreSignals.scroll = raw
+  scoreSignals.calm = calmFloor + (1 - calmFloor) * raw
+}
+
+/**
+ * Route-level floor for how settled the field starts. 0 everywhere except pages
+ * that want a calm field from the top (Book). Re-maps immediately.
+ */
+export function setCalmFloor(v: number) {
+  calmFloor = Math.min(1, Math.max(0, v))
+  // a route that starts settled also starts a good bit dimmer
+  scoreSignals.dim = calmFloor > 0 ? 0.35 : 1
+  onScroll()
 }
 
 function onPointerMove(e: PointerEvent) {
