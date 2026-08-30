@@ -110,10 +110,6 @@ export default function About() {
                   loading="lazy"
                   decoding="async"
                 />
-                <figcaption>
-                  <span>Fig. 01</span>
-                  <span>Austin, TX</span>
-                </figcaption>
               </figure>
             </Reveal>
 

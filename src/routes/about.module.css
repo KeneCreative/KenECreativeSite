@@ -87,16 +87,6 @@
   object-fit: cover;
   filter: saturate(0.9) brightness(0.95);
 }
-.portrait figcaption {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 0.6rem;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-}
 
 .quote {
   font-family: var(--font-display);
