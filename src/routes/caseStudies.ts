@@ -245,6 +245,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         title: 'A story preserved in time',
         lead: 'Four vertical cuts for paid Instagram Stories, each testing how far to lean into the ache. Two final selections, two alternates.',
         cuts: [
+          // Add `src` (hosted mp4 / stream URL) per cut once the videos are hosted.
           { label: 'Final selection 1', kind: 'final' },
           { label: 'Final selection 2', kind: 'final' },
           { label: 'Alternate cut 1', kind: 'alternate' },
