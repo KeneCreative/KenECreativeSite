@@ -13,6 +13,7 @@ import AlbumEvolution from '@/components/AlbumEvolution/AlbumEvolution'
 import VideoTheater from '@/components/VideoTheater/VideoTheater'
 import ResultsTimeline from '@/components/ResultsTimeline/ResultsTimeline'
 import PriceLadder from '@/components/PriceLadder/PriceLadder'
+import Executions from '@/components/Executions/Executions'
 import { useMediaQuery } from '@/lib/useMediaQuery'
 import {
   CASE_STUDIES,
@@ -341,6 +342,22 @@ export default function CaseStudy() {
                 </div>
                 <div className={s.craftAside}>
                   {sec.pullQuote && <p className={s.pullQuote}>{sec.pullQuote}</p>}
+                  {sec.fieldNotes && (
+                    <figure className={s.fieldNotes}>
+                      <figcaption className={s.fieldNotesHead}>
+                        <span>{sec.fieldNotes.label ?? 'Field notes'}</span>
+                        {sec.fieldNotes.ref && (
+                          <span className={s.fieldNotesRef}>Ref {sec.fieldNotes.ref}</span>
+                        )}
+                      </figcaption>
+                      {sec.fieldNotes.quotes.map((q) => (
+                        <blockquote key={q.attribution} className={s.fieldNote}>
+                          <p>{q.text}</p>
+                          <cite>{q.attribution}</cite>
+                        </blockquote>
+                      ))}
+                    </figure>
+                  )}
                   {sec.stats && <CraftStats items={sec.stats} />}
                   {sec.finalCopy && (
                     <div className={s.finalCopy}>
@@ -416,6 +433,20 @@ export default function CaseStudy() {
                   )}
                 </div>
                 <VideoTheater cuts={cs.artefacts.videoTheater.cuts} />
+              </div>
+            </Reveal>
+          )}
+
+          {cs.artefacts.executions && (
+            <Reveal>
+              <div className={s.showBlockWide}>
+                <div className={s.galleryHead}>
+                  <h3 className={s.galleryTitle}>{cs.artefacts.executions.title}</h3>
+                  {cs.artefacts.executions.lead && (
+                    <p className={s.galleryLead}>{cs.artefacts.executions.lead}</p>
+                  )}
+                </div>
+                <Executions items={cs.artefacts.executions.items} />
               </div>
             </Reveal>
           )}

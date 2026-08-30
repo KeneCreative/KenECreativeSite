@@ -72,6 +72,18 @@ export type PriceLadderDef = {
   source?: { label: string; href: string }
 }
 
+export type FieldNote = { text: string; attribution: string }
+export type FieldNotesDef = { label?: string; ref?: string; quotes: FieldNote[] }
+
+export type ExecutionDef = {
+  no: string
+  kicker: string
+  title: string
+  body: string[]
+  framework: { title: string; pillars: string[]; note?: string }
+}
+export type ExecutionsDef = { title: string; lead?: string; items: ExecutionDef[] }
+
 /** Frame image paths for a Red Cross animation folder (NN.webp). */
 export const frames = (base: string, count: number): string[] =>
   Array.from({ length: count }, (_, i) => `${base}/${String(i + 1).padStart(2, '0')}.webp`)
@@ -103,6 +115,8 @@ export type CraftSection = {
   stats?: CraftStat[]
   finalCopy?: CraftCopy
   media?: Media[]
+  /** Verbatim research quotes, shown in the section aside. */
+  fieldNotes?: FieldNotesDef
   /** Full-width graphic below the section text. */
   ladder?: PriceLadderDef
 }
@@ -153,6 +167,7 @@ export type CaseStudy = {
     animationSeries?: AnimationSeriesDef
     albumEvolution?: AlbumEvolutionDef
     videoTheater?: VideoTheaterDef
+    executions?: ExecutionsDef
   }
   results: {
     intro: string
@@ -687,7 +702,20 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           'In purist interviews the pattern was consistent: syrups signal something to hide.',
           "The price ladder makes it worse. Dutch Bros at $3.50 reads as cheap next to Starbucks at $5.25, even when the cup is not.",
         ],
-        pullQuote: 'I feel bad about syrups sometimes. That feels suspicious to me.',
+        fieldNotes: {
+          label: 'Verbatim testimony',
+          ref: 'DB-8842-X',
+          quotes: [
+            {
+              text: 'My perception is it may not be as high-quality coffee, and so people may add syrups and stuff to it.',
+              attribution: 'Joe Hudson, 2% milk latte',
+            },
+            {
+              text: "I feel bad about syrups sometimes because it just, I don't know, that feels suspicious to me. So I try to keep it as low as possible.",
+              attribution: 'Jasmarie Hernandez, coffee with milk and brown sugar',
+            },
+          ],
+        },
         ladder: {
           title: 'What a cup costs across the category',
           cups: [
@@ -722,14 +750,49 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ],
     artefacts: {
       title: 'The deliverables',
-      items: [
-        { label: 'Competitive analysis', note: 'Category field metrics', field: 4 },
-        { label: '4Cs positioning framework', field: 4 },
-        { label: 'Purist interview log', field: 4 },
-        { label: "A Bean's Life", note: 'Execution 01', field: 4 },
-        { label: "Surprise, It's a Dutch Bros", note: 'Execution 02', field: 4 },
-        { label: 'Closing field note', field: 4 },
-      ],
+      executions: {
+        title: 'Creative executions',
+        lead: 'Two spots that put the repositioning to work at the moments Coffee Purists are most skeptical: ordering, customization, and the cues that signal quality. Open each for the full write-up.',
+        items: [
+          {
+            no: 'No. 01',
+            kicker: 'Execution one',
+            title: "A Bean's Life",
+            body: [
+              "This execution reframed Dutch Bros' coffee process through a narrative lens, tracing the journey of a single coffee bean from origin to cup. By visualizing sourcing, roasting, and preparation, the work made craft visible without adopting the seriousness or austerity typical of specialty coffee brands.",
+              'The goal was not to mimic traditional coffee culture, but to show that Dutch Bros already participates in it, just in its own voice.',
+            ],
+            framework: {
+              title: 'Key message framework',
+              pillars: [
+                'Craft without pretension',
+                'Fun with intention',
+                'Quality you can trust, personality you can enjoy',
+              ],
+              note: 'These pillars guided all executions, ensuring that playfulness never undermined credibility.',
+            },
+          },
+          {
+            no: 'No. 02',
+            kicker: 'Execution two',
+            title: "Surprise, It's a Dutch Bros",
+            body: [
+              'This execution challenged assumptions about what high-quality coffee looks and feels like by placing Dutch Bros inside a context Coffee Purists already trust. The spot opens in what appears to be a restrained artisanal coffee shop, using familiar cues associated with traditional specialty coffee culture.',
+              'By grounding the opening in seriousness and ritual, the execution establishes credibility before introducing playfulness. The reveal that the space is actually a Dutch Bros reframes the brand as an unexpected participant in craft coffee rather than an outsider to it.',
+              'Rather than distancing Dutch Bros from its playful identity, this execution positions fun as intentional and earned. The moment of surprise lets the brand meet Coffee Purists on their own terms, then expand their definition of what quality coffee can feel like.',
+            ],
+            framework: {
+              title: 'Key message framework',
+              pillars: [
+                'Quality can come from unexpected places',
+                'Playfulness does not negate expertise',
+                'Surprise can be a signal of confidence',
+              ],
+              note: 'These ideas guided the execution, using contrast and reveal to shift perceptions without confrontation.',
+            },
+          },
+        ],
+      },
     },
     results: {
       intro: 'The category math behind the opportunity.',
