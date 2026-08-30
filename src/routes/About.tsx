@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'motion/react'
 import PageTransition from '@/components/PageTransition'
@@ -19,56 +19,111 @@ function Reveal({ children, className }: { children: ReactNode; className?: stri
   )
 }
 
-/** A slice of what's on rotation — the full listening history lives in the Archive. */
-const ROTATION = [
+type Track = { artist: string; work: string; nowPlaying?: boolean }
+
+/** Same feed the Music Archive uses. Read-only public key, already public. */
+const LASTFM_URL =
+  'https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=KenECreative' +
+  '&api_key=4917e1f81b4801ccfae888b758279adb&format=json&limit=24'
+const LASTFM_PROFILE = 'https://www.last.fm/user/KenECreative'
+
+/** Shown until Last.fm answers, and if it can't be reached. */
+const FALLBACK: Track[] = [
   { work: 'Concerto for 4 Violins & Cello in B Minor, RV 580', artist: 'Café Zimmermann' },
   { work: 'Gershwin Song Suite: I. Fascinating Rhythm', artist: 'Daniel Hope / Marcus Roberts Trio' },
   { work: 'Violin Concerto in A Minor, Op. 3 No. 6: I. Allegro', artist: 'Brecon Baroque & Rachel Podger' },
   { work: 'String Quartet No. 16 in F Major, Op. 135', artist: 'Tokyo String Quartet' },
   { work: 'String Quintet in C Major, D. 956: I. Allegro', artist: 'Borodin Quartet' },
   { work: 'Symphony No. 9 in D Minor, "Choral": I. Allegro', artist: 'Vienna Philharmonic & Leonard Bernstein' },
-  { work: 'Concerto for 4 Violins: III. Allegro', artist: 'Café Zimmermann' },
-  { work: 'String Quartet No. 14 in C-Sharp Minor, Op. 131', artist: 'Tokyo String Quartet' },
-  { work: 'Gershwin Song Suite: II. Summertime', artist: 'Daniel Hope / Marcus Roberts Trio' },
   { work: 'Sonata in F Minor, BWV 1018: II. Allegro', artist: 'Andrew Manze & Richard Egarr' },
-  { work: 'Violin Concerto in A Minor: III. Presto', artist: 'Brecon Baroque & Rachel Podger' },
-  { work: 'Symphony No. 7 in A Major: I. Poco sostenuto', artist: 'Vienna Philharmonic & Carlos Kleiber' },
   { work: 'Violin Concerto in D Major, Op. 61: III. Rondo', artist: 'Perlman & Giulini' },
-  { work: 'Sonata in C Minor, BWV 1017: IV. Allegro', artist: 'Andrew Manze & Richard Egarr' },
-  { work: 'Symphony No. 9: II. Molto vivace', artist: 'Vienna Philharmonic & Leonard Bernstein' },
   { work: 'String Quartet No. 15 in A Minor, Op. 132', artist: 'Tokyo String Quartet' },
+  { work: 'Symphony No. 7 in A Major: I. Poco sostenuto', artist: 'Vienna Philharmonic & Carlos Kleiber' },
   { work: 'Violin Concerto in A Minor, RV 356: I. Allegro', artist: 'Israel Philharmonic & Itzhak Perlman' },
   { work: 'String Quartet No. 13: IV. Alla danza tedesca', artist: 'Tokyo String Quartet' },
 ]
 
-const APPLE_MUSIC = 'https://music.apple.com/fi/playlist/replay-2026/pl.rp-v2RRuddY5BJ'
+const tidy = (v: string) =>
+  v
+    .replace(/\s+/g, ' ')
+    .replace(/\s*[([]\s*(official\s*)?(audio|video|lyric video|visualizer|hd|4k|remaster(ed)?)\s*[)\]]\s*$/i, '')
+    .trim()
+
+function useRecentTracks(): Track[] {
+  const [tracks, setTracks] = useState<Track[]>(FALLBACK)
+
+  useEffect(() => {
+    let alive = true
+    const load = async () => {
+      try {
+        const res = await fetch(LASTFM_URL)
+        if (!res.ok) return
+        const data = await res.json()
+        const raw: unknown[] = data?.recenttracks?.track ?? []
+        const list = raw
+          .map((t): Track => {
+            const item = t as {
+              name?: string
+              artist?: { '#text'?: string; name?: string }
+              '@attr'?: { nowplaying?: string }
+            }
+            return {
+              artist: tidy(item.artist?.['#text'] ?? item.artist?.name ?? ''),
+              work: tidy(item.name ?? ''),
+              nowPlaying: item['@attr']?.nowplaying === 'true',
+            }
+          })
+          .filter((t) => t.artist && t.work)
+          .filter(
+            (t, i, arr) => i === 0 || t.artist !== arr[i - 1].artist || t.work !== arr[i - 1].work,
+          )
+        if (alive && list.length) setTracks(list)
+      } catch {
+        /* keep the fallback list */
+      }
+    }
+    load()
+    const id = window.setInterval(load, 90_000)
+    return () => {
+      alive = false
+      window.clearInterval(id)
+    }
+  }, [])
+
+  return tracks
+}
 
 function Ledger() {
-  const loop = [...ROTATION, ...ROTATION]
+  const tracks = useRecentTracks()
+  const loop = [...tracks, ...tracks]
   return (
     <div className={s.ledger}>
       <div className={s.ledgerHead}>
         <span>Current rotation</span>
-        <span className={s.ledgerTag}>Active index</span>
+        <span className={s.ledgerTag}>Live</span>
       </div>
       <div className={s.ledgerViewport}>
         <ol className={s.ledgerTrack}>
-          {loop.map((t, i) => (
-            <li
-              key={i}
-              className={`${s.ledgerItem} ${i % ROTATION.length === 0 ? s.ledgerItemNow : ''}`}
-              aria-hidden={i >= ROTATION.length}
-            >
-              <span className={s.ledgerArtist}>{t.artist}</span>
-              <span className={s.ledgerWork}>{t.work}</span>
-            </li>
-          ))}
+          {loop.map((t, i) => {
+            const original = i < tracks.length
+            const isNow = i % tracks.length === 0 || t.nowPlaying
+            return (
+              <li
+                key={i}
+                className={`${s.ledgerItem} ${isNow ? s.ledgerItemNow : ''}`}
+                aria-hidden={!original}
+              >
+                <span className={s.ledgerArtist}>{t.artist}</span>
+                <span className={s.ledgerWork}>{t.work}</span>
+              </li>
+            )
+          })}
         </ol>
       </div>
       <div className={s.ledgerFoot}>
-        <span>Austin strategy desk</span>
-        <a href={APPLE_MUSIC} target="_blank" rel="noopener noreferrer">
-          Apple Music ↗
+        <span>Recently played</span>
+        <a href={LASTFM_PROFILE} target="_blank" rel="noopener noreferrer">
+          Last.fm ↗
         </a>
       </div>
     </div>
