@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'motion/react'
 import PageTransition from '@/components/PageTransition'
@@ -40,17 +40,19 @@ const HERO_STATS = [
 export default function Archive() {
   const reduce = useReducedMotion()
   const frameRef = useRef<HTMLIFrameElement>(null)
+  const roRef = useRef<ResizeObserver | null>(null)
 
   const alignFrame = useCallback(() => {
-    const doc = frameRef.current?.contentDocument
-    if (!doc) return
+    const frame = frameRef.current
+    const doc = frame?.contentDocument
+    if (!frame || !doc) return
     try {
       const style = doc.createElement('style')
       style.textContent = `
         /* strip the duplicate site chrome + the frame's own title hero */
         #kene-header-root, #staffHeader, .staff-header, .staff-footer { display: none !important; }
         body > section:first-of-type { display: none !important; }
-        body { padding-top: 0 !important; }
+        html, body { padding-top: 0 !important; height: auto !important; min-height: 0 !important; overflow: hidden !important; }
 
         /* pull the frame onto the site's exact tokens */
         :root {
@@ -67,10 +69,28 @@ export default function Archive() {
         .shadow-sm, .shadow, .shadow-md { box-shadow: none !important; }
       `
       doc.head.appendChild(style)
+
+      // Grow the frame to its content so the page scrolls, not the frame.
+      const fit = () => {
+        const h = Math.max(
+          doc.documentElement.scrollHeight,
+          doc.body.scrollHeight,
+        )
+        if (h > 0) frame.style.height = `${h}px`
+      }
+      fit()
+      roRef.current?.disconnect()
+      roRef.current = new ResizeObserver(fit)
+      roRef.current.observe(doc.body)
+      // charts, the monthly ledger, and the Last.fm strip settle in late
+      ;[300, 900, 2000, 3500, 6000].forEach((t) => window.setTimeout(fit, t))
+      doc.defaultView?.addEventListener('resize', fit)
     } catch {
       /* cross-origin in some contexts — leave the frame as-is */
     }
   }, [])
+
+  useEffect(() => () => roRef.current?.disconnect(), [])
 
   return (
     <PageTransition>
@@ -119,11 +139,9 @@ export default function Archive() {
             src={DASHBOARD_SRC}
             title="Apple Music long-term listening analysis, 2018 to 2026"
             loading="lazy"
+            scrolling="no"
             onLoad={alignFrame}
           />
-          <p className={s.frameNote}>
-            Preserved from the original build. Charts and tables mount inside the frame.
-          </p>
         </section>
       </div>
     </PageTransition>

@@ -131,14 +131,9 @@
 }
 .frame {
   width: 100%;
+  /* starting height; JS grows it to the dashboard's full content on load */
   height: 88vh;
   border: 1px solid var(--ink-soft);
   background: var(--ground);
   display: block;
-}
-.frameNote {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--ink-dim);
-  margin: 0.9rem 0 0;
 }
