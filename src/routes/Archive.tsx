@@ -54,6 +54,11 @@ export default function Archive() {
         body > section:first-of-type { display: none !important; }
         html, body { padding-top: 0 !important; height: auto !important; min-height: 0 !important; overflow: hidden !important; }
 
+        /* the 185-entity directory scrolls itself rather than pushing the frame past 70,000px */
+        #entityGrid { max-height: 72vh !important; overflow-y: auto !important; }
+        #entityGrid::-webkit-scrollbar { width: 8px; }
+        #entityGrid::-webkit-scrollbar-thumb { background: rgba(245,243,239,0.18); border-radius: 4px; }
+
         /* pull the frame onto the site's exact tokens */
         :root {
           --kene-bg: #0b0b0d !important;
@@ -71,17 +76,28 @@ export default function Archive() {
       doc.head.appendChild(style)
 
       // Grow the frame to its content so the page scrolls, not the frame.
+      // Measure the BODY only — documentElement.scrollHeight is clamped to the
+      // frame's current height, so it can never shrink once it has grown. Cap
+      // it so a bad transient measurement can't wedge the layout.
       const fit = () => {
-        const h = Math.max(
-          doc.documentElement.scrollHeight,
-          doc.body.scrollHeight,
-        )
-        if (h > 0) frame.style.height = `${h}px`
+        const h = Math.min(doc.body.scrollHeight, 12000)
+        if (h > 0 && Math.abs(h - frame.offsetHeight) > 2) frame.style.height = `${h}px`
       }
       fit()
+
+      // A cross-realm ResizeObserver (parent's, watching an iframe node) fires
+      // unreliably, so use the frame's own — and lean on clicks, since every
+      // size change here (tab switch, filter, the details toggle) is a click.
+      const FrameRO = doc.defaultView?.ResizeObserver
       roRef.current?.disconnect()
-      roRef.current = new ResizeObserver(fit)
-      roRef.current.observe(doc.body)
+      if (FrameRO) {
+        roRef.current = new FrameRO(fit)
+        roRef.current.observe(doc.documentElement)
+      }
+      doc.addEventListener('click', () => {
+        fit()
+        ;[60, 220, 500].forEach((t) => window.setTimeout(fit, t))
+      })
       // charts, the monthly ledger, and the Last.fm strip settle in late
       ;[300, 900, 2000, 3500, 6000].forEach((t) => window.setTimeout(fit, t))
       doc.defaultView?.addEventListener('resize', fit)
