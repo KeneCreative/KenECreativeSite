@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'motion/react'
 import PageTransition from '@/components/PageTransition'
@@ -95,14 +95,80 @@ function useRecentTracks(): Track[] {
 
 function Ledger() {
   const tracks = useRecentTracks()
+  const reduce = useReducedMotion()
   const loop = [...tracks, ...tracks]
+  const viewportRef = useRef<HTMLDivElement>(null)
+
+  // The rotation drifts on its own, but it's a real scroll container: hovering
+  // (or focusing) it hands control to the wheel/trackpad, and it picks the
+  // drift back up on the way out. The scrollbar itself is hidden in CSS.
+  useEffect(() => {
+    const el = viewportRef.current
+    if (!el || reduce) return
+
+    const SPEED = 26 // px per second
+    let raf = 0
+    let held = false
+    let last = 0
+    // Our own float cursor — `scrollTop` reads back rounded, so sub-pixel steps
+    // would stall if we trusted it. `pos` accumulates; we push it to the element.
+    let pos = 1
+
+    const half = () => el.scrollHeight / 2
+    const tick = (now: number) => {
+      raf = requestAnimationFrame(tick)
+      const dt = last ? Math.min((now - last) / 1000, 0.1) : 0
+      last = now
+      if (held) return
+      const h = half()
+      pos += SPEED * dt
+      if (h > 0 && pos >= h) pos -= h
+      el.scrollTop = pos
+    }
+    el.scrollTop = pos
+    raf = requestAnimationFrame(tick)
+
+    const hold = () => {
+      held = true
+    }
+    const release = () => {
+      held = false
+      pos = el.scrollTop // resume the drift from wherever they left it
+    }
+    // Seamless loop while the reader is scrolling by hand. The 1px nudge keeps
+    // the landing spot off the exact edge so it can't ping-pong there.
+    const onScroll = () => {
+      if (!held) return // ignore the ticker's own writes
+      const h = half()
+      if (h <= 0) return
+      if (el.scrollTop >= h) el.scrollTop = el.scrollTop - h + 1
+      else if (el.scrollTop < 1) el.scrollTop = el.scrollTop + h - 1
+    }
+
+    el.addEventListener('pointerenter', hold)
+    el.addEventListener('pointerleave', release)
+    el.addEventListener('wheel', hold, { passive: true })
+    el.addEventListener('focusin', hold)
+    el.addEventListener('focusout', release)
+    el.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      cancelAnimationFrame(raf)
+      el.removeEventListener('pointerenter', hold)
+      el.removeEventListener('pointerleave', release)
+      el.removeEventListener('wheel', hold)
+      el.removeEventListener('focusin', hold)
+      el.removeEventListener('focusout', release)
+      el.removeEventListener('scroll', onScroll)
+    }
+  }, [reduce, tracks.length])
+
   return (
     <div className={s.ledger}>
       <div className={s.ledgerHead}>
         <span>Current rotation</span>
         <span className={s.ledgerTag}>Live</span>
       </div>
-      <div className={s.ledgerViewport}>
+      <div className={s.ledgerViewport} ref={viewportRef}>
         <ol className={s.ledgerTrack}>
           {loop.map((t, i) => {
             const original = i < tracks.length
@@ -201,7 +267,7 @@ export default function About() {
 
               <div className={s.field}>
                 <p className={s.fieldLabel}>Primary focus</p>
-                <p className={s.focus}>Brand strategy, copywriting, digital experience</p>
+                <p className={s.focus}>Copywriting, creative strategy, digital experience</p>
               </div>
 
               <Ledger />

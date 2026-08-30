@@ -113,14 +113,15 @@
   align-self: start;
 }
 .sideInner {
-  border: 1px solid var(--ink-soft);
-  background: var(--ground-raise, #141417);
   display: flex;
   flex-direction: column;
 }
 .field {
-  padding: clamp(1.1rem, 3vw, 1.5rem);
+  padding: clamp(1.1rem, 3vw, 1.5rem) 0;
   border-bottom: 1px solid var(--ink-soft);
+}
+.field:first-child {
+  padding-top: 0;
 }
 .fieldLabel {
   font-family: var(--font-mono);
@@ -170,7 +171,7 @@
 
 /* ---- the rotation ledger: an auto-scrolling now-playing index ---- */
 .ledger {
-  margin: clamp(1.1rem, 3vw, 1.5rem);
+  margin: clamp(1.1rem, 3vw, 1.5rem) 0;
   border: 1px solid var(--ink-soft);
   background: var(--ground);
 }
@@ -194,10 +195,15 @@
 .ledgerViewport {
   position: relative;
   height: 300px;
-  overflow: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
   padding: 0.5rem 0.9rem;
   -webkit-mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
   mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+}
+.ledgerViewport::-webkit-scrollbar {
+  display: none;
 }
 .ledgerTrack {
   list-style: none;
@@ -206,20 +212,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  animation: ledgerScroll 46s linear infinite;
-  will-change: transform;
-}
-.ledgerViewport:hover .ledgerTrack,
-.ledgerViewport:focus-within .ledgerTrack {
-  animation-play-state: paused;
-}
-@keyframes ledgerScroll {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-50%);
-  }
 }
 .ledgerItem {
   display: flex;
@@ -270,18 +262,12 @@
   .dot {
     animation: none;
   }
-  .ledgerViewport {
-    overflow-y: auto;
-  }
-  .ledgerTrack {
-    animation: none;
-  }
 }
 
 .dashLink {
   display: block;
   text-align: center;
-  margin: 0 clamp(1.1rem, 3vw, 1.5rem);
+  margin: 0;
   font-family: var(--font-mono);
   font-size: 0.66rem;
   letter-spacing: 0.16em;
@@ -303,8 +289,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  padding: clamp(1.1rem, 3vw, 1.5rem);
-  margin-top: 0.4rem;
+  padding: clamp(1.1rem, 3vw, 1.5rem) 0 0;
+  margin-top: clamp(1.1rem, 3vw, 1.5rem);
   border-top: 1px solid var(--ink-soft);
   font-family: var(--font-mono);
   font-size: 0.56rem;
