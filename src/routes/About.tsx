@@ -1,7 +1,23 @@
+import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'motion/react'
 import PageTransition from '@/components/PageTransition'
 import s from './about.module.css'
+
+function Reveal({ children, className }: { children: ReactNode; className?: string }) {
+  const reduce = useReducedMotion()
+  return (
+    <motion.div
+      className={className}
+      initial={reduce ? false : { opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {children}
+    </motion.div>
+  )
+}
 
 /** A slice of what's on rotation — the full listening history lives in the Archive. */
 const ROTATION = [
@@ -27,66 +43,105 @@ const ROTATION = [
 
 const APPLE_MUSIC = 'https://music.apple.com/fi/playlist/replay-2026/pl.rp-v2RRuddY5BJ'
 
+function Ledger() {
+  const loop = [...ROTATION, ...ROTATION]
+  return (
+    <div className={s.ledger}>
+      <div className={s.ledgerHead}>
+        <span>Current rotation</span>
+        <span className={s.ledgerTag}>Active index</span>
+      </div>
+      <div className={s.ledgerViewport}>
+        <ol className={s.ledgerTrack}>
+          {loop.map((t, i) => (
+            <li
+              key={i}
+              className={`${s.ledgerItem} ${i % ROTATION.length === 0 ? s.ledgerItemNow : ''}`}
+              aria-hidden={i >= ROTATION.length}
+            >
+              <span className={s.ledgerArtist}>{t.artist}</span>
+              <span className={s.ledgerWork}>{t.work}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div className={s.ledgerFoot}>
+        <span>Austin strategy desk</span>
+        <a href={APPLE_MUSIC} target="_blank" rel="noopener noreferrer">
+          Apple Music ↗
+        </a>
+      </div>
+    </div>
+  )
+}
+
 export default function About() {
-  const reduce = useReducedMotion()
   return (
     <PageTransition>
       <article className={s.root}>
-        <motion.div
-          className={s.card}
-          initial={reduce ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className={s.grid}>
-            {/* Left: bio, portrait, philosophy */}
-            <div className={s.main}>
-              <section>
-                <p className={s.kicker}>Introduction</p>
-                <h1 className={s.lead}>
-                  I&rsquo;m Kenneth Espinoza. My friends call me Ken
-                  <span className={s.dim}>ny</span>E.
-                </h1>
-                <p className={s.leadBody}>
-                  Copywriter, creative strategist, and UT Austin Advertising graduate. I believe
-                  in clarity, cleverness, and truth. If you give me your attention, I&rsquo;m
-                  going to earn it, whether that&rsquo;s a tagline or a whole campaign.
-                </p>
-              </section>
+        <header className={`${s.wrap} ${s.hero}`}>
+          <Reveal>
+            <p className={s.kicker}>About</p>
+          </Reveal>
+          <Reveal>
+            <h1 className={s.name}>Kenneth Espinoza</h1>
+          </Reveal>
+          <Reveal>
+            <p className={s.alias}>
+              My friends call me Ken<span className={s.dim}>ny</span>E.
+            </p>
+          </Reveal>
+          <Reveal>
+            <p className={s.leadBody}>
+              Copywriter, creative strategist, and UT Austin Advertising graduate. I believe in
+              clarity, cleverness, and truth. If you give me your attention, I&rsquo;m going to
+              earn it, whether that&rsquo;s a tagline or a whole campaign.
+            </p>
+          </Reveal>
+        </header>
 
+        <div className={`${s.wrap} ${s.body}`}>
+          <div className={s.copy}>
+            <Reveal className={s.block}>
               <figure className={s.portrait}>
-                <img src="/about/portrait.webp" alt="Kenneth Espinoza" loading="lazy" decoding="async" />
+                <img
+                  src="/about/portrait.webp"
+                  alt="Kenneth Espinoza"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <figcaption>
                   <span>Fig. 01</span>
                   <span>Austin, TX</span>
                 </figcaption>
               </figure>
+            </Reveal>
 
-              <section className={s.philosophy}>
-                <p className={s.kicker}>My philosophy</p>
-                <blockquote className={s.quote}>&ldquo;To do is to be.&rdquo;</blockquote>
-                <p className={s.body}>
-                  There is no waiting period to become the person you want to be. The second you
-                  start doing the work and putting in effort, you already are that person. The
-                  flip side is just as real: you cannot claim to be someone without backing it up
-                  with action.
-                </p>
-              </section>
+            <Reveal className={s.block}>
+              <p className={s.kicker}>My philosophy</p>
+              <blockquote className={s.quote}>&ldquo;To do is to be.&rdquo;</blockquote>
+              <p className={s.para}>
+                There is no waiting period to become the person you want to be. The second you
+                start doing the work and putting in effort, you already are that person. The
+                flip side is just as real: you cannot claim to be someone without backing it up
+                with action.
+              </p>
+            </Reveal>
 
-              <section>
-                <h2 className={s.h3}>The mindset</h2>
-                <p className={s.body}>
-                  This site is a reflection of that. Whether you&rsquo;re here to hire me,
-                  collaborate, or just get inspired, welcome. Hope you find something that makes
-                  you feel something.
-                </p>
-              </section>
-            </div>
+            <Reveal className={s.block}>
+              <p className={s.kicker}>The mindset</p>
+              <p className={s.para}>
+                This site is a reflection of that. Whether you&rsquo;re here to hire me,
+                collaborate, or just get inspired, welcome. Hope you find something that makes
+                you feel something.
+              </p>
+            </Reveal>
+          </div>
 
-            {/* Right: status + rotation ledger */}
-            <aside className={s.side}>
+          <aside className={s.side}>
+            <div className={s.sideInner}>
               <div className={s.field}>
-                <p className={s.kicker}>Current status</p>
+                <p className={s.fieldLabel}>Current status</p>
                 <p className={s.status}>
                   <span className={s.dot} aria-hidden="true" />
                   Available for creative roles
@@ -94,33 +149,11 @@ export default function About() {
               </div>
 
               <div className={s.field}>
-                <p className={s.kicker}>Primary focus</p>
+                <p className={s.fieldLabel}>Primary focus</p>
                 <p className={s.focus}>Brand strategy, copywriting, digital experience</p>
               </div>
 
-              <div className={s.ledger}>
-                <div className={s.ledgerHead}>
-                  <span>Current rotation</span>
-                  <span className={s.ledgerTag}>Active index</span>
-                </div>
-                <ol className={s.ledgerList}>
-                  {ROTATION.map((t, i) => (
-                    <li
-                      key={`${t.artist}-${t.work}`}
-                      className={`${s.ledgerItem} ${i === 0 ? s.ledgerItemNow : ''}`}
-                    >
-                      <span className={s.ledgerArtist}>{t.artist}</span>
-                      <span className={s.ledgerWork}>{t.work}</span>
-                    </li>
-                  ))}
-                </ol>
-                <div className={s.ledgerFoot}>
-                  <span>Austin strategy desk</span>
-                  <a href={APPLE_MUSIC} target="_blank" rel="noopener noreferrer">
-                    Apple Music ↗
-                  </a>
-                </div>
-              </div>
+              <Ledger />
 
               <Link to="/musicdashboard" viewTransition className={s.dashLink}>
                 Eight years of tunes ↗
@@ -130,9 +163,9 @@ export default function About() {
                 <span>Austin, Texas</span>
                 <span>KenE Creative</span>
               </div>
-            </aside>
-          </div>
-        </motion.div>
+            </div>
+          </aside>
+        </div>
       </article>
     </PageTransition>
   )
