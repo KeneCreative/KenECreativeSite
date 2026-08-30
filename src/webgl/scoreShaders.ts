@@ -41,7 +41,7 @@ void main() {
   float resolve = smoothstep(0.0, 1.0, uScroll);
   float still = clamp(uReduced, 0.0, 1.0);
 
-  float amp = mix(0.130, 0.004, resolve) * (1.0 - still * 0.95);
+  float amp = mix(0.092, 0.004, resolve) * (1.0 - still * 0.95);
 
   vec2 p = vec2(uv.x, yTop);
   float pd = distance(p, uPointer);
@@ -52,15 +52,18 @@ void main() {
   float cover = 0.0;   // nearest-line coverage 0..1
   float brass = 0.0;
 
-  // --- loose field: 22 strings, thinning toward 5 as we resolve ---
+  // --- loose field: 22 strings that sway together as one field ---
+  // The phase is tied to vertical position (t), so neighbouring strings move
+  // almost in step — a slow wave passing through, not each string crossing its
+  // neighbours (which read as a woven mesh).
   const int NLOOSE = 22;
   float looseFade = pow(1.0 - resolve, 1.3);
   for (int i = 0; i < NLOOSE; i++) {
     float t = (float(i) + 0.5) / float(NLOOSE);   // 0..1 down the viewport
-    float ph = float(i) * 0.7;
+    float ph = t * 2.3 + float(i) * 0.05;
     float wob =
-      amp * sin(x * 6.0 + uTime * 0.7 + ph) +
-      amp * 0.4 * sin(x * 11.0 - uTime * 1.0 + ph * 1.6);
+      amp * sin(x * 3.4 + uTime * 0.55 + ph) +
+      amp * 0.16 * sin(x * 6.5 - uTime * 0.85 + ph * 1.4);
     float dyPx = (yTop - (t + wob)) * H;
     cover = max(cover, lineAA(dyPx) * looseFade);
   }
