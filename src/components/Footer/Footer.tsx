@@ -150,15 +150,18 @@ export default function Footer() {
 
       <div className={styles.footerBottom}>
         <p className={styles.copyright}>© 2026 by KenE Creative. All rights reserved.</p>
-        <button
-          className={styles.soundToggle}
-          type="button"
-          aria-pressed={soundOn}
-          onClick={toggleSound}
-        >
-          <span className={styles.dot} aria-hidden="true" />
-          <span>{soundOn ? 'Sound on' : 'Sound off'}</span>
-        </button>
+        <div className={styles.soundGroup}>
+          {soundOn && <span className={styles.soundHint}>Hover a note to hear it</span>}
+          <button
+            className={styles.soundToggle}
+            type="button"
+            aria-pressed={soundOn}
+            onClick={toggleSound}
+          >
+            <span className={styles.dot} aria-hidden="true" />
+            <span>{soundOn ? 'Sound on' : 'Sound off'}</span>
+          </button>
+        </div>
       </div>
     </footer>
   )

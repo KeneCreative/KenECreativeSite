@@ -231,9 +231,27 @@
   text-align: center;
   white-space: nowrap;
 }
-.soundToggle {
+.soundGroup {
   grid-column: 3;
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.soundHint {
+  font-size: 12.5px;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.42);
+  white-space: nowrap;
+}
+@media (hover: none) {
+  /* "hover" means nothing on a touch screen */
+  .soundHint {
+    display: none;
+  }
+}
+
+.soundToggle {
   display: flex;
   align-items: center;
   gap: 8px;
