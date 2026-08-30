@@ -1,7 +1,51 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import type { VideoCut } from '@/routes/caseStudies'
 import s from './VideoTheater.module.css'
+
+interface VimeoPlayer {
+  setMuted(m: boolean): Promise<boolean>
+  setVolume(v: number): Promise<number>
+  setLoop(l: boolean): Promise<boolean>
+  play(): Promise<void>
+  pause(): Promise<void>
+}
+declare global {
+  interface Window {
+    Vimeo?: { Player: new (el: HTMLIFrameElement) => VimeoPlayer }
+  }
+}
+
+let vimeoLoader: Promise<Window['Vimeo']> | null = null
+function loadVimeo(): Promise<Window['Vimeo']> {
+  if (window.Vimeo) return Promise.resolve(window.Vimeo)
+  if (!vimeoLoader) {
+    vimeoLoader = new Promise((resolve, reject) => {
+      const sc = document.createElement('script')
+      sc.src = 'https://player.vimeo.com/api/player.js'
+      sc.async = true
+      sc.onload = () => resolve(window.Vimeo)
+      sc.onerror = reject
+      document.head.appendChild(sc)
+    })
+  }
+  return vimeoLoader
+}
+
+const embed = (id: string, reduced: boolean) => {
+  const p: Record<string, string> = reduced
+    ? { autoplay: '0', controls: '1' }
+    : { autoplay: '1', loop: '1', muted: '1', controls: '0', autopause: '0', background: '0' }
+  const qs = new URLSearchParams({
+    ...p,
+    dnt: '1',
+    title: '0',
+    byline: '0',
+    portrait: '0',
+    badge: '0',
+  })
+  return `https://player.vimeo.com/video/${id}?${qs.toString()}`
+}
 
 function SpeakerOff() {
   return (
@@ -20,43 +64,58 @@ function SpeakerOn() {
 }
 
 /**
- * Four vertical cuts on a dark row. Like the legacy page: every clip autoplays
- * muted and loops together, and a per-clip sound button lets exactly one clip
- * carry audio at a time. When a cut has no hosted source yet the screen holds a
- * placeholder. Under reduced motion, clips don't autoplay and show controls.
+ * Four vertical cuts on a dark row, embedded from Vimeo. Like the legacy page:
+ * every clip autoplays muted and loops together, and a per-clip sound button
+ * lets exactly one clip carry audio at a time (re-click mutes everything). A cut
+ * with no `vimeo` id shows a placeholder. Under reduced motion the clips don't
+ * autoplay and keep Vimeo's own controls.
  */
 export default function VideoTheater({ cuts }: { cuts: VideoCut[] }) {
   const reduce = useReducedMotion()
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
+  const iframeRefs = useRef<(HTMLIFrameElement | null)[]>([])
+  const players = useRef<(VimeoPlayer | null)[]>([])
   const [unmuted, setUnmuted] = useState<number | null>(null)
+  const [ready, setReady] = useState(false)
 
-  // React sets the `muted` *property* but not the attribute, and the browser's
-  // autoplay policy checks the attribute — so force it via defaultMuted here.
-  const refCbs = useMemo(
-    () =>
-      cuts.map((_, i) => (el: HTMLVideoElement | null) => {
-        videoRefs.current[i] = el
-        if (el) {
-          el.defaultMuted = true
-          el.muted = true
-        }
-      }),
-    [cuts.length],
-  )
-
-  // Exactly one clip carries audio; the rest stay muted and keep looping.
+  // Attach the Vimeo API to each iframe and start the shared muted playback.
   useEffect(() => {
-    videoRefs.current.forEach((v, i) => {
-      if (!v) return
-      v.muted = i !== unmuted
-      if (!reduce) void v.play().catch(() => {})
-    })
-  }, [unmuted, reduce])
+    if (reduce) return
+    let cancelled = false
+    loadVimeo()
+      .then((Vimeo) => {
+        if (cancelled || !Vimeo) return
+        players.current = iframeRefs.current.map((el) => {
+          if (!el) return null
+          const p = new Vimeo.Player(el)
+          void p.setMuted(true)
+          void p.setLoop(true)
+          void p.play().catch(() => {})
+          return p
+        })
+        setReady(true)
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+      players.current = []
+      setReady(false)
+    }
+  }, [reduce])
 
-  const toggle = (i: number) => {
-    setUnmuted((cur) => (cur === i ? null : i))
-    void videoRefs.current[i]?.play().catch(() => {})
-  }
+  // Exactly one clip carries audio; every clip keeps looping. Interacting with
+  // any sound button also resumes clips a strict autoplay policy may have held.
+  useEffect(() => {
+    if (!ready) return
+    players.current.forEach((p, i) => {
+      if (!p) return
+      const on = i === unmuted
+      void p.setMuted(!on)
+      if (on) void p.setVolume(1)
+      void p.play().catch(() => {})
+    })
+  }, [unmuted, ready])
+
+  const toggle = (i: number) => setUnmuted((cur) => (cur === i ? null : i))
 
   return (
     <div className={s.grid}>
@@ -73,20 +132,20 @@ export default function VideoTheater({ cuts }: { cuts: VideoCut[] }) {
             {cut.label}
           </span>
           <div className={s.screen}>
-            {cut.src ? (
+            {cut.vimeo ? (
               <>
-                <video
-                  ref={refCbs[i]}
-                  src={cut.src}
-                  poster={cut.poster}
-                  loop
-                  muted
-                  playsInline
-                  autoPlay={!reduce}
-                  controls={reduce === true}
-                  preload="metadata"
+                <iframe
+                  ref={(el) => {
+                    iframeRefs.current[i] = el
+                  }}
+                  className={s.frame}
+                  src={embed(cut.vimeo, reduce === true)}
+                  title={cut.label}
+                  loading="lazy"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  referrerPolicy="strict-origin-when-cross-origin"
                 />
-                {!reduce && (
+                {reduce !== true && (
                   <button
                     type="button"
                     className={s.sound}

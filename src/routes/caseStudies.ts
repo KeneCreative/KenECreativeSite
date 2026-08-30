@@ -38,9 +38,8 @@ export type VideoCut = {
   label: string
   kind: 'final' | 'alternate'
   note?: string
-  /** Hosted source, when available. Until then the card shows a placeholder. */
-  src?: string
-  poster?: string
+  /** Vimeo video id. Until it is set, the card shows a placeholder. */
+  vimeo?: string
 }
 export type VideoTheaterDef = { title: string; lead?: string; cuts: VideoCut[] }
 
@@ -245,11 +244,10 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         title: 'A story preserved in time',
         lead: 'Four vertical cuts for paid Instagram Stories, each testing how far to lean into the ache. Two final selections, two alternates.',
         cuts: [
-          // Add `src` (hosted mp4 / stream URL) per cut once the videos are hosted.
-          { label: 'Final selection 1', kind: 'final' },
-          { label: 'Final selection 2', kind: 'final' },
-          { label: 'Alternate cut 1', kind: 'alternate' },
-          { label: 'Alternate cut 2', kind: 'alternate' },
+          { label: 'Final selection 1', kind: 'final', vimeo: '1222397583' },
+          { label: 'Final selection 2', kind: 'final', vimeo: '1222397584' },
+          { label: 'Alternate cut 1', kind: 'alternate', vimeo: '1222397585' },
+          { label: 'Alternate cut 2', kind: 'alternate', vimeo: '1222397586' },
         ],
       },
     },
