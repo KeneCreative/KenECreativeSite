@@ -538,7 +538,7 @@ a.artefact:focus-visible .artefactImg {
 }
 
 .verdict {
-  margin: 0;
+  margin: 0 auto;
   max-width: 640px;
   border: 1px solid var(--ink-soft);
   background: var(--ground-raise, #141417);
@@ -681,12 +681,17 @@ a.artefact:focus-visible .artefactImg {
   color: var(--ink);
 }
 
-.gallery,
-.showBlock {
+.gallery {
   margin-top: clamp(2.5rem, 6vw, 4rem);
 }
 .showBlock {
+  margin: clamp(2.5rem, 6vw, 4rem) auto 0;
   max-width: 640px;
+}
+.showBlock .galleryHead {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 .showBlockWide,
 .cardsBlock {
