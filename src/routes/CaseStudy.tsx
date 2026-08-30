@@ -12,10 +12,9 @@ import CraftStats from '@/components/CraftStats/CraftStats'
 import AlbumEvolution from '@/components/AlbumEvolution/AlbumEvolution'
 import VideoTheater from '@/components/VideoTheater/VideoTheater'
 import ResultsTimeline from '@/components/ResultsTimeline/ResultsTimeline'
-import PriceLadder from '@/components/PriceLadder/PriceLadder'
 import Executions from '@/components/Executions/Executions'
 import FourCs from '@/components/FourCs/FourCs'
-import MarketLeader from '@/components/MarketLeader/MarketLeader'
+import CategoryMetrics from '@/components/CategoryMetrics/CategoryMetrics'
 import { useMediaQuery } from '@/lib/useMediaQuery'
 import {
   CASE_STUDIES,
@@ -330,68 +329,79 @@ export default function CaseStudy() {
         {/* Movement II — Craft */}
         <section className={`${s.wrap} ${s.movement}`}>
           <MovementHeader n={1} title="Craft" />
-          {cs.craft.map((sec) => (
-            <Reveal key={sec.title}>
-              <div className={s.craftSection}>
-                <div>
-                  <p className={s.craftKicker}>{sec.kicker}</p>
-                  <h3 className={s.craftTitle}>{sec.title}</h3>
-                  <div className={s.craftBody}>
-                    {sec.body.map((para, j) => (
-                      <p key={j}>{para}</p>
-                    ))}
+          {cs.craft.map((sec) => {
+            const hasAside = Boolean(
+              sec.pullQuote || sec.stats || sec.finalCopy || sec.media,
+            )
+            return (
+              <Reveal key={sec.title}>
+                <div className={`${s.craftSection} ${hasAside ? '' : s.craftSectionSolo}`}>
+                  <div>
+                    <p className={s.craftKicker}>{sec.kicker}</p>
+                    <h3 className={s.craftTitle}>{sec.title}</h3>
+                    <div className={s.craftBody}>
+                      {sec.body.map((para, j) => (
+                        <p key={j}>{para}</p>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className={s.craftAside}>
-                  {sec.pullQuote && <p className={s.pullQuote}>{sec.pullQuote}</p>}
-                  {sec.marketLeader && <MarketLeader {...sec.marketLeader} />}
+                  {hasAside && (
+                    <div className={s.craftAside}>
+                      {sec.pullQuote && <p className={s.pullQuote}>{sec.pullQuote}</p>}
+                      {sec.stats && <CraftStats items={sec.stats} />}
+                      {sec.finalCopy && (
+                        <div className={s.finalCopy}>
+                          {sec.finalCopy.title && (
+                            <p className={s.finalCopyTitle}>{sec.finalCopy.title}</p>
+                          )}
+                          <ul>
+                            {sec.finalCopy.items.map((it, k) => (
+                              <li key={k}>
+                                {it.header && (
+                                  <span className={s.finalCopyHeader}>{it.header}</span>
+                                )}
+                                <span className={s.finalCopyText}>{it.text}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      {sec.media && <MediaRow media={sec.media} />}
+                    </div>
+                  )}
+
+                  {sec.categoryMetrics && (
+                    <div className={s.craftWide}>
+                      <CategoryMetrics def={sec.categoryMetrics} />
+                    </div>
+                  )}
+                  {sec.fourCs && (
+                    <div className={s.craftWide}>
+                      <FourCs def={sec.fourCs} />
+                    </div>
+                  )}
                   {sec.fieldNotes && (
-                    <figure className={s.fieldNotes}>
+                    <figure className={`${s.craftWide} ${s.fieldNotes}`}>
                       <figcaption className={s.fieldNotesHead}>
                         <span>{sec.fieldNotes.label ?? 'Field notes'}</span>
                         {sec.fieldNotes.ref && (
                           <span className={s.fieldNotesRef}>Ref {sec.fieldNotes.ref}</span>
                         )}
                       </figcaption>
-                      {sec.fieldNotes.quotes.map((q) => (
-                        <blockquote key={q.attribution} className={s.fieldNote}>
-                          <p>{q.text}</p>
-                          <cite>{q.attribution}</cite>
-                        </blockquote>
-                      ))}
+                      <div className={s.fieldNotesRow}>
+                        {sec.fieldNotes.quotes.map((q) => (
+                          <blockquote key={q.attribution} className={s.fieldNote}>
+                            <p>{q.text}</p>
+                            <cite>{q.attribution}</cite>
+                          </blockquote>
+                        ))}
+                      </div>
                     </figure>
                   )}
-                  {sec.stats && <CraftStats items={sec.stats} />}
-                  {sec.finalCopy && (
-                    <div className={s.finalCopy}>
-                      {sec.finalCopy.title && (
-                        <p className={s.finalCopyTitle}>{sec.finalCopy.title}</p>
-                      )}
-                      <ul>
-                        {sec.finalCopy.items.map((it, k) => (
-                          <li key={k}>
-                            {it.header && <span className={s.finalCopyHeader}>{it.header}</span>}
-                            <span className={s.finalCopyText}>{it.text}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {sec.media && <MediaRow media={sec.media} />}
                 </div>
-                {sec.ladder && (
-                  <div className={s.craftWide}>
-                    <PriceLadder def={sec.ladder} />
-                  </div>
-                )}
-                {sec.fourCs && (
-                  <div className={s.craftWide}>
-                    <FourCs def={sec.fourCs} />
-                  </div>
-                )}
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            )
+          })}
         </section>
 
         {/* Movement III — Deliverables */}
@@ -547,14 +557,6 @@ export default function CaseStudy() {
                     {para}
                   </p>
                 ))}
-                {(cs.results.verdict.sign || cs.results.verdict.ref) && (
-                  <p className={s.verdictSign}>
-                    {cs.results.verdict.sign}
-                    {cs.results.verdict.ref && (
-                      <span className={s.verdictRef}>Archive {cs.results.verdict.ref}</span>
-                    )}
-                  </p>
-                )}
               </figure>
             </Reveal>
           )}

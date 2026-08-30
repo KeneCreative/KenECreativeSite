@@ -4,6 +4,11 @@
   background: var(--ground-raise, #141417);
   padding: clamp(1.5rem, 4vw, 2.5rem);
 }
+.bare {
+  border: 0;
+  background: none;
+  padding: 0;
+}
 
 .head {
   display: flex;

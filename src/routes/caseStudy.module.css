@@ -148,6 +148,9 @@
   grid-column: 1 / -1;
   margin-top: clamp(1.25rem, 3vw, 2.25rem);
 }
+.craftSectionSolo {
+  grid-template-columns: minmax(0, 1fr);
+}
 .craftKicker {
   font-family: var(--font-mono);
   font-size: 0.68rem;
@@ -188,7 +191,7 @@
 }
 
 .fieldNotes {
-  margin: 0;
+  margin: clamp(1.25rem, 3vw, 2.25rem) 0 0;
   border: 1px solid var(--ink-soft);
   background: var(--ground-raise, #141417);
 }
@@ -197,7 +200,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.7rem 1rem;
+  padding: 0.8rem clamp(1rem, 3vw, 1.5rem);
   border-bottom: 1px solid var(--ink-soft);
   font-family: var(--font-mono);
   font-size: 0.6rem;
@@ -208,18 +211,28 @@
 .fieldNotesRef {
   color: var(--ink-dim);
 }
+.fieldNotesRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
 .fieldNote {
   margin: 0;
-  padding: 1.1rem 1rem;
+  padding: clamp(1.1rem, 3vw, 1.6rem);
 }
-.fieldNote + .fieldNote {
-  border-top: 1px solid var(--ink-soft);
+.fieldNote:not(:last-child) {
+  border-bottom: 1px solid var(--ink-soft);
+}
+@media (min-width: 700px) {
+  .fieldNotesRow > .fieldNote:not(:last-child) {
+    border-bottom: 0;
+    border-right: 1px solid var(--ink-soft);
+  }
 }
 .fieldNote p {
-  margin: 0 0 0.7rem;
+  margin: 0 0 0.8rem;
   font-family: var(--font-display);
   font-style: italic;
-  font-size: 1.05rem;
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.25rem);
   line-height: 1.4;
   color: var(--ink);
 }
@@ -521,22 +534,8 @@ a.artefact:focus-visible .artefactImg {
   margin: 0 0 0.9rem;
   max-width: 60ch;
 }
-.verdictSign {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.5rem 1rem;
-  margin: 1.4rem 0 0;
-  padding-top: 1rem;
-  border-top: 1px solid var(--ink-soft);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-}
-.verdictRef {
-  color: var(--brass);
+.verdictBody:last-child {
+  margin-bottom: 0;
 }
 
 /* ---------- next / footer handoff ---------- */

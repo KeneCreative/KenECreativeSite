@@ -8,11 +8,15 @@ import s from './MarketLeader.module.css'
  * a thin wedge for the next competitor, the rest muted. The ring scales in and
  * the figure counts up on view.
  */
-export default function MarketLeader({ name, share, next, label, sub }: MarketLeaderDef) {
+export default function MarketLeader({
+  bare,
+  ...def
+}: MarketLeaderDef & { bare?: boolean }) {
+  const { name, share, next, label, sub } = def
   const reduce = useReducedMotion()
   const b = next ? Math.min(100, share + next) : share
   return (
-    <figure className={s.root}>
+    <figure className={`${s.root} ${bare ? s.bare : ''}`}>
       <motion.div
         className={s.ring}
         style={

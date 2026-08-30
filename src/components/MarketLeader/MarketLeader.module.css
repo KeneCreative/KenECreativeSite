@@ -9,6 +9,24 @@
   gap: 1.1rem;
   text-align: center;
 }
+.bare {
+  border: 0;
+  background: none;
+  padding: 0;
+  flex-direction: row;
+  align-items: center;
+  gap: clamp(1.25rem, 4vw, 2.25rem);
+  text-align: left;
+  flex-wrap: wrap;
+}
+.bare .cap {
+  align-items: flex-start;
+  flex: 1;
+  min-width: 180px;
+}
+.bare .capLabel {
+  font-size: 0.95rem;
+}
 
 .ring {
   width: clamp(128px, 34vw, 168px);

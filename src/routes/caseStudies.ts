@@ -94,10 +94,16 @@ export type MarketLeaderDef = {
   sub?: string
 }
 
+export type CategoryMetricsDef = {
+  title?: string
+  leader?: MarketLeaderDef
+  ladder: PriceLadderDef
+}
+
 export type FourAxis = { name: string; thesis: string; evidence: string[] }
 export type FourCsDef = { opening: string; axes: FourAxis[] }
 
-export type VerdictDef = { title: string; body: string[]; sign?: string; ref?: string }
+export type VerdictDef = { title: string; body: string[] }
 
 /** Frame image paths for a Red Cross animation folder (NN.webp). */
 export const frames = (base: string, count: number): string[] =>
@@ -130,12 +136,10 @@ export type CraftSection = {
   stats?: CraftStat[]
   finalCopy?: CraftCopy
   media?: Media[]
-  /** Verbatim research quotes, shown in the section aside. */
+  /** Verbatim research quotes, shown full-width below the section. */
   fieldNotes?: FieldNotesDef
-  /** Category-leader share ring, shown in the section aside. */
-  marketLeader?: MarketLeaderDef
-  /** Full-width graphic below the section text. */
-  ladder?: PriceLadderDef
+  /** Full-width graphics below the section text. */
+  categoryMetrics?: CategoryMetricsDef
   fourCs?: FourCsDef
 }
 
@@ -722,12 +726,27 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           'In purist interviews the pattern was consistent: syrups signal something to hide.',
           "The price ladder makes it worse. Dutch Bros at $3.50 reads as cheap next to Starbucks at $5.25, even when the cup is not.",
         ],
-        marketLeader: {
-          name: 'Starbucks',
-          share: 28.7,
-          next: 2.65,
-          label: 'Starbucks share of the Coffee & Snack Shops category, 2023',
-          sub: 'Next-largest chain: 2.65%',
+        categoryMetrics: {
+          leader: {
+            name: 'Starbucks',
+            share: 28.7,
+            next: 2.65,
+            label: 'Starbucks share of the Coffee & Snack Shops category, 2023',
+            sub: 'Next-largest chain: 2.65%',
+          },
+          ladder: {
+            title: 'What a cup costs across the category',
+            cups: [
+              { brand: '7-Eleven', price: '$3.49', scale: 0.6, kind: 'plain' },
+              { brand: 'Dutch Bros', price: '$3.50', scale: 0.62, kind: 'plain', highlight: true },
+              { brand: 'Dunkin', price: '$4.69', scale: 0.82, kind: 'lid' },
+              { brand: 'Starbucks', price: '$5.25', scale: 1, kind: 'sleeve' },
+            ],
+            source: {
+              label: 'Foodservice Coffee and Tea, US 2023, Mintel',
+              href: 'https://store.mintel.com/report/us-foodservice-coffee-and-tea-market-report-2023',
+            },
+          },
         },
         fieldNotes: {
           label: 'Verbatim testimony',
@@ -742,19 +761,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
               attribution: 'Jasmarie Hernandez, coffee with milk and brown sugar',
             },
           ],
-        },
-        ladder: {
-          title: 'What a cup costs across the category',
-          cups: [
-            { brand: '7-Eleven', price: '$3.49', scale: 0.6, kind: 'plain' },
-            { brand: 'Dutch Bros', price: '$3.50', scale: 0.62, kind: 'plain', highlight: true },
-            { brand: 'Dunkin', price: '$4.69', scale: 0.82, kind: 'lid' },
-            { brand: 'Starbucks', price: '$5.25', scale: 1, kind: 'sleeve' },
-          ],
-          source: {
-            label: 'Foodservice Coffee and Tea, US 2023, Mintel',
-            href: 'https://store.mintel.com/report/us-foodservice-coffee-and-tea-market-report-2023',
-          },
         },
       },
       {
@@ -869,8 +875,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           'Dutch Bros is positioned as the "not so serious" coffee shop for fruit-and-caffeine adventurers and coffee drinkers alike.',
           'Coffee Purists take their coffee seriously, but they still want small bursts of joy in an everyday routine. They just need to know the coffee underneath is good.',
         ],
-        sign: 'KenE Creative, Strategy & Positioning',
-        ref: 'DB-994',
       },
     },
   },

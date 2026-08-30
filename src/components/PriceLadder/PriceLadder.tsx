@@ -25,11 +25,12 @@ function Cup({ scale, kind, highlight }: Pick<PriceCup, 'scale' | 'kind' | 'high
 /**
  * The category price ladder: a row of coffee cups that grow with their price,
  * sharing a baseline so the gap reads at a glance. Cups rise in on scroll.
+ * `bare` drops the outer border/background for nesting in another box.
  */
-export default function PriceLadder({ def }: { def: PriceLadderDef }) {
+export default function PriceLadder({ def, bare }: { def: PriceLadderDef; bare?: boolean }) {
   const reduce = useReducedMotion()
   return (
-    <figure className={s.root}>
+    <figure className={`${s.root} ${bare ? s.bare : ''}`}>
       <figcaption className={s.head}>
         <span className={s.kicker}>Price ladder</span>
         <span className={s.title}>{def.title}</span>
