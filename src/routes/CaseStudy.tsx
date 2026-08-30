@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { motion, useReducedMotion } from 'motion/react'
 import PageTransition from '@/components/PageTransition'
@@ -159,9 +159,17 @@ function KineticLine({ text, emphasis }: { text: string; emphasis: string }) {
   )
 }
 
-function StatCell({ stat }: { stat: Stat }) {
-  return (
-    <div className={s.stat}>
+function StatCell({
+  stat,
+  open,
+  onToggle,
+}: {
+  stat: Stat
+  open?: boolean
+  onToggle?: () => void
+}) {
+  const inner = (
+    <>
       <span className={s.statValue}>
         <CountUp
           to={stat.value}
@@ -173,8 +181,27 @@ function StatCell({ stat }: { stat: Stat }) {
       </span>
       <span className={s.statLabel}>{stat.label}</span>
       {stat.sub && <span className={s.statSub}>{stat.sub}</span>}
-    </div>
+      {onToggle && (
+        <span className={s.statCue}>
+          {open ? 'Hide' : stat.reveal?.label ?? 'Show more'}
+          <span aria-hidden="true">{open ? ' –' : ' +'}</span>
+        </span>
+      )}
+    </>
   )
+  if (onToggle) {
+    return (
+      <button
+        type="button"
+        className={`${s.stat} ${s.statToggle} ${open ? s.statToggleOpen : ''}`}
+        onClick={onToggle}
+        aria-expanded={open}
+      >
+        {inner}
+      </button>
+    )
+  }
+  return <div className={s.stat}>{inner}</div>
 }
 
 function ArtefactTile({ item }: { item: Artefact }) {
@@ -227,6 +254,7 @@ function ArtefactTile({ item }: { item: Artefact }) {
 export default function CaseStudy() {
   const { slug = '' } = useParams()
   const cs = CASE_STUDIES[slug]
+  const [openStat, setOpenStat] = useState<string | null>(null)
 
   if (!cs) {
     return (
@@ -539,18 +567,55 @@ export default function CaseStudy() {
             <Reveal>
               <div className={s.statGrid}>
                 {cs.results.stats.map((st) => (
-                  <StatCell key={st.label} stat={st} />
+                  <StatCell
+                    key={st.label}
+                    stat={st}
+                    open={st.reveal ? openStat === st.label : undefined}
+                    onToggle={
+                      st.reveal
+                        ? () => setOpenStat((cur) => (cur === st.label ? null : st.label))
+                        : undefined
+                    }
+                  />
                 ))}
               </div>
             </Reveal>
           )}
+
+          {(() => {
+            const active = cs.results.stats?.find(
+              (st) => st.reveal && openStat === st.label,
+            )
+            if (!active?.reveal) return null
+            return (
+              <motion.figure
+                key={active.label}
+                className={s.statReveal}
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className={s.statRevealPair}>
+                  {[active.reveal.before, active.reveal.after].map((m) => (
+                    <figure key={m.image} className={s.comparisonItem}>
+                      <img src={m.image} alt={m.alt} loading="lazy" decoding="async" />
+                      {m.caption && <figcaption>{m.caption}</figcaption>}
+                    </figure>
+                  ))}
+                </div>
+                {active.reveal.caption && (
+                  <figcaption className={s.comparisonNote}>{active.reveal.caption}</figcaption>
+                )}
+              </motion.figure>
+            )
+          })()}
 
           {cs.results.verdict && (
             <Reveal>
               <figure className={s.verdict}>
                 <figcaption className={s.verdictHead}>
                   <span className={s.verdictDot} aria-hidden="true" />
-                  Closing field note
+                  {cs.results.verdict.kicker ?? 'Closing note'}
                 </figcaption>
                 <h3 className={s.verdictTitle}>{cs.results.verdict.title}</h3>
                 {cs.results.verdict.body.map((para, k) => (

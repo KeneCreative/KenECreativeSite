@@ -486,6 +486,49 @@ a.artefact:focus-visible .artefactImg {
   letter-spacing: 0.08em;
   color: var(--ink-dim);
 }
+
+/* a stat you can click to expand a before/after below the grid */
+.statToggle {
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.statToggle:hover,
+.statToggle:focus-visible {
+  background: var(--ground-raise, #141417);
+  outline: none;
+}
+.statToggleOpen {
+  background: var(--ground-raise, #141417);
+}
+.statCue {
+  margin-top: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+
+.statReveal {
+  margin: 1px 0 0;
+  border: 1px solid var(--ink-soft);
+  border-top: 0;
+  background: var(--ground-raise, #141417);
+  padding: clamp(1.25rem, 4vw, 2.25rem);
+}
+.statRevealPair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+@media (max-width: 640px) {
+  .statRevealPair {
+    grid-template-columns: 1fr;
+  }
+}
+
 .resultsNote {
   font-size: 0.95rem;
   line-height: 1.6;

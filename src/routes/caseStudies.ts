@@ -105,7 +105,7 @@ export type CategoryMetricsDef = {
 export type FourAxis = { name: string; thesis: string; evidence: string[] }
 export type FourCsDef = { opening: string; axes: FourAxis[] }
 
-export type VerdictDef = { title: string; body: string[] }
+export type VerdictDef = { kicker?: string; title: string; body: string[] }
 
 /** Frame image paths for a Red Cross animation folder (NN.webp). */
 export const frames = (base: string, count: number): string[] =>
@@ -163,6 +163,13 @@ export type Stat = {
   suffix?: string
   label: string
   sub?: string
+  /** Click the stat to expand a before/after pair below the grid. */
+  reveal?: {
+    label?: string
+    before: Media
+    after: Media
+    caption?: string
+  }
 }
 
 export type CaseStudy = {
@@ -446,26 +453,32 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           label: 'Raised on Amplify Austin',
           sub: '2025, from 220 donors',
         },
-        { value: 6, prefix: '#', label: 'Citywide leaderboard', sub: 'Up from #48 the year before' },
+        {
+          value: 6,
+          prefix: '#',
+          label: 'Citywide leaderboard',
+          sub: 'Up from #48 the year before',
+          reveal: {
+            label: 'See the boards',
+            before: {
+              image: '/works/aap/leaderboard-2024.webp',
+              alt: 'Amplify Austin citywide leaderboard, 2024, American Artist Project at 48th',
+              caption: '2024, 48th citywide',
+            },
+            after: {
+              image: '/works/aap/leaderboard-2025.webp',
+              alt: 'Amplify Austin citywide leaderboard, 2025, American Artist Project at 6th',
+              caption: '2025, 6th citywide',
+            },
+            caption: 'Amplify Austin citywide ranking, year over year',
+          },
+        },
       ],
       dials: [
         { value: 45, label: 'Attendance', sub: 'Year over year' },
         { value: 36, label: 'Donor growth', sub: 'Year over year' },
         { value: 100, display: '1st', label: 'Medium-size nonprofit', sub: 'Category placement, 2025' },
       ],
-      comparison: {
-        before: {
-          image: '/works/aap/leaderboard-2024.webp',
-          alt: 'Amplify Austin citywide leaderboard, 2024, American Artist Project at 48th',
-          caption: '2024, 48th citywide',
-        },
-        after: {
-          image: '/works/aap/leaderboard-2025.webp',
-          alt: 'Amplify Austin citywide leaderboard, 2025, American Artist Project at 6th',
-          caption: '2025, 6th citywide',
-        },
-        caption: 'Amplify Austin citywide ranking, year over year',
-      },
       note: 'Partners and micro-influencers amplified the campaign across their own channels.',
     },
   },
@@ -694,7 +707,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
       ],
       note:
-        'Framing the alarm as protecting your family, not receiving aid, broke through the resistance that had kept bed-shaker adoption in the low single digits — and drew ASL-fluent volunteers into the pipeline alongside the requests.',
+        'Framing the alarm as protecting your family, not receiving aid, broke through the resistance that had kept bed-shaker adoption in the low single digits, and it drew ASL-fluent volunteers into the pipeline alongside the requests.',
     },
   },
 
@@ -754,7 +767,6 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         },
         fieldNotes: {
           label: 'Verbatim testimony',
-          ref: 'DB-8842-X',
           quotes: [
             {
               text: 'My perception is it may not be as high-quality coffee, and so people may add syrups and stuff to it.',
@@ -874,6 +886,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     results: {
       intro: 'A speculative client proposal, sealed and indexed. The closing read on where Dutch Bros stands, and what it still has to prove.',
       verdict: {
+        kicker: 'Where it stands',
         title: 'Not so serious, on purpose',
         body: [
           'Dutch Bros is positioned as the "not so serious" coffee shop for fruit-and-caffeine adventurers and coffee drinkers alike.',
