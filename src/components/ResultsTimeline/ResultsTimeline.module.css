@@ -1,0 +1,245 @@
+.root {
+  border: 1px solid var(--ink-soft);
+  background: var(--ground-raise, #141417);
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.legend {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.4rem;
+}
+.key {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.swatch {
+  width: 14px;
+  height: 3px;
+  display: block;
+}
+.swatchPl {
+  background: var(--brass);
+}
+.swatchRe {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ink) 0 4px,
+    transparent 4px 7px
+  );
+}
+
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3.5vw, 2.5rem);
+  align-items: stretch;
+}
+
+.chartCol {
+  min-width: 0;
+}
+.chartScroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+.chart {
+  display: block;
+  width: 100%;
+  min-width: 520px;
+  height: auto;
+}
+
+.grid {
+  stroke: var(--ink-soft);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+.axisL,
+.axisR,
+.xLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--ink-dim);
+}
+.axisL {
+  fill: var(--brass);
+}
+.xLabel {
+  font-size: 10px;
+}
+.xLabelActive {
+  fill: var(--ink);
+  font-weight: 500;
+}
+
+.guide {
+  stroke: var(--ink-soft);
+  stroke-width: 1;
+}
+
+.linePl,
+.lineRe {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.linePl {
+  stroke: var(--brass);
+  stroke-width: 2.5;
+}
+.lineRe {
+  stroke: var(--ink);
+  stroke-width: 1.75;
+  stroke-dasharray: 5 5;
+}
+
+.dotPl {
+  fill: var(--brass);
+}
+.dotPlActive {
+  fill: var(--ground-raise, #141417);
+  stroke: var(--brass);
+  stroke-width: 2.5;
+}
+.dotRe {
+  fill: var(--ink);
+}
+.dotReActive {
+  fill: var(--ground-raise, #141417);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.hit {
+  fill: transparent;
+  cursor: pointer;
+}
+
+/* ---- slider ---- */
+.sliderWrap {
+  display: block;
+  margin-top: 1.4rem;
+}
+.sliderEnds {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 0.6rem;
+}
+.sliderNow {
+  color: var(--brass);
+  text-align: center;
+}
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--ink-soft);
+  cursor: pointer;
+}
+.slider:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 4px;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--brass);
+  border: 2px solid var(--ground);
+  cursor: pointer;
+}
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--brass);
+  border: 2px solid var(--ground);
+  cursor: pointer;
+}
+
+/* ---- phase panel ---- */
+.panel {
+  border: 1px solid var(--ink-soft);
+  background: var(--ground);
+  padding: clamp(1.1rem, 3vw, 1.6rem);
+  display: flex;
+  flex-direction: column;
+}
+.phaseKicker {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-bottom: 0.5rem;
+}
+.phaseTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 1.1rem + 1vw, 1.7rem);
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 0 0 0.7rem;
+}
+.phaseDesc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink-muted, rgba(245, 243, 239, 0.72));
+  margin: 0;
+}
+.miniStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--ink-soft);
+}
+.miniStats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.miniValue {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.miniPl {
+  color: var(--brass);
+}
+.miniLabel {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+@media (max-width: 900px) {
+  .body {
+    grid-template-columns: 1fr;
+  }
+  .panel {
+    order: -1;
+  }
+}

@@ -31,6 +31,34 @@ export type TiltCardsDef = { title: string; lead?: string; hero?: TiltCardItem; 
 
 export type AnimationSeriesDef = { title: string; lead?: string; tabs: AnimTab[] }
 
+export type AlbumStep = { n: string; title: string; text: string; image: string; alt: string }
+export type AlbumEvolutionDef = { title: string; lead?: string; steps: AlbumStep[] }
+
+export type VideoCut = {
+  label: string
+  kind: 'final' | 'alternate'
+  note?: string
+  /** Hosted source, when available. Until then the card shows a placeholder. */
+  src?: string
+  poster?: string
+}
+export type VideoTheaterDef = { title: string; lead?: string; cuts: VideoCut[] }
+
+export type TimelinePoint = {
+  date: string
+  playlists: number
+  reach: number
+  phase: string
+  desc: string
+}
+export type TimelineDef = {
+  title: string
+  lead?: string
+  /** Slider index to open on. */
+  start?: number
+  points: TimelinePoint[]
+}
+
 /** Frame image paths for a Red Cross animation folder (NN.webp). */
 export const frames = (base: string, count: number): string[] =>
   Array.from({ length: count }, (_, i) => `${base}/${String(i + 1).padStart(2, '0')}.webp`)
@@ -108,12 +136,15 @@ export type CaseStudy = {
     filmstrips?: FilmstripDef[]
     tiltCards?: TiltCardsDef
     animationSeries?: AnimationSeriesDef
+    albumEvolution?: AlbumEvolutionDef
+    videoTheater?: VideoTheaterDef
   }
   results: {
     intro: string
     stats: Stat[]
     dials?: Dial[]
     comparison?: { before: Media; after: Media; caption?: string }
+    timeline?: TimelineDef
     note?: string
     media?: Media[]
   }
@@ -164,6 +195,13 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           "'A New Piano Sound' won on performance. It frames the track as a cinematic score for the listener's inner life, an invitation to tie a memory to it and keep coming back.",
         ],
         pullQuote: 'A new piano sound for those days that feel like memories.',
+        finalCopy: {
+          title: 'A / B test',
+          items: [
+            { header: 'Variant A, chosen', text: 'A New Piano Sound' },
+            { header: 'Variant B', text: 'The Definitive Soundtrack' },
+          ],
+        },
       },
       {
         kicker: 'Video campaign',
@@ -176,14 +214,43 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ],
     artefacts: {
       title: 'The deliverables',
-      items: [
-        { label: 'Album cover', note: 'Rework', field: 1 },
-        { label: 'Ad copy set', note: 'A/B tested', field: 1 },
-        { label: 'Final cut 1', field: 1, pending: 'video' },
-        { label: 'Final cut 2', field: 1, pending: 'video' },
-        { label: 'Alternate cut 1', field: 1, pending: 'video' },
-        { label: 'Alternate cut 2', field: 1, pending: 'video' },
-      ],
+      albumEvolution: {
+        title: 'The album cover',
+        lead: 'Three passes at giving the track a face a listener could recall a week later.',
+        steps: [
+          {
+            n: '01',
+            title: 'The initial concept',
+            text: "Nick's original cover was an impressionistic painting of a letter resting on a piano. It caught the nostalgia, but nothing about it stuck.",
+            image: '/works/unopenedletter/art/1-initial.webp',
+            alt: 'Impressionistic painting of a letter resting on a piano',
+          },
+          {
+            n: '02',
+            title: 'The minimalist prototype',
+            text: 'I pitched a design that doubled as the digital art and a promotional CD: the clear jewel case as the envelope, a wax stamp and two lines on the flap, a paper insert holding a Spotify code and his wider catalogue. The goal was a disc that stayed in the car.',
+            image: '/works/unopenedletter/art/2-prototype.webp',
+            alt: 'Minimalist album art built around a wax-stamped envelope',
+          },
+          {
+            n: '03',
+            title: 'The final cover',
+            text: 'We never produced the CD, so Nick went warmer and more literal: a full paper envelope in warm light, sitting naturally next to his other covers.',
+            image: '/works/unopenedletter/art/3-final.webp',
+            alt: 'Final cover, a paper envelope photographed in warm light',
+          },
+        ],
+      },
+      videoTheater: {
+        title: 'A story preserved in time',
+        lead: 'Four vertical cuts for paid Instagram Stories, each testing how far to lean into the ache. Two final selections, two alternates.',
+        cuts: [
+          { label: 'Final selection 1', kind: 'final' },
+          { label: 'Final selection 2', kind: 'final' },
+          { label: 'Alternate cut 1', kind: 'alternate' },
+          { label: 'Alternate cut 2', kind: 'alternate' },
+        ],
+      },
     },
     results: {
       intro:
@@ -193,6 +260,24 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
         { value: 179691, format: 'comma', label: 'Playlist reach', sub: 'Active audience' },
         { value: 23, label: 'Active playlists', sub: 'Verified nodes' },
       ],
+      timeline: {
+        title: '"Unopened Letter" performance',
+        lead: 'Playlist count against listener reach, 16 March to 3 August 2026. Scrub the timeline to read each phase.',
+        start: 2,
+        points: [
+          { date: '16 Mar', playlists: 5, reach: 42000, phase: 'The start', desc: 'Before a single ad ran, Nicholas pitched the song directly to playlist curators. The placement that mattered came from a curator who simply liked it.' },
+          { date: '30 Mar', playlists: 6, reach: 43000, phase: 'Activating', desc: "The ads went live alongside Nicholas's own reels, built to give viewers the same longing the song gave us." },
+          { date: '13 Apr', playlists: 21, reach: 158000, phase: 'Breakout', desc: 'Spotify surfaced it in Discover Weekly and Release Radar, and playlists began adding it on their own, 6 to 21 in two weeks.' },
+          { date: '27 Apr', playlists: 19, reach: 150000, phase: 'Held onto', desc: "High save-rates meant people weren't glancing once and moving on." },
+          { date: '11 May', playlists: 17, reach: 142000, phase: 'Settling in', desc: 'Reach leveled off around listeners who wanted to hear it again.' },
+          { date: '25 May', playlists: 13, reach: 115000, phase: 'What stayed', desc: 'A few playlists dropped it, but reach fell less than the count did. The ones that stayed were carrying more weight.' },
+          { date: '8 Jun', playlists: 11, reach: 95000, phase: 'The plateau', desc: 'Eleven playlists held through June with no new push.' },
+          { date: '22 Jun', playlists: 11, reach: 95000, phase: 'On its own', desc: 'Same eleven playlists, same reach. Daily listeners were holding it up, not new placements.' },
+          { date: '6 Jul', playlists: 11, reach: 94000, phase: 'Quick lull', desc: "Reach dipped slightly; the playlist count didn't move. It held through the slow months." },
+          { date: '20 Jul', playlists: 10, reach: 88000, phase: 'Held its ground', desc: 'Steady daily listeners kept it going, even as one playlist fell off.' },
+          { date: '3 Aug', playlists: 12, reach: 73500, phase: 'Where it sits now', desc: '12 playlists, 73.5K reach, a slight uptick from July.' },
+        ],
+      },
       note:
         'Spotify surfaced the track in Discover Weekly and Release Radar; playlists went from 6 to 21 in two weeks. Data verified by Songstats.',
     },

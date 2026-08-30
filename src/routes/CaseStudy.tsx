@@ -9,6 +9,9 @@ import StatDial from '@/components/StatDial'
 import TiltCard from '@/components/TiltCard/TiltCard'
 import AnimationSeries from '@/components/AnimationSeries/AnimationSeries'
 import CraftStats from '@/components/CraftStats/CraftStats'
+import AlbumEvolution from '@/components/AlbumEvolution/AlbumEvolution'
+import VideoTheater from '@/components/VideoTheater/VideoTheater'
+import ResultsTimeline from '@/components/ResultsTimeline/ResultsTimeline'
 import { useMediaQuery } from '@/lib/useMediaQuery'
 import {
   CASE_STUDIES,
@@ -368,6 +371,34 @@ export default function CaseStudy() {
             </Reveal>
           )}
 
+          {cs.artefacts.albumEvolution && (
+            <Reveal>
+              <div className={s.showBlockWide}>
+                <div className={s.galleryHead}>
+                  <h3 className={s.galleryTitle}>{cs.artefacts.albumEvolution.title}</h3>
+                  {cs.artefacts.albumEvolution.lead && (
+                    <p className={s.galleryLead}>{cs.artefacts.albumEvolution.lead}</p>
+                  )}
+                </div>
+                <AlbumEvolution steps={cs.artefacts.albumEvolution.steps} />
+              </div>
+            </Reveal>
+          )}
+
+          {cs.artefacts.videoTheater && (
+            <Reveal>
+              <div className={s.showBlockWide}>
+                <div className={s.galleryHead}>
+                  <h3 className={s.galleryTitle}>{cs.artefacts.videoTheater.title}</h3>
+                  {cs.artefacts.videoTheater.lead && (
+                    <p className={s.galleryLead}>{cs.artefacts.videoTheater.lead}</p>
+                  )}
+                </div>
+                <VideoTheater cuts={cs.artefacts.videoTheater.cuts} />
+              </div>
+            </Reveal>
+          )}
+
           {cs.artefacts.tiltCards && (
             <Reveal>
               <TiltCards def={cs.artefacts.tiltCards} />
@@ -440,6 +471,23 @@ export default function CaseStudy() {
               ))}
             </div>
           </Reveal>
+
+          {cs.results.timeline && (
+            <Reveal>
+              <div className={s.showBlockWide}>
+                <div className={s.galleryHead}>
+                  <h3 className={s.galleryTitle}>{cs.results.timeline.title}</h3>
+                  {cs.results.timeline.lead && (
+                    <p className={s.galleryLead}>{cs.results.timeline.lead}</p>
+                  )}
+                </div>
+                <ResultsTimeline
+                  points={cs.results.timeline.points}
+                  start={cs.results.timeline.start}
+                />
+              </div>
+            </Reveal>
+          )}
 
           {cs.results.dials && (
             <Reveal>
