@@ -1,0 +1,99 @@
+/* The Barovia tracker is its own deployed app; this route frames it in the
+   site's world — dark ground, hairline rule, the score field showing through
+   the gutters — the same treatment the Archive gives the music dashboard. */
+.root {
+  flex: 1 0 auto;
+}
+
+.intro {
+  max-width: var(--wrap);
+  width: 100%;
+  margin: 0 auto;
+  padding: calc(var(--header-h) + clamp(2.5rem, 7vw, 5rem)) clamp(1.15rem, 5vw, 3rem)
+    clamp(2rem, 5vw, 3.5rem);
+}
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 0 0 1.4rem;
+}
+.title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.6rem, 1.8rem + 4.5vw, 5.25rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.5rem;
+  max-width: 16ch;
+  text-wrap: balance;
+}
+.lede {
+  font-size: clamp(1.02rem, 0.98rem + 0.4vw, 1.28rem);
+  line-height: 1.6;
+  color: var(--ink-muted, rgba(245, 243, 239, 0.72));
+  max-width: 58ch;
+  margin: 0;
+}
+.openNew {
+  color: var(--brass);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+  white-space: nowrap;
+}
+.openNew:hover,
+.openNew:focus-visible {
+  border-color: var(--brass);
+}
+
+/* ---- framed app ---- */
+.frameWrap {
+  max-width: var(--wrap);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 clamp(1.15rem, 5vw, 3rem) clamp(3.5rem, 9vw, 6.5rem);
+}
+.frameInner {
+  position: relative;
+  width: 100%;
+  height: clamp(640px, calc(100dvh - 260px), 1180px);
+  border: 1px solid var(--ink-soft);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--ground);
+}
+.frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--ground);
+  color-scheme: dark;
+  display: block;
+}
+.fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 2rem;
+  text-align: center;
+  background: var(--ground);
+  color: var(--ink-dim);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+.fallback p {
+  margin: 0;
+}
+.fallback a {
+  color: var(--brass);
+}
