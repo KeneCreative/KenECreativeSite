@@ -7,8 +7,12 @@ import { useScore } from '@/store/useScore'
 import { scrollToTop } from '@/lib/lenis'
 import styles from './RootLayout.module.css'
 
-/** Routes where the persistent canvas parks its render loop. */
-const HEAVY_ROUTES = new Set(['/musicdashboard'])
+/**
+ * Routes where the persistent canvas parks its render loop. The music dashboard
+ * used to sit here, but the woven field is cheap enough to keep running and the
+ * page reads wrong without the motion, so nothing parks it for now.
+ */
+const HEAVY_ROUTES = new Set<string>()
 
 export default function RootLayout() {
   const { pathname } = useLocation()
