@@ -6,10 +6,38 @@ import styles from './Footer.module.css'
 
 const LOGO = 'https://static.wixstatic.com/media/705587_1dc95d7baf614605a69a707fde79aca7~mv2.png'
 
+/**
+ * The staff is one fixed-width line (~2000px at zoom 1). Rather than let it
+ * overflow or crush together between the desktop and phone breakpoints, scale
+ * the whole footer to fit the viewport. Below ~760px the CSS wrapped layout
+ * takes over (labels would be too small on a single line).
+ */
+const STAFF_INTRINSIC = 2080 // measured min-content + logo overhang + footer padding
+const WRAP_BELOW = 760 // keep in sync with the max-width in Footer.module.css
+
 export default function Footer() {
+  const footerRef = useRef<HTMLElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const [inView, setInView] = useState(false)
   const { soundOn, toggleSound, playTone } = useFooterTones()
+
+  useEffect(() => {
+    const el = footerRef.current
+    if (!el) return
+    let last = -1
+    const fit = () => {
+      const w = document.documentElement.clientWidth
+      // At/under the wrap breakpoint the CSS wrapped layout owns the footer.
+      const z = w > WRAP_BELOW ? Math.min(1, w / STAFF_INTRINSIC) : 0
+      if (Math.abs(z - last) < 0.004) return
+      last = z
+      if (z > 0) el.style.setProperty('zoom', String(z))
+      else el.style.removeProperty('zoom')
+    }
+    fit()
+    window.addEventListener('resize', fit, { passive: true })
+    return () => window.removeEventListener('resize', fit)
+  }, [])
 
   // Reveal the notes when the stave scrolls into view — carried from legacy.
   useEffect(() => {
@@ -37,7 +65,7 @@ export default function Footer() {
   let noteIndex = 0
 
   return (
-    <footer className={styles.footer}>
+    <footer ref={footerRef} className={styles.footer}>
       <div className={styles.footerTop}>
         <p className={styles.tempoMark} aria-hidden="true">
           Ode to Joy, arr. KenE

@@ -296,7 +296,9 @@
   }
 }
 
-@media (max-width: 900px) {
+/* Below this a single-line staff would be illegibly small — wrap it. The
+   fluid zoom in Footer.tsx keeps one clean line down to this point. */
+@media (max-width: 760px) {
   .footerBottom {
     border-top: 1px solid var(--ink-soft);
     margin-top: 20px;
