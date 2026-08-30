@@ -72,6 +72,14 @@ export default function Archive() {
         .bg-brand-500, .bg-brand-600 { background-color: #f2b44b !important; color: #0b0b0d !important; }
         .border-brand-200, .border-brand-100, .border-brand-200\\/70 { border-color: rgba(242,180,75,0.28) !important; }
         .shadow-sm, .shadow, .shadow-md { box-shadow: none !important; }
+
+        /* text inputs kept a white UA background — invisible under the light theme text */
+        input[type="text"], input[type="search"], input:not([type]) {
+          background-color: #141417 !important;
+          color: #f5f3ef !important;
+          border-color: rgba(245,243,239,0.16) !important;
+        }
+        input::placeholder { color: rgba(245,243,239,0.42) !important; }
       `
       doc.head.appendChild(style)
 
