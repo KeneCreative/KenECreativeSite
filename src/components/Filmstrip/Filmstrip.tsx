@@ -14,13 +14,15 @@ type Props = {
   meta?: string
   /** Frame hugs the image exactly (no min-height) — for wide, short artwork. */
   tight?: boolean
+  /** Full PDF, opened in a new tab from the viewer header. */
+  pdf?: string
 }
 
 /**
  * A closed title card that opens into a spread viewer with a numbered
- * thumbnail strip and prev/next. In-site, no download.
+ * thumbnail strip and prev/next. In-site; the PDF opens in a new tab.
  */
-export default function Filmstrip({ title, openLabel, slides, cover, meta, tight }: Props) {
+export default function Filmstrip({ title, openLabel, slides, cover, meta, tight, pdf }: Props) {
   const reduce = useReducedMotion()
   const [open, setOpen] = useState(false)
   const [i, setI] = useState(0)
@@ -33,12 +35,17 @@ export default function Filmstrip({ title, openLabel, slides, cover, meta, tight
     [count],
   )
 
-  // Keep the active thumbnail in view.
+  // Keep the active thumbnail centred — scroll only the strip, never the page.
   useEffect(() => {
     if (!open) return
     const strip = stripRef.current
     const active = strip?.children[i] as HTMLElement | undefined
-    active?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: reduce ? 'auto' : 'smooth' })
+    if (!strip || !active) return
+    const target = active.offsetLeft - strip.clientWidth / 2 + active.clientWidth / 2
+    strip.scrollTo({
+      left: Math.max(0, target),
+      behavior: reduce ? 'auto' : 'smooth',
+    })
   }, [i, open, reduce])
 
   const onKey = (e: React.KeyboardEvent) => {
@@ -79,6 +86,7 @@ export default function Filmstrip({ title, openLabel, slides, cover, meta, tight
   return (
     <section
       className={s.viewer}
+      data-filmstrip="open"
       aria-label={title}
       onKeyDown={onKey}
       tabIndex={-1}
@@ -89,6 +97,17 @@ export default function Filmstrip({ title, openLabel, slides, cover, meta, tight
         <span className={s.counter}>
           {String(i + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}
         </span>
+        {pdf && (
+          <a
+            className={s.pdfLink}
+            href={pdf}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open PDF
+            <span aria-hidden="true"> ↗</span>
+          </a>
+        )}
         <button className={s.close} type="button" onClick={() => setOpen(false)}>
           Close
         </button>

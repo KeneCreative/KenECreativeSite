@@ -13,6 +13,8 @@ export type FilmstripDef = {
   cover?: string
   tight?: boolean
   slides: Slide[]
+  /** Full PDF, opened in a new tab from the viewer header. */
+  pdf?: string
 }
 
 export type GalleryItem = { src: string; alt: string; caption: string }
@@ -391,7 +393,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     ],
     artefacts: {
       title: 'The deliverables',
-      lead: 'Flip through the full guide and report. Nothing to download.',
+      lead: 'Flip through the full guide and report here, or open either as a PDF in a new tab.',
       slideshow: {
         title: 'Influencers who came out and posted',
         lead: 'Values-aligned creators and partners I invited in, who shared Amplify Austin on their own channels.',
@@ -422,6 +424,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           meta: 'Broadway Brunch on the Road, Portland, Maine',
           cover: '/works/aap/travel-guide/01.webp',
           slides: pages('/works/aap/travel-guide', 12, 'Donor travel guide'),
+          pdf: '/works/aap/travel-guide.pdf',
         },
         {
           title: '24-hour Impact Report',
@@ -429,6 +432,7 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
           meta: 'Researched, structured and produced in one day',
           cover: '/works/aap/impact-report/01.webp',
           slides: pages('/works/aap/impact-report', 4, 'Impact report'),
+          pdf: '/works/aap/impact-report.pdf',
         },
       ],
     },

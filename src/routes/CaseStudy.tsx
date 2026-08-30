@@ -486,6 +486,7 @@ export default function CaseStudy() {
                     cover={f.cover}
                     tight={f.tight}
                     slides={f.slides}
+                    pdf={f.pdf}
                   />
                 </Reveal>
               ))}

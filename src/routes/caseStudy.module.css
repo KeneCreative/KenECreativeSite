@@ -586,6 +586,15 @@ a.artefact:focus-visible .artefactImg {
   gap: clamp(1.5rem, 3.5vw, 2.25rem);
   margin-top: clamp(2rem, 5vw, 3rem);
 }
+/* grid items must be able to shrink below their content, or the thumbnail
+   strip forces the whole viewer wider than the page */
+.filmstripGrid > * {
+  min-width: 0;
+}
+/* once a filmstrip is opened, give it the full width so the pages stay legible */
+.filmstripGrid:has([data-filmstrip='open']) {
+  grid-template-columns: minmax(0, 1fr);
+}
 
 /* ---- craft aside: final copy ---- */
 
