@@ -1127,52 +1127,6 @@ p, body, button, input, select, textarea {
                     <div id="sankeyLegend" class="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-[10px] text-slate-500"></div>
                 </div>
 
-                <!-- MONTHLY LEDGER TABLE -->
-                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-100 pb-3">
-                        <div>
-                            <h3 class="text-base font-bold text-slate-900">Monthly Ledger</h3>
-                            <p class="text-xs text-slate-500">Complete month-by-month record of listening hours, top genre, top artist/composer, and friction rates. <strong>Top Artist/Composer</strong> aggregates every performance of a composer's work; <strong>hover any artist</strong> to see the Top Performer &mdash; the credited artist ranked exactly as Apple Replay does. They legitimately differ — Oct 2025 is J.S. Bach by composer (758 min across many performers) but Aphex Twin by performer (592 min), which is what Replay shows. Top Album is ranked independently of both.</p>
-                        </div>
-                        <div class="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
-                            <input type="text" id="ledgerSearch" onkeyup="filterLedger()" placeholder="Search ledger (e.g., Bach, 2026, Trap)..." class="w-full sm:w-64 text-xs px-3 py-1.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500">
-                            <select id="ledgerYearFilter" onchange="filterLedger()" class="w-full sm:w-auto text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 focus:outline-none">
-                                <option value="ALL">All Years</option>
-                                <option value="2026">2026</option>
-                                <option value="2025">2025</option>
-                                <option value="2024">2024</option>
-                                <option value="2023">2023</option>
-                                <option value="2022">2022</option>
-                                <option value="2021">2021</option>
-                                <option value="2020">2020</option>
-                                <option value="2019">2019</option>
-                                <option value="2018">2018</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Scrollable Table Body -->
-                    <div class="overflow-x-auto custom-scrollbar border border-slate-200 rounded-xl max-h-96">
-                        <table class="w-full text-left text-xs text-slate-700 relative">
-                            <thead class="bg-slate-100 text-slate-800 font-bold uppercase tracking-wider border-b border-slate-200 sticky top-0 z-10">
-                                <tr>
-                                    <th class="py-3 px-4 bg-slate-100">Month / Year</th>
-                                    <th class="py-3 px-4 bg-slate-100">Total Hours</th>
-                                    <th class="py-3 px-4 bg-slate-100">Top Macro-Genre</th>
-                                    <th class="py-3 px-4 bg-slate-100">Top Artist / Composer</th>
-                                    <th class="py-3 px-4 bg-slate-100">Top Album / Masterwork</th>
-                                    <th class="py-3 px-4 bg-slate-100">Plays</th>
-                                    <th class="py-3 px-4 bg-slate-100">Skip Rate</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ledgerTableBody" class="divide-y divide-slate-100 bg-white font-medium">
-                                <!-- Dynamically populated by JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="ledgerSummaryText" class="text-xs text-slate-500 text-right">Showing 98 total monthly entries</div>
-                </div>
-
                 <!-- Before & After Sept 2025 -->
                 <div class="pt-4 border-t border-slate-100">
                     <h3 class="text-sm font-bold text-slate-800 mb-1">Before &amp; After Sept 2025 &mdash; The Classical Pivot in Two Numbers</h3>
@@ -1240,6 +1194,52 @@ p, body, button, input, select, textarea {
                             </p>
                         </div>
                     </div>
+                </div>
+
+                <!-- MONTHLY LEDGER TABLE -->
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-100 pb-3">
+                        <div>
+                            <h3 class="text-base font-bold text-slate-900">Monthly Ledger</h3>
+                            <p class="text-xs text-slate-500">Complete month-by-month record of listening hours, top genre, top artist/composer, and friction rates. <strong>Top Artist/Composer</strong> aggregates every performance of a composer's work; <strong>hover any artist</strong> to see the Top Performer &mdash; the credited artist ranked exactly as Apple Replay does. They legitimately differ — Oct 2025 is J.S. Bach by composer (758 min across many performers) but Aphex Twin by performer (592 min), which is what Replay shows. Top Album is ranked independently of both.</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+                            <input type="text" id="ledgerSearch" onkeyup="filterLedger()" placeholder="Search ledger (e.g., Bach, 2026, Trap)..." class="w-full sm:w-64 text-xs px-3 py-1.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-brand-500">
+                            <select id="ledgerYearFilter" onchange="filterLedger()" class="w-full sm:w-auto text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 focus:outline-none">
+                                <option value="ALL">All Years</option>
+                                <option value="2026">2026</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                                <option value="2019">2019</option>
+                                <option value="2018">2018</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Scrollable Table Body -->
+                    <div class="overflow-x-auto custom-scrollbar border border-slate-200 rounded-xl max-h-96">
+                        <table class="w-full text-left text-xs text-slate-700 relative">
+                            <thead class="bg-slate-100 text-slate-800 font-bold uppercase tracking-wider border-b border-slate-200 sticky top-0 z-10">
+                                <tr>
+                                    <th class="py-3 px-4 bg-slate-100">Month / Year</th>
+                                    <th class="py-3 px-4 bg-slate-100">Total Hours</th>
+                                    <th class="py-3 px-4 bg-slate-100">Top Macro-Genre</th>
+                                    <th class="py-3 px-4 bg-slate-100">Top Artist / Composer</th>
+                                    <th class="py-3 px-4 bg-slate-100">Top Album / Masterwork</th>
+                                    <th class="py-3 px-4 bg-slate-100">Plays</th>
+                                    <th class="py-3 px-4 bg-slate-100">Skip Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ledgerTableBody" class="divide-y divide-slate-100 bg-white font-medium">
+                                <!-- Dynamically populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="ledgerSummaryText" class="text-xs text-slate-500 text-right">Showing 98 total monthly entries</div>
                 </div>
             </div>
         </section>
@@ -2068,7 +2068,7 @@ p, body, button, input, select, textarea {
         function renderSankeySVG(model) {
             const svg = document.getElementById('sankeySvg');
             const { leftLabels, leftValuesArr, leftTotals, rightKeys, rightTotals, grandTotal } = model;
-            const vbW = 760, vbH = Math.max(320, 34 * Math.max(leftLabels.length, rightKeys.length) + 40);
+            const vbW = 900, vbH = Math.max(320, 34 * Math.max(leftLabels.length, rightKeys.length) + 40);
             const leftX = 100, rightX = 660, nodeW = 10;
             const topPad = 16, gap = 6;
             const availH = vbH - topPad * 2;
@@ -2109,24 +2109,38 @@ p, body, button, input, select, textarea {
                     const color = sankeyColor(g);
                     const leftLabelId = `sankeyLeftLabel-${i}`;
                     const rightLabelId = `sankeyRightLabel-${g}`;
-                    const onOver = `this.style.opacity=0.8; var l=document.getElementById('${leftLabelId}'); var r=document.getElementById('${rightLabelId}'); if(l){l.style.fontSize='14px';l.style.fill='${color}';} if(r){r.style.fontSize='14px';r.style.fill='${color}';}`;
-                    const onOut = `this.style.opacity=0.42; var l=document.getElementById('${leftLabelId}'); var r=document.getElementById('${rightLabelId}'); if(l){l.style.fontSize='10.5px';l.style.fill='#44403c';} if(r){r.style.fontSize='10.5px';r.style.fill='#44403c';}`;
+                    const onOver = `this.style.opacity=0.85; var l=document.getElementById('${leftLabelId}'); var r=document.getElementById('${rightLabelId}'); if(l){l.style.fontSize='13px';l.style.fill='#f5f3ef';} if(r){r.style.fontSize='13px';r.style.fill='#f5f3ef';}`;
+                    const onOut = `this.style.opacity=0.42; var l=document.getElementById('${leftLabelId}'); var r=document.getElementById('${rightLabelId}'); if(l){l.style.fontSize='11px';l.style.fill='#b7b2a7';} if(r){r.style.fontSize='11px';r.style.fill='#b7b2a7';}`;
                     paths += `<path d="M ${leftX + nodeW} ${yL.toFixed(1)} C ${midX} ${yL.toFixed(1)}, ${midX} ${yR.toFixed(1)}, ${rightX} ${yR.toFixed(1)}" fill="none" stroke="${color}" stroke-width="${fh.toFixed(1)}" opacity="0.42" class="sankey-flow" style="transition:opacity .15s" onmouseover="${onOver}" onmouseout="${onOut}"><title>${leftLabels[i]} → ${SANKEY_GENRE_LABEL[g]}: ${flow.toFixed(1)} hrs</title></path>`;
                 });
             });
 
+            // Halo so a label is never lost against a flow it overlaps.
+            const halo = 'paint-order:stroke;stroke:#0b0b0d;stroke-width:3px;stroke-linejoin:round;';
+
+            // Spread labels vertically so small adjacent genres don't collide.
+            const declump = (centers, minGap) => {
+                const y = centers.slice();
+                for (let k = 1; k < y.length; k++) if (y[k] - y[k - 1] < minGap) y[k] = y[k - 1] + minGap;
+                for (let k = y.length - 2; k >= 0; k--) if (y[k + 1] - y[k] < minGap) y[k] = y[k + 1] - minGap;
+                return y;
+            };
+
             let leftNodes = '', leftLabelsSvg = '';
+            const leftLabelY = declump(leftNodeY.map(n => n.y0 + n.h / 2 + 3), 13);
             leftLabels.forEach((lab, i) => {
                 const n = leftNodeY[i];
                 leftNodes += `<rect x="${leftX}" y="${n.y0.toFixed(1)}" width="${nodeW}" height="${n.h.toFixed(1)}" rx="2" fill="#a87242"><title>${lab}: ${leftTotals[i].toFixed(1)} hrs</title></rect>`;
-                leftLabelsSvg += `<text id="sankeyLeftLabel-${i}" x="${leftX - 8}" y="${(n.y0 + n.h / 2 + 3).toFixed(1)}" text-anchor="end" font-size="10.5" font-weight="700" fill="#44403c" style="transition:font-size .15s, fill .15s">${lab}</text>`;
+                leftLabelsSvg += `<text id="sankeyLeftLabel-${i}" x="${leftX - 8}" y="${leftLabelY[i].toFixed(1)}" text-anchor="end" font-size="11" font-weight="700" fill="#b7b2a7" style="transition:font-size .15s, fill .15s;${halo}">${lab}</text>`;
             });
 
             let rightNodes = '', rightLabelsSvg = '';
-            rightKeys.forEach(g => {
+            const rightLabelY = declump(rightKeys.map(g => rightNodeY[g].y0 + rightNodeY[g].h / 2 + 3), 15);
+            rightKeys.forEach((g, gi) => {
                 const n = rightNodeY[g];
+                const pct = grandTotal > 0 ? (rightTotals[g] / grandTotal * 100) : 0;
                 rightNodes += `<rect x="${rightX}" y="${n.y0.toFixed(1)}" width="${nodeW}" height="${n.h.toFixed(1)}" rx="2" fill="${sankeyColor(g)}"><title>${SANKEY_GENRE_LABEL[g]}: ${rightTotals[g].toFixed(1)} hrs</title></rect>`;
-                rightLabelsSvg += `<text id="sankeyRightLabel-${g}" x="${rightX + nodeW + 8}" y="${(n.y0 + n.h / 2 + 3).toFixed(1)}" text-anchor="start" font-size="10.5" font-weight="600" fill="#44403c" style="transition:font-size .15s, fill .15s">${SANKEY_GENRE_LABEL[g]}</text>`;
+                rightLabelsSvg += `<text id="sankeyRightLabel-${g}" x="${rightX + nodeW + 12}" y="${rightLabelY[gi].toFixed(1)}" text-anchor="start" font-size="11" font-weight="600" fill="#b7b2a7" style="transition:font-size .15s, fill .15s;${halo}">${SANKEY_GENRE_LABEL[g]}<tspan dx="6" font-weight="700" style="fill:#f2b44b">${pct.toFixed(1)}%</tspan></text>`;
             });
 
             svg.setAttribute('viewBox', `0 0 ${vbW} ${vbH}`);
