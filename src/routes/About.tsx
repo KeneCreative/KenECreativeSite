@@ -25,7 +25,6 @@ type Track = { artist: string; work: string; nowPlaying?: boolean }
 const LASTFM_URL =
   'https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=KenECreative' +
   '&api_key=4917e1f81b4801ccfae888b758279adb&format=json&limit=24'
-const LASTFM_PROFILE = 'https://www.last.fm/user/KenECreative'
 
 /** Shown until Last.fm answers, and if it can't be reached. */
 const FALLBACK: Track[] = [
@@ -186,12 +185,6 @@ function Ledger() {
           })}
         </ol>
       </div>
-      <div className={s.ledgerFoot}>
-        <span>Recently played</span>
-        <a href={LASTFM_PROFILE} target="_blank" rel="noopener noreferrer">
-          Last.fm ↗
-        </a>
-      </div>
     </div>
   )
 }
@@ -267,7 +260,7 @@ export default function About() {
 
               <div className={s.field}>
                 <p className={s.fieldLabel}>Primary focus</p>
-                <p className={s.focus}>Copywriting, creative strategy, digital experience</p>
+                <p className={s.focus}>Copywriting, Creative Strategy, Digital Experience</p>
               </div>
 
               <Ledger />
