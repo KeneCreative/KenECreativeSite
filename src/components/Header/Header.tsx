@@ -106,7 +106,7 @@ export default function Header() {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span className={styles.hlinkLabel}>Say hello</span>
+              <span className={styles.hlinkLabel}>Contact</span>
             </a>
           </nav>
         </div>
