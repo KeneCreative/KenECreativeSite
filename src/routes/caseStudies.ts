@@ -118,7 +118,7 @@ export type CaseStudy = {
   year: string
   field: 1 | 2 | 3 | 4
   disciplines: string[]
-  audio?: { src: string; label: string }
+  audio?: { label: string; src?: string; spotify?: string }
   brief: {
     role: string
     strategyLine: { text: string; emphasis: string }
@@ -157,7 +157,10 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     year: '2025',
     field: 1,
     disciplines: ['Creative Strategy', 'Copywriting', 'Campaign'],
-    audio: { src: '/works/unopenedletter/track.mp3', label: 'Unopened Letter, Nicholas Jimenez' },
+    audio: {
+      label: 'Unopened Letter, Nicholas Jimenez',
+      spotify: 'https://open.spotify.com/track/5ABta3kmIdMHiaC3pwc4v4',
+    },
     brief: {
       role:
         "Nicholas Jimenez is an American concert pianist, composer, and educator based in Austin. As former roommates, we collaborated on a campaign for his new piece, Unopened Letter. I built the creative strategy and wrote the copy, anchoring the whole campaign to one feeling: the universal ache of longing.",

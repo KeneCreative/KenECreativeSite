@@ -258,6 +258,37 @@
   width: 100%;
   height: 38px;
 }
+.spotifyEmbed {
+  width: 100%;
+  height: 152px;
+  border: 0;
+  border-radius: 12px;
+  color-scheme: normal;
+}
+.spotifyLink {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 0.55rem 0.95rem;
+  border: 1px solid var(--ink-soft);
+  border-radius: 999px;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.spotifyLink svg {
+  flex: 0 0 auto;
+}
+.spotifyLink:hover,
+.spotifyLink:focus-visible {
+  border-color: var(--brass);
+  color: var(--brass);
+}
 
 /* ---------- artefacts ---------- */
 .artefactRow {

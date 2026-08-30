@@ -28,6 +28,18 @@ import w from './works.module.css'
 const FIELD = { 1: w.field1, 2: w.field2, 3: w.field3, 4: w.field4 } as const
 const NUMERALS = ['I', 'II', 'III', 'IV'] as const
 
+/** open.spotify.com/track/ID -> the dark embed player URL for that track. */
+const spotifyEmbed = (url: string) =>
+  `${url.replace('open.spotify.com/', 'open.spotify.com/embed/').split('?')[0]}?theme=0`
+
+function SpotifyGlyph() {
+  return (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="#1db954" aria-hidden="true">
+      <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.84.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15.001 10.62 18.66 12.9c.42.18.6.72.3 1.14zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.6.18-1.2.72-1.38 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.42-1.02.599-1.559.3z" />
+    </svg>
+  )
+}
+
 function Reveal({ children, className }: { children: ReactNode; className?: string }) {
   const reduce = useReducedMotion()
   return (
@@ -281,7 +293,29 @@ export default function CaseStudy() {
                 {cs.audio && (
                   <div className={s.audio}>
                     <span className={s.audioLabel}>{cs.audio.label}</span>
-                    <audio controls preload="none" src={cs.audio.src} />
+                    {cs.audio.spotify ? (
+                      <>
+                        <iframe
+                          className={s.spotifyEmbed}
+                          src={spotifyEmbed(cs.audio.spotify)}
+                          title={`${cs.audio.label} on Spotify`}
+                          loading="lazy"
+                          allow="encrypted-media; clipboard-write"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                        />
+                        <a
+                          className={s.spotifyLink}
+                          href={cs.audio.spotify}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <SpotifyGlyph />
+                          Listen on Spotify
+                        </a>
+                      </>
+                    ) : (
+                      cs.audio.src && <audio controls preload="none" src={cs.audio.src} />
+                    )}
                   </div>
                 )}
               </div>
