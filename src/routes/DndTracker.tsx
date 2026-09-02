@@ -86,7 +86,7 @@ export default function DndTracker() {
           <div className={s.grid}>
             <div className={s.body}>
               <p>
-                I run a weekly D&amp;D campaign for a group of six friends. What started as loose,
+                I run a weekly D&amp;D campaign for a group of five friends. What started as loose,
                 no-combat roleplay turned into a full campaign with initiative order, HP, gold,
                 inventory, and enemy stats to track every session, and juggling all of it out loud,
                 mid-table, was starting to slow the game down.
