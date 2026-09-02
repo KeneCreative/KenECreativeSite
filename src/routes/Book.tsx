@@ -71,6 +71,8 @@ type Module = {
   slideshow?: SlideGroup
   /** Full document, opened in a new tab next to the case-study link. */
   pdf?: string
+  /** Label for the PDF button. Defaults to "View the PDF". */
+  pdfLabel?: string
 }
 
 const MODULES: Module[] = [
@@ -127,6 +129,8 @@ const MODULES: Module[] = [
         },
       ],
     },
+    pdf: '/works/redcross/campaign-book.pdf',
+    pdfLabel: 'See the campaign book',
   },
   {
     name: 'Unopened Letter',
@@ -343,7 +347,7 @@ export default function Book() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      View the PDF
+                      {m.pdfLabel ?? 'View the PDF'}
                       <span className={s.pdfIcon} aria-hidden="true">
                         &#8599;
                       </span>
