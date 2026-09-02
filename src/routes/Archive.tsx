@@ -128,6 +128,12 @@ export default function Archive() {
           <p className={s.eyebrow}>Quantitative listening analysis, 2018 to 2026</p>
           <h1 className={s.title}>My Musical Archive</h1>
           <p className={s.intro}>
+            Music is the source of much of my drive, whether that&rsquo;s general success,
+            creative inspiration, or just energy. It&rsquo;s one of my favorite human
+            experiences, and a big part of what allows me to climb new peaks. That&rsquo;s why
+            this whole site plays like a score.
+          </p>
+          <p className={s.intro}>
             If I had to sum up eight years of listening in one word, it&rsquo;s more. This
             dashboard tracks the shifts, the deep dives, and the daily habits behind that word,
             all pulled straight from eight years of Apple Music data.

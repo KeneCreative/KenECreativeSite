@@ -111,10 +111,12 @@
   position: sticky;
   top: calc(var(--header-h) + 1.75rem);
   align-self: start;
+  min-width: 0;
 }
 .sideInner {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 .field {
   padding: clamp(1.1rem, 3vw, 1.5rem) 0;
@@ -169,8 +171,79 @@
   margin: 0;
 }
 
-/* ---- the rotation ledger: an auto-scrolling now-playing index ---- */
+/* ---- now playing: only rendered while Last.fm reports a live track ---- */
+.nowPlaying {
+  min-width: 0;
+  padding: clamp(1.1rem, 3vw, 1.5rem) 0;
+  border-bottom: 1px solid var(--ink-soft);
+}
+.nowLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 0 0 0.6rem;
+}
+.nowWork {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.02rem;
+  line-height: 1.3;
+  color: var(--ink);
+  margin: 0 0 0.3rem;
+}
+.nowArtist {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin: 0;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 10px;
+}
+.eq i {
+  width: 2px;
+  height: 100%;
+  background: var(--brass);
+  transform-origin: bottom;
+  animation: eqBar 0.9s ease-in-out infinite;
+}
+.eq i:nth-child(1) {
+  animation-delay: -0.2s;
+}
+.eq i:nth-child(2) {
+  animation-delay: -0.55s;
+}
+.eq i:nth-child(3) {
+  animation-delay: -0.35s;
+}
+@keyframes eqBar {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* ---- the rotation ledger: a hand-scrolled recent-tracks index ---- */
 .ledger {
+  min-width: 0;
+  overflow: hidden;
   margin: clamp(1.1rem, 3vw, 1.5rem) 0;
   border: 1px solid var(--ink-soft);
   background: var(--ground);
@@ -196,11 +269,10 @@
   position: relative;
   height: 300px;
   overflow-y: auto;
-  overscroll-behavior: contain;
   scrollbar-width: none;
   padding: 0.5rem 0.9rem;
-  -webkit-mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
-  mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 8%, #000 92%, transparent);
 }
 .ledgerViewport::-webkit-scrollbar {
   display: none;
@@ -217,11 +289,9 @@
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+  min-width: 0;
   border-left: 2px solid var(--ink-soft);
   padding-left: 0.8rem;
-}
-.ledgerItemNow {
-  border-left-color: var(--brass);
 }
 .ledgerArtist {
   font-family: var(--font-mono);
@@ -229,6 +299,11 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-dim);
+  /* orchestral credits run to 20+ names — keep it to one line */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 .ledgerWork {
   font-family: var(--font-display);
@@ -238,19 +313,23 @@
   color: var(--ink);
 }
 @media (prefers-reduced-motion: reduce) {
-  .dot {
+  .dot,
+  .eq i {
     animation: none;
+  }
+  .eq i {
+    transform: scaleY(0.75);
   }
 }
 
 .dashLink {
   display: block;
   text-align: center;
+  text-wrap: balance;
   margin: 0;
   font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
   color: var(--ink);
   text-decoration: none;
   padding: 0.85rem 1rem;

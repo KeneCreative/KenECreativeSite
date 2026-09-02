@@ -616,6 +616,9 @@ p, body, button, input, select, textarea {
                 
                 <div class="flex-1 space-y-4">
                     <p class="text-lg md:text-xl text-slate-700 font-light leading-relaxed">
+                        Music is the source of much of my drive, whether that's general success, creative inspiration, or just energy. It's one of my favorite human experiences, and a big part of what allows me to climb new peaks. That's why this whole site plays like a score.
+                    </p>
+                    <p class="text-lg md:text-xl text-slate-700 font-light leading-relaxed">
                         If I had to sum up eight years of listening in one word, it's more. This dashboard tracks the shifts, the deep dives, and the daily habits behind that word, all pulled straight from eight years of Apple Music data.
                     </p>
                     <p class="text-sm text-slate-500 font-mono flex items-center justify-center md:justify-start gap-2">
@@ -825,22 +828,18 @@ p, body, button, input, select, textarea {
                     </span>
                 </div>
                 <div id="recentStripLine" class="text-[11px] text-slate-500 truncate mt-1">
-                    Fetching live scrobbles from Last.fm...
+                    Fetching recent plays from Last.fm...
                 </div>
             </div>
         </div>
 
         <!-- Right: Desktop Stats & Mobile-Safe Toggle Button -->
         <div class="flex items-center gap-3 sm:gap-5 shrink-0">
-            <!-- Desktop Quick Stats (Hidden on mobile) -->
+            <!-- Desktop Quick Stat (Hidden on mobile) -->
             <div class="hidden md:flex items-center gap-4 text-right border-r border-slate-200 pr-4">
                 <div>
-                    <div id="recStatTotal" class="text-sm font-black text-slate-900 leading-none">--</div>
-                    <div class="text-[9px] uppercase font-bold tracking-wider text-slate-400 mt-0.5">Scrobbles</div>
-                </div>
-                <div>
-                    <div id="recStatFetched" class="text-sm font-black text-slate-900 leading-none">--</div>
-                    <div class="text-[9px] uppercase font-bold tracking-wider text-slate-400 mt-0.5">In Window</div>
+                    <div id="recStatWeek" class="text-sm font-black text-slate-900 leading-none">--</div>
+                    <div class="text-[9px] uppercase font-bold tracking-wider text-slate-400 mt-0.5">Plays, past week</div>
                 </div>
             </div>
 
@@ -880,7 +879,7 @@ p, body, button, input, select, textarea {
             <div class="space-y-3">
                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center justify-between border-b border-slate-200 pb-1.5">
                     <span>Recent Top Albums</span>
-                    <span class="text-[10px] font-normal text-slate-400">by scrobble count</span>
+                    <span class="text-[10px] font-normal text-slate-400">by play count</span>
                 </h3>
                 <ol id="recentAlbumsList" class="space-y-2 text-xs divide-y divide-slate-100/80"></ol>
             </div>
@@ -2622,8 +2621,7 @@ function toggleRecentPanel() {
 async function fetchLastFmRecentTracks() {
     const stripLine = document.getElementById('recentStripLine');
     const liveBadge = document.getElementById('recentLiveBadge');
-    const statTotal = document.getElementById('recStatTotal');
-    const statFetched = document.getElementById('recStatFetched');
+    const statWeek = document.getElementById('recStatWeek');
     const tracksContainer = document.getElementById('recentTracksList');
     const albumsContainer = document.getElementById('recentAlbumsList');
     const lastUpdated = document.getElementById('recentLastUpdated');
@@ -2637,10 +2635,9 @@ async function fetchLastFmRecentTracks() {
         const data = await response.json();
         const trackData = data.recenttracks;
         const tracks = trackData.track || [];
-        const totalScrobbles = trackData['@attr']?.total || tracks.length;
 
         if (tracks.length === 0) {
-            stripLine.textContent = 'No recent scrobbles found.';
+            stripLine.textContent = 'No recent plays found.';
             return;
         }
 
@@ -2660,9 +2657,17 @@ async function fetchLastFmRecentTracks() {
             stripLine.innerHTML = `<span class="text-slate-700">${trackName}</span> &mdash; <span class="text-slate-500">${artistName}</span>`;
         }
 
-        // Update Stats Counters
-        if (statTotal) statTotal.textContent = Number(totalScrobbles).toLocaleString();
-        if (statFetched) statFetched.textContent = tracks.length;
+        // Plays in the past 7 days — its own lightweight call so the date filter
+        // can't starve the stream log / album roll-up above.
+        const weekAgo = Math.floor(Date.now() / 1000) - 7 * 86400;
+        fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(LASTFM_CONFIG.username)}&api_key=${encodeURIComponent(LASTFM_CONFIG.apiKey)}&format=json&limit=1&from=${weekAgo}`)
+            .then(r => (r.ok ? r.json() : null))
+            .then(d => {
+                const wk = d?.recenttracks?.['@attr']?.total;
+                if (statWeek && wk != null) statWeek.textContent = Number(wk).toLocaleString();
+            })
+            .catch(() => {});
+
         if (lastUpdated) {
     const now = new Date();
     const mm = String(now.getMonth() + 1).padStart(2, '0');
