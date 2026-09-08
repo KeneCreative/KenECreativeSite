@@ -20,7 +20,7 @@ export default function Overture() {
         <p className={s.kicker}>KenE Creative</p>
         <NameReveal />
         <p className={s.lede}>
-          Creative strategist and developer in Austin, Texas. Brand strategy,
+          Creative strategist in Austin, Texas. Brand strategy,
           copywriting, and digital experience, composed like a score.
         </p>
         <BookCta />
