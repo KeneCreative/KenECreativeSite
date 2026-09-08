@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type SyntheticEvent } from 'react'
 import PageTransition from '@/components/PageTransition'
+import { useSeo } from '@/lib/useSeo'
 import s from './dndTracker.module.css'
 
 /** The DnD Campaign Tracker is a separate deployment; this route just frames it. */
@@ -19,6 +20,12 @@ const DOES = [
 const BUILT_WITH = ['React', 'AI-assisted dev', 'GitHub', 'D&D 5e API']
 
 export default function DndTracker() {
+  useSeo({
+    title: "Why there's a D&D tracker on this site | Kenneth Espinoza",
+    description:
+      'A live D&D session tool Kenneth Espinoza built as Dungeon Master: a DM control panel with a synced player display, initiative tracker, and live 5e monster and spell lookups. Built in React with AI-assisted development.',
+    path: '/dndtracker',
+  })
   const [loaded, setLoaded] = useState(false)
   const [compact, setCompact] = useState(
     () => typeof window !== 'undefined' && window.matchMedia(COMPACT_MQ).matches,

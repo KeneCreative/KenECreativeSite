@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from 'motion/react'
 import PageTransition from '@/components/PageTransition'
 import PriceLadder from '@/components/PriceLadder/PriceLadder'
 import Slideshow from '@/components/Slideshow/Slideshow'
+import { useSeo } from '@/lib/useSeo'
 import type { PriceLadderDef } from './caseStudies'
 import s from './book.module.css'
 
@@ -253,6 +254,13 @@ function Animations({ items }: { items: AnimationItem[] }) {
 }
 
 export default function Book() {
+  useSeo({
+    title: 'The Book — Copywriting Samples | Kenneth Espinoza',
+    description:
+      'Featured copy from four campaigns by Kenneth Espinoza: the American Red Cross #SignTheAlarm animation series, Unopened Letter, the American Artist Project, and Dutch Bros.',
+    path: '/book',
+  })
+
   return (
     <PageTransition>
       <article className={s.root}>

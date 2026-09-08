@@ -176,6 +176,8 @@ export type CaseStudy = {
   slug: string
   title: string
   meta: string
+  /** ~155-char search/social summary. Falls back to a clip of brief.role. */
+  seoDescription?: string
   year: string
   field: 1 | 2 | 3 | 4
   disciplines: string[]
@@ -217,6 +219,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     slug: 'unopenedletter',
     title: 'Unopened Letter',
     meta: 'Brand Campaign',
+    seoDescription:
+      "Creative strategy and copywriting by Kenneth Espinoza for concert pianist Nicholas Jimenez's single Unopened Letter, positioning the track as a soundtrack for the listener's own memories.",
     year: '2025',
     field: 1,
     disciplines: ['Creative Strategy', 'Copywriting', 'Campaign'],
@@ -352,6 +356,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     slug: 'americanartistproject',
     title: 'American Artist Project',
     meta: 'Creative Strategy',
+    seoDescription:
+      'Creative strategy and copywriting by Kenneth Espinoza for the American Artist Project: a 24-hour donor impact report and a Portland event travel guide, independently researched and written.',
     year: '2024',
     field: 2,
     disciplines: ['Creative Strategy', 'Copywriting', 'Event Marketing'],
@@ -487,6 +493,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     slug: 'redcross',
     title: '#SignTheAlarm',
     meta: 'Campaign Work',
+    seoDescription:
+      'American Red Cross #SignTheAlarm: a campaign by Kenneth Espinoza reframing free bed-shaker fire alarms for the Deaf and Hard of Hearing community from charity to personal responsibility.',
     year: '2024',
     field: 3,
     disciplines: ['Concept Development', 'Copywriting', 'Creative Strategy', 'Research'],
@@ -715,6 +723,8 @@ export const CASE_STUDIES: Record<string, CaseStudy> = {
     slug: 'dutchbros',
     title: 'Dutch Bros',
     meta: 'Brand Positioning',
+    seoDescription:
+      'A speculative brand-positioning project by Kenneth Espinoza for Dutch Bros: defending its value and quality perception with discerning coffee drinkers without losing the not-so-serious identity.',
     year: '2023',
     field: 4,
     disciplines: ['Strategy', 'Research', 'Concept Development', 'Copywriting'],

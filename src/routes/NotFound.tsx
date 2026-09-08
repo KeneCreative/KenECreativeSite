@@ -1,8 +1,14 @@
 import { Link } from 'react-router-dom'
 import PageTransition from '@/components/PageTransition'
+import { useSeo } from '@/lib/useSeo'
 import s from './routes.module.css'
 
 export default function NotFound() {
+  useSeo({
+    title: 'Page not found | KenE Creative',
+    description: "This page isn't in the score. Head back to the KenE Creative homepage.",
+    noindex: true,
+  })
   return (
     <PageTransition>
       <div className={s.page}>

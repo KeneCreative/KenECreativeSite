@@ -2,10 +2,18 @@ import { Link } from 'react-router-dom'
 import PageTransition from '@/components/PageTransition'
 import NameReveal from '@/components/NameReveal'
 import BookCta from '@/components/BookCta/BookCta'
+import { useSeo } from '@/lib/useSeo'
 import { PROJECTS } from './projects'
 import s from './routes.module.css'
 
 export default function Overture() {
+  useSeo({
+    title: 'Kenneth Espinoza — Creative Strategist & Copywriter (KenE Creative)',
+    description:
+      'Kenneth Espinoza, who works as KenE Creative, is a creative strategist and copywriter in Austin, Texas. Brand strategy, campaign concepting, and copywriting for music, nonprofit, and consumer brands.',
+    path: '/',
+  })
+
   return (
     <PageTransition>
       <section className={s.hero}>

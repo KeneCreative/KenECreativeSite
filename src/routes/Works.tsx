@@ -2,12 +2,19 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'motion/react'
 import PageTransition from '@/components/PageTransition'
+import { useSeo } from '@/lib/useSeo'
 import { PROJECTS } from './projects'
 import s from './works.module.css'
 
 const FIELD = { 1: s.field1, 2: s.field2, 3: s.field3, 4: s.field4 } as const
 
 export default function Works() {
+  useSeo({
+    title: 'Work — Campaigns & Brand Strategy | Kenneth Espinoza',
+    description:
+      'Selected creative strategy and copywriting from Kenneth Espinoza (KenE Creative): brand campaigns for Nicholas Jimenez, the American Artist Project, the American Red Cross #SignTheAlarm, and Dutch Bros.',
+    path: '/works',
+  })
   const reduce = useReducedMotion()
   const viewportRef = useRef<HTMLDivElement>(null)
   // Set true once a drag passes the threshold, so the click that follows a

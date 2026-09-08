@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'motion/react'
 import PageTransition from '@/components/PageTransition'
+import { useSeo } from '@/lib/useSeo'
 import s from './archive.module.css'
 
 const DASHBOARD_SRC = '/legacy/musicdashboard.html'
@@ -38,6 +39,12 @@ const HERO_STATS = [
  * tokens (and chart tints) onto the site's exact palette so the seam disappears.
  */
 export default function Archive() {
+  useSeo({
+    title: 'My Musical Archive — Eight Years of Listening Data | Kenneth Espinoza',
+    description:
+      "An interactive breakdown of Kenneth Espinoza's listening history from 2018 to 2026: 3,398 hours across 58,677 plays, mapped by genre, era, and artist.",
+    path: '/musicdashboard',
+  })
   const reduce = useReducedMotion()
   const frameRef = useRef<HTMLIFrameElement>(null)
   const roRef = useRef<ResizeObserver | null>(null)

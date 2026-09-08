@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { motion, useReducedMotion } from 'motion/react'
 import PageTransition from '@/components/PageTransition'
+import { useSeo } from '@/lib/useSeo'
 import CountUp from '@/components/CountUp'
 import Filmstrip from '@/components/Filmstrip/Filmstrip'
 import Slideshow from '@/components/Slideshow/Slideshow'
@@ -255,6 +256,26 @@ export default function CaseStudy() {
   const { slug = '' } = useParams()
   const cs = CASE_STUDIES[slug]
   const [openStat, setOpenStat] = useState<string | null>(null)
+
+  useSeo(
+    cs
+      ? {
+          title: `${cs.title} — ${cs.meta} | Kenneth Espinoza`,
+          description:
+            cs.seoDescription ??
+            cs.brief.role.replace(/\s+/g, ' ').slice(0, 155).replace(/\s\S*$/, '') + '…',
+          path: `/works/${cs.slug}`,
+          image: `/works/thumbs/${cs.slug}.webp`,
+          type: 'article',
+        }
+      : {
+          title: 'Case study not found | KenE Creative',
+          description:
+            'That case study has moved or does not exist. Browse the selected work of Kenneth Espinoza (KenE Creative).',
+          path: '/works',
+          noindex: true,
+        },
+  )
 
   if (!cs) {
     return (

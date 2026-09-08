@@ -17,7 +17,7 @@ export const STAVE: StaveItem[] = [
   { kind: 'note', label: 'Home', to: '/', lift: 43, freq: 369.99, sharp: true },
   { kind: 'note', label: 'Works', to: '/works', lift: 43, freq: 369.99 },
   { kind: 'note', label: 'About', to: '/about', lift: 54, freq: 392.0 },
-  { kind: 'note', label: 'Instagram', href: 'https://instagram.com', lift: 65, freq: 440.0 },
+  { kind: 'note', label: 'Instagram', href: 'https://www.instagram.com/ken_e.wav', lift: 65, freq: 440.0 },
 
   { kind: 'barline' },
 
@@ -29,7 +29,7 @@ export const STAVE: StaveItem[] = [
     freq: 440.0,
   },
   { kind: 'note', label: 'Youtube', href: 'https://youtube.com', lift: 54, freq: 392.0 },
-  { kind: 'note', label: 'TikTok', href: 'https://tiktok.com', lift: 43, freq: 369.99, sharp: true },
+  { kind: 'note', label: 'TikTok', href: 'https://www.tiktok.com/@kenecreative', lift: 43, freq: 369.99, sharp: true },
   { kind: 'note', label: 'Email', href: 'mailto:kenneth@kenecreative.com', lift: 32, freq: 329.63 },
 
   { kind: 'barline' },

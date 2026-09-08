@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'motion/react'
 import PageTransition from '@/components/PageTransition'
+import { useSeo } from '@/lib/useSeo'
 import s from './about.module.css'
 
 function Reveal({ children, className }: { children: ReactNode; className?: string }) {
@@ -139,6 +140,15 @@ function Ledger() {
 }
 
 export default function About() {
+  useSeo({
+    title: 'About Kenneth Espinoza — Copywriter & Creative Strategist',
+    description:
+      'Kenneth Espinoza (KenE Creative) is a copywriter, creative strategist, and UT Austin Advertising graduate in Austin, Texas, available for creative roles.',
+    path: '/about',
+    type: 'profile',
+    image: '/about/portrait.webp',
+  })
+
   return (
     <PageTransition>
       <article className={s.root}>
