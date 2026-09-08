@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /legacy/
 
-Sitemap: https://kenecreative.com/sitemap.xml
+Sitemap: https://www.kenecreative.com/sitemap.xml

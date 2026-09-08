@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
-const ORIGIN = 'https://kenecreative.com'
+const ORIGIN = 'https://www.kenecreative.com'
 const DEFAULT_IMAGE = `${ORIGIN}/og-cover.png`
 
 type SeoInput = {
