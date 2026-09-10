@@ -39,8 +39,9 @@ function onScroll() {
  */
 export function setCalmFloor(v: number) {
   calmFloor = Math.min(1, Math.max(0, v))
-  // a route that starts settled also starts a good bit dimmer
-  scoreSignals.dim = calmFloor > 0 ? 0.35 : 1
+  // a route that starts settled also starts much dimmer. these are reading
+  // pages, so the field should sit well behind the type, not cross it
+  scoreSignals.dim = calmFloor > 0 ? 0.18 : 1
   onScroll()
 }
 
